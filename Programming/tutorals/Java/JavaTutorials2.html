@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutorial Page Template</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+<style>
+  /* Sidebar styling */
+  .sidebar {
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    width: 180px;
+    background-color: #003366;
+    color: white;
+  }
+  .sidebar h3 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    padding-left: 12px;
+    color: #ff3333;
+    font-size: 14px;
+  }
+  .sidebar a {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+    border-radius: 4px;
+  }
+  .sidebar a:hover {
+    background-color: #ff3333;
+    color: white;
+  }
+
+  /* Main content area */
+  .main-content {
+    margin-left: 190px;
+    padding: 20px;
+    background-color: white;
+    color: #000;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  /* Dark mode class */
+  .darkmode {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+  }
+  .darkmode h1,
+  .darkmode h3 {
+    color: #ff6666;
+  }
+
+  /* Button */
+  .darkmode-btn {
+    background-color: #ff3333;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+  .darkmode-btn:hover {
+    background-color: #cc0000;
+  }
+
+  h1 { color: #003366; }
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar / Navigation -->
+<div class="sidebar w3-card">
+  <h2 class="w3-center w3-padding-12" style="font-size:16px; color:white;">Tutorial Menu</h2>
+  <h3>Java Syntax</h3>
+  <a href="#intro">Introduction</a>
+  <a href="#setup">Setup</a>
+  <h3>Core Concepts</h3>
+  <a href="#concept1">Concept 1</a>
+  <a href="#concept2">Concept 2</a>
+  <h3>Advanced</h3>
+  <a href="#advanced1">Advanced 1</a>
+  <a href="#advanced2">Advanced 2</a>
+</div>
+
+<!-- Main Content Area -->
+<div class="main-content" id="mainContent">
+  <button class="darkmode-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+  <h1 id="intro">Java Syntax</h1>
+  <p>Every line in Java must be in somthing called a class. Classes name should allwasy start with a capital letter and be the name of your file.</p>
+  <p> The main method is the entry point of a Java application, where the program starts execution. It must be defined as <code>public static void main(String[] args)</code>.</p><p> Java uses curly braces <code>{}</code> to define blocks of code, such as methods and loops. Each statement in Java must end with a semicolon <code>;</code>.</p>
+
+  <h3>Example</h3>
+  <p>Take a look at this code:</p>
+  <p>This style is widely reconized as a standard for Java code and is used by most Java developers. It helps improve code readability and maintainability by providing a consistent structure and formatting style.</p>  
+  <script src="//onlinegdb.com/embed/js/LNNpaViGM?theme=light"></script>
+  
+  <p>this isnt the only way you can format your code though most programmers follow there own way of programming<p>
+  <p> here are somoe other example of how you can formatt the same code snippet</p>
+  <script src="//onlinegdb.com/embed/js/DiKdtGSLN?theme=light"></script>
+
+  <script src="//onlinegdb.com/embed/js/rfZhXnUUr?theme=light"></script>
+
+  </script>
+
+  <h1 id="setup">The Main method</h1>
+  <p>The main method is the entry point of a Java application, where the program starts execution. It must be defined as <code>public static void main(String[] args)</code>. and is required in every java program</p>
+    <p>any code placed incside of a main() method will be excuted/ran</p>
+<p>For now, you don't need to understand the keywords public, static, and void. You will learn about them later in this tutorial. Just remember: main() is the starting point of every Java program.<p>
+  <br>
+  <h3 id="concept1">System.out.println()</h3>
+  <p>Inside the main() method, we can use the println() method to print a line of text to the screen:</p>
+ 
+ <script src="//onlinegdb.com/embed/js/1mYbp6kgD?theme=light"></script>
+  
+ <!-- Navigation Buttons at the Bottom -->
+<div style="display:flex; justify-content:space-between; margin-top:40px;">
+  <button class="w3-button w3-blue" onclick="window.location.href='/'">Previous Lesson</button>
+    <button class="w3-button w3-red" onclick="window.location.href='/Programming/tutorals/Java/JavaTutorials3.html'">Next Lesson</button>
+</div>
+
+</div>
+
+<script>
+const content = document.getElementById('mainContent');
+
+// Apply saved preference or system preference on load
+function applyPreference() {
+  const saved = localStorage.getItem('darkmode');
+  if (saved === 'true') {
+    content.classList.add('darkmode');
+  } else if (saved === 'false') {
+    content.classList.remove('darkmode');
+  } else {
+    // Follow system preference if no saved value
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      content.classList.add('darkmode');
+    }
+  }
+}
+
+window.onload = applyPreference;
+
+// Toggle dark/light mode and save preference
+function toggleDarkMode() {
+  if (content.classList.contains('darkmode')) {
+    content.classList.remove('darkmode');
+    localStorage.setItem('darkmode', 'false');
+  } else {
+    content.classList.add('darkmode');
+    localStorage.setItem('darkmode', 'true');
+  }
+}
+</script>
+
+</body>
+</html>
