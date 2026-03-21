@@ -93,48 +93,92 @@
 <div class="main-content" id="mainContent">
   <button class="darkmode-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
 
-  <h1 id="intro">Java variables</h1>
-  <p>Variables are used to store data values in Java. Before you can use a variable, you must declare it.</p>
+  <h1 id="intro">Java Data types</h1>
+  <p>As explained in the previous chapter, a variable in Java must be a specified data type:</p>
   <p>In Java there are different types of variables. Each type has a specific purpose and behavior.</p>
+  <script src="//onlinegdb.com/embed/js/lGbi9p256?theme=light"></script>
 
+  <h3>Primitive Data Types</h3>
+  <P>Data types are divided into two groups:<P>
 <ul>
-    <li>String: Used to hold text like "Hello". String values are surrounded by double quotes.</li>
-    <li>int: Used to hold whole numbers like 123 or -456.</li>
-    <li>float: Used to hold decimal numbers like 3.14 or -2.5.</li>
-    <li>char: Used to hold a single character like 'A' or 'z'.</li>
-    <li>boolean: Used to hold true or false values.</li>
+    <li>Primitive Data Types: - includes byte, short, int, long, float, double, boolean and char</li>
+  <li>Non-Primitive Data Types: - includes strings, classes, interfaces, and arrays</li>
 </ul>
 
-  <h1>Declaring/Creating a varable</h1>
-<ul>
-    <li> Choose a type like a int or a String</li>
-  <li> Give the varable like x, age, or VarableName<li>
-    <li> Use the assignment operator = to assign a value to the varable</li
-</ul>
-
-  <p>Heres a basic example to make a varable</p>  
-  <script src="//onlinegdb.com/embed/js/ctdYW3nPj?theme=light"></script>
-  
-  <p> for example if you want to store some text you can use a string</p>
-
-  <script src="//onlinegdb.com/embed/js/1g-1SAGVC?theme=light"></script>
-
-<p>You can also declare a variable without assigning the value, and assign the value later:</p>
-<script src="//onlinegdb.com/embed/js/e7xpezwET?theme=light"></script>  
-
-<p>Note that if you assign a new value to an existing variable, it will overwrite the previous value:</pp>
-<script src="//onlinegdb.com/embed/js/0_ckKXB7q?theme=light"></script>
-
-<h1> Final Variables</h1>
-<p>If you don't want others (or yourself) to overwrite existing values, use the final keyword (this will declare the variable as "final" or "constant", which means unchangeable and read-only):</p>
-<script src="//onlinegdb.com/embed/js/V-L7yUOK5?theme=light"></script>
-
-
+<table>
+  <tr>
+    <th>Data Type</th>
+    <th>Description</th>
+    <th>Max value</th>
+    <th>Min value</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>byte</td>
+    <td>8-bit signed integer</td>
+    <td><code>127</code></td>
+    <td><code>-128</code></td>
+    <td><code>byte b = 100;</code></td>
+  </tr>
+  <tr>
+    <td>short</td>
+    <td>16-bit signed integer</td>
+    <td><code>32767</code></td>
+    <td><code>-32768</code></td>
+    <td><code>short s = 10000;</code></td>
+  </tr>
+  <tr>
+    <td>int</td>
+    <td>32-bit signed integer</td>
+    <td><code>2147483647</code></td>
+    <td><code>-2147483648</code></td>
+    <td><code>int i = 100000;</code></td>
+  </tr>
+  <tr>
+    <td>long</td>
+    <td>64-bit signed integer</td>
+    <td><code>9223372036854775807L</code></td>
+    <td><code>-9223372036854775808L</code></td>
+    <td><code>long l = 100000L;</code></td>
+  </tr>
+  <tr>
+    <td>float</td>
+    <td>32-bit floating point (IEEE 754)</td>
+    <td><code>≈ 3.4028235e38</code></td>
+    <td><code>≈ -3.4028235e38</code></td>
+    <td><code>float f = 3.14f;</code></td>
+  </tr>
+  <tr>
+    <td>double</td>
+    <td>64-bit floating point (IEEE 754)</td>
+    <td><code>≈ 1.7976931348623157e308</code></td>
+    <td><code>≈ -1.7976931348623157e308</code></td>
+    <td><code>double d = 3.14159;</code></td>
+  </tr>
+  <tr>
+    <td>boolean</td>
+    <td>Logical type with two values</td>
+    <td colspan="2"><code>true or false</code></td>
+    <td><code>boolean flag = true;</code></td>
+  </tr>
+  <tr>
+    <td>char</td>
+    <td>16-bit Unicode character</td>
+    <td><code>'\uffff' (65535)</code></td>
+    <td><code>'\u0000' (0)</code></td>
+    <td><code>char c = 'A';</code></td>
+  </tr>
+</table>
  
+<h3> You cannot change Data types</h3>
+<p>In Java, once a variable is declared with a specific data type, it cannot be
+  <script src="//onlinegdb.com/embed/js/FPEuJueWA?theme=light"></script>
+
+
  <!-- Navigation Buttons at the Bottom -->
 <div style="display:flex; justify-content:space-between; margin-top:40px;">
-  <button class="w3-button w3-blue" onclick="window.location.href='/'">Previous Lesson</button>
-    <button class="w3-button w3-red" onclick="window.location.href='/Programming/tutorals/Java/JavaTutorials4.html'">Next Lesson</button>
+      <button class="w3-button w3-red" onclick="window.location.href='/Programming/tutorals/Java/JavaTutorials3.html'">Previous Lesson</button>
+    <button class="w3-button w3-red" onclick="window.location.href='/Programming/tutorals/Java/JavaTutorials5.html'">Next Lesson</button>
 </div>
 
 </div>
