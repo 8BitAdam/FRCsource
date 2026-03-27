@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Git Log - Article Template</title>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+
+  <style>
+    :root {
+      --sidebar-width: 220px;
+      --sidebar-bg: #003366;
+      --accent: #ff3333;
+      --text: #111;
+      --bg: #ffffff;
+      --card: #f7f7f7;
+      --border: #ddd;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .sidebar {
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      width: var(--sidebar-width);
+      background-color: var(--sidebar-bg);
+      color: white;
+      padding-bottom: 20px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+    }
+
+    .sidebar h2 {
+      margin: 0;
+      padding: 16px 12px 10px;
+      font-size: 18px;
+      text-align: center;
+      color: white;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .sidebar h3 {
+      margin: 18px 0 6px;
+      padding: 0 12px;
+      color: var(--accent);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: white;
+      font-size: 14px;
+      border-radius: 4px;
+      margin: 2px 8px;
+    }
+
+    .sidebar a:hover {
+      background-color: var(--accent);
+      color: white;
+    }
+
+    .main-content {
+      margin-left: calc(var(--sidebar-width) + 10px);
+      padding: 24px;
+      max-width: 1000px;
+    }
+
+    .article-header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .article-title {
+      margin: 0 0 8px 0;
+      color: #003366;
+      font-size: 2rem;
+    }
+
+    .article-meta {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+
+    .article-section {
+      margin-bottom: 28px;
+    }
+
+    .article-section h2,
+    .article-section h3 {
+      color: #003366;
+      margin-bottom: 10px;
+    }
+
+    .article-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin: 14px 0;
+    }
+
+    .article-box code {
+      background: #ececec;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .note {
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+      color: #444;
+    }
+
+    .darkmode {
+      --bg: #1e1e1e;
+      --text: #f1f1f1;
+      --card: #2a2a2a;
+      --border: #444;
+    }
+
+    .darkmode .article-title,
+    .darkmode .article-section h2,
+    .darkmode .article-section h3 {
+      color: #ff6666;
+    }
+
+    .toggle-btn {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .toggle-btn:hover {
+      background-color: #cc0000;
+    }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .bottom-nav .w3-button {
+      min-width: 160px;
+    }
+
+    @media (max-width: 800px) {
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 16px;
+      }
+
+      .bottom-nav {
+        flex-direction: column;
+      }
+
+      .bottom-nav .w3-button {
+        width: 100%;
+      }
+    }
+
+    .sidebar .active-page {
+      background-color: #222;
+      border-left: 4px solid #ff3333;
+    }
+
+    .sidebar .active-section {
+      background-color: #ff3333;
+      color: white;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar / Navigation -->
+  <div class="sidebar w3-card">
+    <h2>Git Docs</h2>
+
+    <!-- GLOBAL COMMAND LIST -->
+    <h3>Previous</h3>
+    <a href="grep.html">grep</a>
+
+    <h3>This Page</h3>
+    <a href="#intro" class="nav-link">Introduction</a>
+    <a href="#syntax" class="nav-link">Syntax</a>
+    <a href="#basic-use" class="nav-link">Basic Use</a>
+    <a href="#examples" class="nav-link">Examples</a>
+    <a href="#options" class="nav-link">Options</a>
+    <a href="#troubleshooting" class="nav-link">Troubleshooting</a>
+    <a href="#practice" class="nav-link">Practice</a>
+
+    <h3>Next Articles</h3>
+    <a href="show.html">git show</a>
+    <a href="status.html">git status</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+    <div class="article-header">
+      <h1 class="article-title">Git Log</h1>
+      <p class="article-meta">
+        Command: <strong>git log</strong> · Topic: <strong>Viewing commit history</strong> · Level: <strong>Beginner</strong>
+      </p>
+    </div>
+
+    <div class="article-section" id="intro">
+      <h2>Introduction</h2>
+      <p>
+        <code>git log</code> shows the commit history for a repository. It lists commits in reverse chronological order, along
+        with metadata like author, date, and commit message.
+      </p>
+      <div class="article-box note">
+        Use <code>git log</code> to explore the history of changes and find commits relevant to debugging or review.
+      </div>
+    </div>
+
+    <div class="article-section" id="syntax">
+      <h2>Syntax</h2>
+      <div class="article-box">
+        <pre><code>git log [options] [<revision range>] [--] [<path>...]
+git log --oneline
+git log --graph --decorate --all</code></pre>
+      </div>
+      <p>
+        Common options allow compact output, pretty formats, and graphical commit trees.
+      </p>
+    </div>
+
+    <div class="article-section" id="basic-use">
+      <h2>Basic Use</h2>
+      <p>
+        Show recent commits in one-line format:
+      </p>
+      <div class="article-box">
+        <pre><code>git log --oneline -n 10</code></pre>
+      </div>
+
+      <p>
+        Show a decorated graph of all branches:
+      </p>
+      <div class="article-box">
+        <pre><code>git log --graph --decorate --all</code></pre>
+      </div>
+    </div>
+
+    <div class="article-section" id="examples">
+      <h2>Examples</h2>
+
+      <div class="article-box">
+        <h3>Show commits for a file</h3>
+        <pre><code>git log --follow -- path/to/file</code></pre>
+        <p>Tracks renames and shows commits that touched the file.</p>
+      </div>
+
+      <div class="article-box">
+        <h3>Search commit messages</h3>
+        <pre><code>git log --grep="fix memory leak"</code></pre>
+        <p>Find commits with messages that match the given pattern.</p>
+      </div>
+
+      <div class="article-box">
+        <h3>Show changes introduced by a commit</h3>
+        <pre><code>git show <commit-hash></code></pre>
+        <p>Shows the diff and metadata for a single commit.</p>
+      </div>
+    </div>
+
+    <div class="article-section" id="options">
+      <h2>Common Options</h2>
+      <ul>
+        <li><code>--oneline</code> — compact one-line per commit.</li>
+        <li><code>--graph</code> — show a textual commit graph.</li>
+        <li><code>--author=&lt;pattern&gt;</code> — filter commits by author.</li>
+        <li><code>--since/--until</code> — time-based filtering.</li>
+      </ul>
+
+      <div class="article-box">
+        <pre><code>git log --oneline --author="Alice"
+git log --since="2 weeks ago"</code></pre>
+      </div>
+    </div>
+
+    <div class="article-section" id="troubleshooting">
+      <h2>Troubleshooting</h2>
+      <div class="article-box">
+        <h3>Too many commits</h3>
+        <p>
+          Use <code>-n</code>, time filters, or path limits to make output manageable.
+        </p>
+      </div>
+      <div class="article-box">
+        <h3>Renames not shown</h3>
+        <p>
+          Use <code>--follow</code> when viewing history for a single file to follow renames.
+        </p>
+      </div>
+    </div>
+
+    <div class="article-section" id="practice">
+      <h2>Practice</h2>
+      <p>
+        Explore recent commits and filter by author or date:
+      </p>
+      <div class="article-box">
+        <pre><code>git log --oneline --since="1 week ago"
+git log -S"search term" -- path/to/file</code></pre>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <button class="w3-button w3-blue" onclick="window.location.href='./grep.html'">Previous: Grep</button>
+      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
+      <button class="w3-button w3-red" onclick="window.location.href='./show.html'">Next: Show</button>
+    </div>
+  </div>
+
+  <script>
+    const content = document.getElementById('mainContent');
+
+    function applyPreference() {
+      const saved = localStorage.getItem('darkmode');
+      if (saved === 'true') {
+        content.classList.add('darkmode');
+      } else if (saved === 'false') {
+        content.classList.remove('darkmode');
+      } else {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          content.classList.add('darkmode');
+        }
+      }
+    }
+
+    function toggleDarkMode() {
+      if (content.classList.contains('darkmode')) {
+        content.classList.remove('darkmode');
+        localStorage.setItem('darkmode', 'false');
+      } else {
+        content.classList.add('darkmode');
+        localStorage.setItem('darkmode', 'true');
+      }
+    }
+
+    window.addEventListener('load', applyPreference);
+  </script>
+
+</body>
+</html>

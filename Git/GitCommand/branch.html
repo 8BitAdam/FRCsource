@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git Branch</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <style>/* minimal shared styling */
+    :root{--sidebar-width:220px;--sidebar-bg:#003366;--accent:#ff3333}
+    body{font-family:Arial;margin:0}
+    .sidebar{position:fixed;width:var(--sidebar-width);height:100vh;background:var(--sidebar-bg);color:#fff;padding:16px}
+    .main-content{margin-left:calc(var(--sidebar-width)+10px);padding:24px}
+    .article-header{background:#f7f7f7;border-radius:8px;padding:16px}
+    .bottom-nav{display:flex;justify-content:space-between;margin-top:32px}
+  </style>
+</head>
+<body>
+  <div class="sidebar w3-card">
+    <h2>Git Docs</h2>
+    <h3>Previous</h3>
+    <a href="backfill.html">backfill</a>
+    <h3>This Page</h3>
+    <a href="#intro">Introduction</a>
+    <h3>Next Articles</h3>
+    <a href="commit.html">commit</a>
+  </div>
+  <div class="main-content">
+    <div class="article-header">
+      <h1>Git Branch</h1>
+      <p>Command: <strong>git branch</strong> · Topic: <strong>Manage branches</strong></p>
+    </div>
+
+    <section id="intro">
+      <h2>Introduction</h2>
+      <p><code>git branch</code> lists, creates, renames, and deletes branches. It does not switch branches by default (use <code>git switch</code> or <code>git checkout</code> to move).</p>
+    </section>
+
+    <section id="syntax">
+      <h2>Syntax</h2>
+      <pre><code>git branch
+git branch &lt;name&gt;
+git branch -d &lt;name&gt;
+git branch -m &lt;old&gt; &lt;new&gt;</code></pre>
+    </section>
+
+    <section id="basic-use">
+      <h2>Basic Use</h2>
+      <p>List branches and create a new one:</p>
+      <pre><code>git branch        # list local branches
+git branch feature  # create branch 'feature'</code></pre>
+    </section>
+
+    <section id="examples">
+      <h2>Examples</h2>
+      <div class="article-box w3-light-grey">
+        <pre><code># delete a branch
+git branch -d feature
+
+# rename current branch
+git branch -m new-name</code></pre>
+      </div>
+    </section>
+
+    <section id="options">
+      <h2>Options</h2>
+      <ul>
+        <li><code>-a</code> — list both local and remote branches</li>
+        <li><code>-r</code> — list remote branches</li>
+        <li><code>-D</code> — force-delete branch</li>
+      </ul>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Troubleshooting</h2>
+      <p>If a delete fails, ensure the branch is fully merged or use <code>-D</code> to force.</p>
+    </section>
+
+    <div class="bottom-nav">
+      <button class="w3-button w3-blue" onclick="window.location.href='./backfill.html'">Previous: Backfill</button>
+      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
+      <button class="w3-button w3-red" onclick="window.location.href='./commit.html'">Next: Commit</button>
+    </div>
+  </div>
+</body>
+</html>

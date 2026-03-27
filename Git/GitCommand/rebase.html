@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git Rebase</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <style>/* shared styling */:root{--sidebar-width:220px;--sidebar-bg:#003366}body{font-family:Arial;margin:0}.sidebar{position:fixed;width:var(--sidebar-width);height:100vh;background:var(--sidebar-bg);color:#fff;padding:16px}.main-content{margin-left:calc(var(--sidebar-width)+10px);padding:24px}.bottom-nav{display:flex;justify-content:space-between;margin-top:32px}</style>
+</head>
+<body>
+  <div class="sidebar w3-card">
+    <h2>Git Docs</h2>
+    <h3>Previous</h3>
+    <a href="merge.html">merge</a>
+    <h3>This Page</h3>
+    <a href="#intro">Introduction</a>
+    <h3>Next Articles</h3>
+    <a href="reset.html">reset</a>
+  </div>
+
+  <div class="main-content">
+    <div class="article-header">
+      <h1>Git Rebase</h1>
+      <p>Command: <strong>git rebase</strong> · Topic: <strong>Reapply commits</strong></p>
+    </div>
+
+    <section id="intro">
+      <h2>Introduction</h2>
+      <p><code>git rebase</code> reapplies commits from one branch onto another base tip. It rewrites history and is often used to keep a linear history.</p>
+    </section>
+
+    <section id="syntax">
+      <h2>Syntax</h2>
+      <pre><code>git rebase &lt;base&gt;
+git rebase --interactive &lt;base&gt;
+git rebase --abort</code></pre>
+    </section>
+
+    <section id="basic-use">
+      <h2>Basic Use</h2>
+      <pre><code># rebase feature onto main
+git checkout feature
+git rebase main</code></pre>
+    </section>
+
+    <section id="examples">
+      <h2>Examples</h2>
+      <div class="article-box w3-light-grey"><pre><code># interactive rebase to squash commits
+git rebase -i HEAD~4
+
+# abort a rebase in progress
+git rebase --abort</code></pre></div>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Troubleshooting</h2>
+      <p>Resolve conflicts as they appear, use <code>git rebase --continue</code>, or abort with <code>--abort</code>.</p>
+    </section>
+
+    <div class="bottom-nav">
+      <button class="w3-button w3-blue" onclick="window.location.href='./merge.html'">Previous: Merge</button>
+      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
+      <button class="w3-button w3-red" onclick="window.location.href='./reset.html'">Next: Reset</button>
+    </div>
+  </div>
+</body>
+</html>

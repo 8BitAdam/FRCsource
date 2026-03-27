@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git Pull</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <style>:root{--sidebar-width:220px;--sidebar-bg:#550000}body{font-family:Arial;margin:0}.sidebar{position:fixed;width:var(--sidebar-width);height:100vh;background:var(--sidebar-bg);color:#fff;padding:16px}.main-content{margin-left:calc(var(--sidebar-width)+10px);padding:24px}.bottom-nav{display:flex;justify-content:space-between;margin-top:32px}</style>
+</head>
+<body>
+  <div class="sidebar w3-card">
+    <h2>Git Docs</h2>
+    <a href="fetch.html">fetch</a>
+    <h3>This Page</h3>
+    <a href="#intro">Introduction</a>
+    <h3>Next</h3>
+    <a href="push.html">push</a>
+  </div>
+
+  <div class="main-content">
+    <h1>Git Pull</h1>
+    <p><code>git pull</code> is a convenience command that fetches from and then merges (or rebases) the specified remote branch into your current branch.</p>
+
+    <h2>Syntax</h2>
+    <pre><code>git pull [options] [<repository> [<refspec>...]]</code></pre>
+
+    <h2>Common Use</h2>
+    <pre><code># fetch and merge remote main into current
+git pull origin main
+
+# use rebase instead of merge
+git pull --rebase origin main</code></pre>
+
+    <h2>Tips</h2>
+    <ul>
+      <li>Prefer <code>git fetch</code> + inspect + <code>git merge</code>/<code>rebase</code> when you want more control.</li>
+      <li>If you have local changes, stash them (<code>git stash</code>) before pulling.</li>
+    </ul>
+
+    <div class="bottom-nav">
+      <button class="w3-button w3-blue" onclick="window.location.href='./fetch.html'">Previous: Fetch</button>
+      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
+      <button class="w3-button w3-red" onclick="window.location.href='./push.html'">Next: Push</button>
+    </div>
+  </div>
+</body>
+</html>

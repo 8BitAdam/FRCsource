@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git Switch</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <style>:root{--sidebar-width:220px;--sidebar-bg:#003366}body{font-family:Arial;margin:0}.sidebar{position:fixed;width:var(--sidebar-width);height:100vh;background:var(--sidebar-bg);color:#fff;padding:16px}.main-content{margin-left:calc(var(--sidebar-width)+10px);padding:24px}.bottom-nav{display:flex;justify-content:space-between;margin-top:32px}</style>
+</head>
+<body>
+  <div class="sidebar w3-card">
+    <h2>Git Docs</h2>
+    <h3>Previous</h3>
+    <a href="reset.html">reset</a>
+    <h3>This Page</h3>
+    <a href="#intro">Introduction</a>
+    <h3>Next Articles</h3>
+    <a href="tag.html">tag</a>
+  </div>
+
+  <div class="main-content">
+    <div class="article-header">
+      <h1>Git Switch</h1>
+      <p>Command: <strong>git switch</strong> · Topic: <strong>Switch branches</strong></p>
+    </div>
+
+    <section id="intro">
+      <h2>Introduction</h2>
+      <p><code>git switch</code> is a modern command to change branches (safer and clearer than <code>git checkout</code> for branch switching).</p>
+    </section>
+
+    <section id="syntax">
+      <h2>Syntax</h2>
+      <pre><code>git switch &lt;branch&gt;
+git switch -c &lt;new-branch&gt;</code></pre>
+    </section>
+
+    <section id="basic-use">
+      <h2>Basic Use</h2>
+      <pre><code># switch to existing branch
+git switch main
+
+# create and switch to a new branch
+git switch -c feature</code></pre>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Troubleshooting</h2>
+      <p>If switching fails due to uncommitted changes, either commit/stash them or use flags to force (not recommended).</p>
+    </section>
+
+    <div class="bottom-nav">
+      <button class="w3-button w3-blue" onclick="window.location.href='./reset.html'">Previous: Reset</button>
+      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
+      <button class="w3-button w3-red" onclick="window.location.href='./tag.html'">Next: Tag</button>
+    </div>
+  </div>
+</body>
+</html>

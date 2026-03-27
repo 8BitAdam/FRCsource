@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git Push</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <style>:root{--sidebar-width:220px;--sidebar-bg:#333366}body{font-family:Arial;margin:0}.sidebar{position:fixed;width:var(--sidebar-width);height:100vh;background:var(--sidebar-bg);color:#fff;padding:16px}.main-content{margin-left:calc(var(--sidebar-width)+10px);padding:24px}.bottom-nav{display:flex;justify-content:space-between;margin-top:32px}</style>
+</head>
+<body>
+  <div class="sidebar w3-card">
+    <h2>Git Docs</h2>
+    <a href="pull.html">pull</a>
+    <h3>This Page</h3>
+    <a href="#intro">Introduction</a>
+    <h3>Next</h3>
+    <a href="merge.html">merge</a>
+  </div>
+
+  <div class="main-content">
+    <h1>Git Push</h1>
+    <p><code>git push</code> updates remote refs along with associated objects. It’s how you publish local commits to a remote repository.</p>
+
+    <h2>Common Patterns</h2>
+    <pre><code># push current branch to origin
+git push origin HEAD
+
+# push a named branch
+git push origin feature/cool</code></pre>
+
+    <h2>Forcing</h2>
+    <p>Use force only when necessary. Prefer <code>--force-with-lease</code> to avoid clobbering others' work.</p>
+
+    <div class="bottom-nav">
+      <button class="w3-button w3-blue" onclick="window.location.href='./pull.html'">Previous: Pull</button>
+      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
+      <button class="w3-button w3-red" onclick="window.location.href='./merge.html'">Next: Merge</button>
+    </div>
+  </div>
+</body>
+</html>

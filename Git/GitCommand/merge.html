@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git Merge</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <style>/* shared styling */:root{--sidebar-width:220px;--sidebar-bg:#003366}body{font-family:Arial;margin:0}.sidebar{position:fixed;width:var(--sidebar-width);height:100vh;background:var(--sidebar-bg);color:#fff;padding:16px}.main-content{margin-left:calc(var(--sidebar-width)+10px);padding:24px}.bottom-nav{display:flex;justify-content:space-between;margin-top:32px}</style>
+</head>
+<body>
+  <div class="sidebar w3-card">
+    <h2>Git Docs</h2>
+    <h3>Previous</h3>
+    <a href="commit.html">commit</a>
+    <h3>This Page</h3>
+    <a href="#intro">Introduction</a>
+    <h3>Next Articles</h3>
+    <a href="rebase.html">rebase</a>
+  </div>
+
+  <div class="main-content">
+    <div class="article-header">
+      <h1>Git Merge</h1>
+      <p>Command: <strong>git merge</strong> · Topic: <strong>Join histories</strong></p>
+    </div>
+
+    <section id="intro">
+      <h2>Introduction</h2>
+      <p><code>git merge</code> combines changes from one branch into another. It creates a merge commit when histories have diverged or a fast-forward if possible.</p>
+    </section>
+
+    <section id="syntax">
+      <h2>Syntax</h2>
+      <pre><code>git merge &lt;branch&gt;
+git merge --no-ff &lt;branch&gt;
+git merge --abort</code></pre>
+    </section>
+
+    <section id="basic-use">
+      <h2>Basic Use</h2>
+      <pre><code># merge feature into main
+git checkout main
+git merge feature</code></pre>
+    </section>
+
+    <section id="examples">
+      <h2>Examples</h2>
+      <div class="article-box w3-light-grey"><pre><code># create explicit merge commit
+git merge --no-ff feature
+
+# abort merge in progress
+git merge --abort</code></pre></div>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Troubleshooting</h2>
+      <p>When conflicts occur, resolve the files, add them, and commit. Use <code>git status</code> to inspect the state.</p>
+    </section>
+
+    <div class="bottom-nav">
+      <button class="w3-button w3-blue" onclick="window.location.href='./commit.html'">Previous: Commit</button>
+      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
+      <button class="w3-button w3-red" onclick="window.location.href='./rebase.html'">Next: Rebase</button>
+    </div>
+  </div>
+</body>
+</html>

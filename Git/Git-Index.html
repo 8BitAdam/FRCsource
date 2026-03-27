@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sidebar + Hamburger Extract</title>
+
+  <!-- W3.css and Font Awesome -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <style>
+    body, h1, h2, h3, h4, h5, h6 {
+      font-family: "Raleway", sans-serif;
+    }
+    .article-card {
+      margin-bottom: 16px;
+    }
+    .article-card .w3-button {
+      min-width: 110px;
+    }
+  </style>
+</head>
+
+<body class="w3-light-grey w3-content" style="max-width:1600px">
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container">
+    <!-- close button (visible only on small screens) -->
+    <a href="#" onclick="w3_close(); return false;" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
+      <i class="fa fa-remove"></i>
+    </a>
+
+    <img src="../Assests/logo.jpg" style="width:45%;" class="w3-round" alt="Logo"><br><br>
+    <h4><b>Welcome to FRCsource</b></h4>
+    <p class="w3-text-grey">For all your Git needs</p>
+  </div>
+
+  <div class="w3-bar-block">
+    <a href="../index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">
+      <i class="fa fa-th-large fa-fw w3-margin-right"></i>Home
+    </a>
+    <a href="../index.html#about" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">
+      <i class="fa fa-user fa-fw w3-margin-right"></i>About
+    </a>
+    <a href="../Programming/Programming-Index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal">
+      <i class="fa fa-th-large fa-fw w3-margin-right"></i>Git Index
+    </a>
+    <a href="Scouting-Index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">
+      <i class="fa fa-user fa-fw w3-margin-right"></i>Scouting Index
+    </a>
+    <a href="../FRCsource/FRCsource-Index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">
+      <i class="fa fa-envelope fa-fw w3-margin-right"></i>FRCsource Index
+    </a>
+  </div>
+
+  <div class="w3-panel w3-large">
+    <i class="fa fa-github w3-hover-opacity"></i>
+  </div>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer;display:none;" title="close side menu" id="myOverlay"></div>
+
+<!-- PAGE CONTENT -->
+<div class="w3-main" style="margin-left:300px">
+
+  <!-- Header with hamburger -->
+  <header id="portfolio">
+    <a href="../index.html">
+      <img src="../Assests/logo.jpg" style="width:65px;" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity" alt="Logo">
+    </a>
+
+    <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </span>
+
+    <div class="w3-container">
+      <h1><b>FRCsource: Git Index</b></h1>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <div class="w3-container w3-padding-large" style="margin-bottom:32px">
+    <h4><b>This contains all articles related to Git and version control</b></h4>
+    <p>Git is an important part of clean programming workflow. This page is mainly dedicated to Git commands and GitHub basics.</p>
+
+    <br>
+    <h3>Git Setup</h3>
+    <ul class="w3-ul w3-card-4">
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">Setting up GitHub</span><br>
+        <span>How to make a GitHub account.</span><br>
+        <a href="../Programming/tutorals/Java/JavaTutorials1.html" class="w3-button w3-small w3-margin-top w3-teal">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">Making your First Repo</span><br>
+        <span>Introduction on how to make your first GitHub repository.</span><br>
+        <a href="../Programming/tutorals/Python/PythonTutorials1.html" class="w3-button w3-small w3-margin-top w3-teal">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">Introduction to Merges</span><br>
+        <span>Introduction to merges and how to use them effectively.</span><br>
+        <a href="tutorials/JavaScript/NativeJavascript/JavaScriptTutorials1.html" class="w3-button w3-small w3-margin-top w3-teal">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">Introduction to Forks</span><br>
+        <span>Introduction to forks and how to deal with them.</span><br>
+        <a class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">How to Set Up Git Information</span><br>
+        <span>Introduction to setting up Git information for Git commands.</span><br>
+        <a class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+    </ul>
+
+    <h3>Start a Working Area</h3>
+    <ul class="w3-ul w3-card-4">
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">clone</span><br>
+        <span>Introduction to cloning a repository into a new directory.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a href="./GitCommand/clone.html" class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">init</span><br>
+        <span>Introduction to creating an empty Git repository.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a href ="./GitCommand/init.html" class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+    </ul>
+
+    <h3>Work on the Current Changes</h3>
+    <ul class="w3-ul w3-card-4">
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">add</span><br>
+        <span>Introduction to adding file contents to the index.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a href = "./GitCommand/add.html" class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">mv</span><br>
+        <span>Introduction to moving or renaming a file, directory, or symlink.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a href = "./GitCommand/mv.html" class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">restore</span><br>
+        <span>Introduction to restoring working tree files.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a href = "./GitCommand/restore.html"class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">rm</span><br>
+        <span>Introduction to removing files from the working tree and the index.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a href = "./GitCommand/rm.html" class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      
+    </ul>
+
+    <h3>History &amp; State</h3>
+    <ul class="w3-ul w3-card-4">
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">bisect</span><br>
+        <span>Introduction to using binary search to find the commit that introduced a bug.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a href="./GitCommand/bisect.html" class="w3-button w3-small w3-margin-top w3-teal">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">diff</span><br>
+        <span>Introduction to changes between commits, commit and working tree.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a href="./GitCommand/diff.html" class="w3-button w3-small w3-margin-top w3-teal">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">grep</span><br>
+        <span>Introduction to line pattern matching.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a href="./GitCommand/grep.html" class="w3-button w3-small w3-margin-top w3-teal">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">log</span><br>
+        <span>Introduction to showing commit history.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a href="./GitCommand/log.html" class="w3-button w3-small w3-margin-top w3-teal">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">show</span><br>
+        <span>Introduction to showing various Git objects.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a href="./GitCommand/show.html" class="w3-button w3-small w3-margin-top w3-teal">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">status</span><br>
+        <span>Introduction to status of the Git repo.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a href="./GitCommand/status.html" class="w3-button w3-small w3-margin-top w3-teal">Read More</a>
+      </li>
+    </ul>
+
+    <h3>Grow, Mark, and Tweak History</h3>
+    <ul class="w3-ul w3-card-4">
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">backfill</span><br>
+        <span>Download missing objects in a partial clone.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">branch</span><br>
+        <span>List, create, or delete branches.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">commit</span><br>
+        <span>Record changes to the repository.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">merge</span><br>
+        <span>Join two or more development histories together.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">rebase</span><br>
+        <span>Reapply commits on top of another base tip.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">reset</span><br>
+        <span>Set <code>HEAD</code> or the index to a known state.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">switch</span><br>
+        <span>Switch branches.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">tag</span><br>
+        <span>Create, list, delete, or verify tags.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+    </ul>
+
+    <h3>Collaborate</h3>
+    <ul class="w3-ul w3-card-4">
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">fetch</span><br>
+        <span>Download objects and refs from another repository.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">pull</span><br>
+        <span>Fetch from and integrate with another repository or local branch.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+      <li class="w3-padding-16 article-card">
+        <span class="w3-large">push</span><br>
+        <span>Update remote refs along with associated objects.</span><br>
+        <span style="color:#888;font-size:0.95em;">Git command needed</span><br>
+        <a class="w3-button w3-small w3-margin-top w3-teal" aria-disabled="true" role="button">Read More</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<footer class="w3-container w3-padding-32 w3-dark-grey">
+  <div class="w3-row-padding">
+    <div class="w3-third">
+      <h3>FOOTER</h3>
+      <p>This website is made by the FRC community. Special thanks to everyone who contributes.</p>
+      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" rel="noopener">w3.css</a></p>
+    </div>
+
+    <div class="w3-third">
+      <h3>Credits</h3>
+      <ul class="w3-ul w3-hoverable">
+        <li class="w3-padding-16">
+          <img src="https://www.w3schools.com/w3images/workshop.jpg" class="w3-left w3-margin-right" style="width:50px" alt="Special Thanks">
+          <span class="w3-large">Special Thanks</span><br>
+          <span>For credit in helping this website, all supporters who helped can be found here.</span>
+        </li>
+        <li class="w3-padding-16">
+          <img src="https://www.w3schools.com/w3images/gondol.jpg" class="w3-left w3-margin-right" style="width:50px" alt="Source Code">
+          <span class="w3-large">Source Code</span><br>
+          <span>If you are interested in helping out this project, look at the GitHub source code.</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="w3-third">
+      <h3>POPULAR TAGS</h3>
+      <span class="w3-tag w3-black w3-margin-bottom">Index</span>
+      <span class="w3-tag w3-grey w3-small w3-margin-bottom">Programming</span>
+      <span class="w3-tag w3-grey w3-small w3-margin-bottom">Git</span>
+      <span class="w3-tag w3-grey w3-small w3-margin-bottom">FRCsource</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("myOverlay").style.display = "block";
+  }
+
+  function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("myOverlay").style.display = "none";
+  }
+
+  // Keep sidebar visible on large screens by default
+  if (window.innerWidth >= 993) {
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("myOverlay").style.display = "none";
+  } else {
+    document.getElementById("mySidebar").style.display = "none";
+  }
+</script>
+
+</body>
+</html>

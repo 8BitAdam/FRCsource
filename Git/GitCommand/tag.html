@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git Tag</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <style>:root{--sidebar-width:220px;--sidebar-bg:#003366}body{font-family:Arial;margin:0}.sidebar{position:fixed;width:var(--sidebar-width);height:100vh;background:var(--sidebar-bg);color:#fff;padding:16px}.main-content{margin-left:calc(var(--sidebar-width)+10px);padding:24px}.bottom-nav{display:flex;justify-content:space-between;margin-top:32px}</style>
+</head>
+<body>
+  <div class="sidebar w3-card">
+    <h2>Git Docs</h2>
+    <h3>Previous</h3>
+    <a href="switch.html">switch</a>
+    <h3>This Page</h3>
+    <a href="#intro">Introduction</a>
+    <h3>Next Articles</h3>
+    <a href="fetch.html">fetch</a>
+  </div>
+
+  <div class="main-content">
+    <div class="article-header">
+      <h1>Git Tag</h1>
+      <p>Command: <strong>git tag</strong> · Topic: <strong>Tags</strong></p>
+    </div>
+
+    <section id="intro">
+      <h2>Introduction</h2>
+      <p><code>git tag</code> creates, lists, or deletes tags which are convenient labels for specific commits (commonly used for releases).</p>
+    </section>
+
+    <section id="syntax">
+      <h2>Syntax</h2>
+      <pre><code>git tag            # list tags
+git tag -a v1.0 -m "Release 1.0"
+git push origin v1.0</code></pre>
+    </section>
+
+    <section id="examples">
+      <h2>Examples</h2>
+      <div class="article-box w3-light-grey"><pre><code># create annotated tag
+git tag -a v1.2 -m "Version 1.2"
+
+# push a single tag
+git push origin v1.2</code></pre></div>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Troubleshooting</h2>
+      <p>Tags are local until pushed. To remove a remote tag, use <code>git push --delete origin v1.2</code>.</p>
+    </section>
+
+    <div class="bottom-nav">
+      <button class="w3-button w3-blue" onclick="window.location.href='./switch.html'">Previous: Switch</button>
+      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
+      <button class="w3-button w3-red" onclick="window.location.href='./fetch.html'">Next: Fetch</button>
+    </div>
+  </div>
+</body>
+</html>

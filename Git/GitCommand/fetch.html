@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git Fetch</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <style>:root{--sidebar-width:220px;--sidebar-bg:#004d00}body{font-family:Arial;margin:0}.sidebar{position:fixed;width:var(--sidebar-width);height:100vh;background:var(--sidebar-bg);color:#fff;padding:16px}.main-content{margin-left:calc(var(--sidebar-width)+10px);padding:24px}.bottom-nav{display:flex;justify-content:space-between;margin-top:32px}</style>
+</head>
+<body>
+  <div class="sidebar w3-card">
+    <h2>Git Docs</h2>
+    <a href="tag.html">Tag</a>
+    <h3>This Page</h3>
+    <a href="#intro">Introduction</a>
+    <h3>Next</h3>
+    <a href="pull.html">pull</a>
+  </div>
+
+  <div class="main-content">
+    <h1>Git Fetch</h1>
+    <p><code>git fetch</code> downloads objects and refs from another repository. Unlike <code>git pull</code>, it does not merge — it only updates remote tracking branches.</p>
+
+    <h2>Common Usage</h2>
+    <pre><code># fetch all remotes
+git fetch --all
+
+# fetch single remote
+git fetch origin</code></pre>
+
+    <h2>Examples</h2>
+    <div class="w3-panel w3-light-grey"><pre><code># update your remote tracking branches
+git fetch origin
+
+# then inspect differences before merging
+git log HEAD..origin/main --oneline</code></pre></div>
+
+    <h2>Notes</h2>
+    <ul>
+      <li>Use <code>git fetch</code> when you want to inspect upstream changes before integrating them.</li>
+      <li>After fetch, merge or rebase manually, e.g. <code>git merge origin/main</code>.</li>
+    </ul>
+
+    <div class="bottom-nav">
+      <button class="w3-button w3-blue" onclick="window.location.href='./tag.html'">Previous: Tag</button>
+      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
+      <button class="w3-button w3-red" onclick="window.location.href='./pull.html'">Next: Pull</button>
+    </div>
+  </div>
+</body>
+</html>
