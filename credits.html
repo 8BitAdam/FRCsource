@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FRCsource - Thank You / Credits page." />
+  <meta name="keywords" content="FRC, robotics, FIRST, credits, thanks, community" />
+  <meta name="author" content="FRCsource Team" />
+  <meta name="robots" content="index, follow" />
+  <title>FRCsource | Thanks & Credits</title>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <style>
+  body, h1, h2, h3, h4, h5, h6 { font-family: "Raleway", sans-serif; }
+
+  :root {
+    --card-bg: #ffffff;
+    --soft-border: #e6e6e6;
+    --shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+
+  body {
+    background: #f1f1f1;
+  }
+
+  /* ─── HERO ─────────────────────────────────── */
+  .hero-wrap {
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at center, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.02) 40%, transparent 70%),
+      linear-gradient(180deg, #f7f7f7 0%, #ededed 100%);
+    border-bottom: 1px solid var(--soft-border);
+  }
+
+  .hero-center {
+    position: relative;
+    z-index: 10;
+    width: min(92vw, 700px);
+    text-align: center;
+    padding: 2rem 1rem 3rem;
+  }
+
+  .logo-card {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 1.5rem;
+    border-radius: 28px;
+    background: var(--card-bg);
+    box-shadow: var(--shadow);
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--soft-border);
+    overflow: hidden;
+  }
+
+  .logo-card img {
+    width: 78%;
+    height: 78%;
+    object-fit: contain;
+    border-radius: 18px;
+    display: block;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 5vw, 4rem);
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-subtitle {
+    max-width: 52rem;
+    margin: 0.75rem auto 0;
+    font-size: 1.05rem;
+    color: #555;
+    line-height: 1.7;
+  }
+
+  /* ─── ORBITAL FLOATING BLOCKS ──────────────── */
+  .orbital {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .block,
+  .orbit-item {
+    position: absolute;
+    background: #fff;
+    border-radius: 14px;
+    opacity: 0.98;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    animation: floaty 6s ease-in-out infinite;
+    transform: translateY(0) rotate(var(--r, 0deg));
+    will-change: transform;
+
+    display: block;
+    text-decoration: none;
+
+    pointer-events: auto;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .block::after,
+  .orbit-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,0.04);
+    pointer-events: none;
+  }
+
+  .block img,
+  .orbit-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 14px;
+    display: block;
+    opacity: 1;
+    mix-blend-mode: normal;
+    filter: none;
+    background: #fff;
+    padding: 8px;
+  }
+
+  .orbit-tip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111;
+    color: #fff;
+    font-size: 0.78rem;
+    font-family: "Raleway", sans-serif;
+    white-space: nowrap;
+    padding: 4px 10px;
+    border-radius: 999px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+
+  .orbit-item:hover .orbit-tip {
+    opacity: 1;
+  }
+
+  /* Bigger, responsive floating boxes */
+  .sm { width: clamp(72px, 6vw, 110px);   height: clamp(44px, 3.8vw, 66px); }
+  .md { width: clamp(100px, 8vw, 150px);  height: clamp(60px, 5vw, 92px);   }
+  .lg { width: clamp(130px, 10vw, 190px); height: clamp(78px, 6.2vw, 118px); }
+
+  /* All blocks kept in the outer ~18% on each side so they never overlap the centre text */
+  .b1  { top: 8%;    left: 1%;   animation-delay: 0s;   --r: -12deg; }
+  .b2  { top: 14%;   right: 1%;  animation-delay: .6s;  --r:  14deg; }
+  .b3  { top: 32%;   left: 2%;   animation-delay: 1.1s; --r:   8deg; }
+  .b4  { top: 28%;   right: 2%;  animation-delay: 1.7s; --r:  -8deg; }
+  .b5  { top: 56%;   left: 1%;   animation-delay: .4s;  --r:   7deg; }
+  .b6  { top: 60%;   right: 1%;  animation-delay: 1.3s; --r: -10deg; }
+  .b7  { bottom: 8%; left: 3%;   animation-delay: .9s;  --r:   4deg; }
+  .b8  { bottom: 8%; right: 3%;  animation-delay: 1.9s;  --r:  -6deg; }
+  .b9  { top: 44%;   left: 1%;   animation-delay: 1.5s; --r: -15deg; }
+  .b10 { top: 44%;   right: 1%;  animation-delay: .8s;  --r:  15deg; }
+
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0) scale(1) rotate(var(--r, 0deg)); }
+    50%      { transform: translateY(-10px) scale(1.03) rotate(var(--r, 0deg)); }
+  }
+
+  /* ─── CREDIT CARDS ─────────────────────────── */
+  .credit-card {
+    background: #fff;
+    border: 1px solid var(--soft-border);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .credit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .credit-item {
+    padding: 1rem;
+    border-radius: 18px;
+    background: #fafafa;
+    border: 1px solid #ececec;
+    min-height: 120px;
+  }
+
+  .credit-item h4 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+    font-weight: 700;
+  }
+
+  .credit-item p {
+    margin: 0;
+    color: #555;
+    line-height: 1.6;
+    font-size: .98rem;
+  }
+
+  .badge-row {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1.25rem;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: .4rem .8rem;
+    border-radius: 999px;
+    background: #111;
+    color: #fff;
+    font-size: .9rem;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+
+  /* ─── SUPPORTER GRID ────────────────────────── */
+  .support-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .support-card {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    border-radius: 24px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--soft-border);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .support-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 34px rgba(0,0,0,0.14);
+  }
+
+  .support-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 1rem;
+    background: #fff;
+    display: block;
+  }
+
+  .support-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.85));
+    color: #fff;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .support-card:hover .support-overlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .support-name {
+    margin: 0 0 0.25rem 0;
+    font-weight: 800;
+  }
+
+  .support-hover {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  /* ─── RESPONSIVE ────────────────────────────── */
+  @media (max-width: 900px) {
+    .credit-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .logo-card {
+      width: 150px;
+      height: 150px;
+    }
+
+    .block,
+    .orbit-item {
+      opacity: 0.95;
+    }
+
+    .b9, .b10 {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .support-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+
+<body class="w3-light-grey w3-content" style="max-width:1600px">
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
+        <i class="fa fa-remove"></i>
+      </a>
+      <img src="Assests/logo.jpg" style="width:45%;" class="w3-round" alt="FRCsource logo"><br><br>
+      <h4><b>Welcome to FRCsource</b></h4>
+      <p class="w3-text-grey">For all your scouting and programming needs</p>
+    </div>
+    <div class="w3-bar-block">
+      <a href="index.html"                          onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-th-large fa-fw w3-margin-right"></i>Home</a>
+      <a href="index.html#about"                    onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user    fa-fw w3-margin-right"></i>ABOUT</a>
+      <a href="Programming/Programming-Index.html"  onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-th-large fa-fw w3-margin-right"></i>Programming Index</a>
+      <a href="Scouting/Scouting-Index.html"        onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user    fa-fw w3-margin-right"></i>Scouting Index</a>
+      <a href="FRCsource/FRCsource-Index.html"      onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>FRCsource Index</a>
+      <a href="#"                                   onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal"><i class="fa fa-heart fa-fw w3-margin-right"></i>Thanks / Credits</a>
+    </div>
+    <div class="w3-panel w3-large">
+      <i class="fa fa-github w3-hover-opacity"></i>
+    </div>
+  </nav>
+
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+  <!-- PAGE CONTENT -->
+  <div class="w3-main" style="margin-left:300px">
+
+    <!-- Header -->
+    <header class="w3-container w3-padding-16">
+      <a href="index.html">
+        <img src="Assests/logo.jpg" style="width:65px;" class="w3-circle w3-right w3-hover-opacity w3-hide-large" alt="FRCsource logo">
+      </a>
+      <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()">
+        <i class="fa fa-bars"></i>
+      </span>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero-wrap">
+      <div class="orbital">
+
+        <!--
+          FIX: Every floating element now has BOTH "orbit-item" (original HTML class)
+          AND "block" (the CSS class that defines position/animation/appearance).
+          Size classes (sm/md/lg) and position classes (b1–b10) are unchanged.
+          Inner <img> tags are kept but styled with low opacity + mix-blend-mode
+          so they show subtly over the dark background instead of being invisible.
+          Tooltip <span class="orbit-tip"> now has proper CSS above.
+        -->
+
+        <a class="orbit-item block sm b1" href="https://www.redraiderrobotics.org/" target="_blank">
+          <img src="./Assests/Credits/RedRaiderRobotics.png" alt="Red Raider Robotics">
+          <span class="orbit-tip">Red Raider Robotics | REBUILT</span>
+        </a>
+
+        <a class="orbit-item block md b2" href="" target="_blank">
+          <img src="./Assests/Credits/Ferradermis.png" alt="FRCsource">
+          <span class="orbit-tip">FRCsource</span>
+        </a>
+
+        <a class="orbit-item block sm b3" href="#">
+          <img src="Assests/logo.jpg" alt="Supporter">
+          <span class="orbit-tip">Supporter</span>
+        </a>
+
+        <a class="orbit-item block lg b4" href="#">
+          <img src="Assests/logo.jpg" alt="Supporter">
+          <span class="orbit-tip">Click to visit</span>
+        </a>
+
+        <a class="orbit-item block md b5" href="#">
+          <img src="Assests/logo.jpg" alt="Supporter">
+          <span class="orbit-tip">Supporter</span>
+        </a>
+
+        <a class="orbit-item block sm b6" href="#">
+          <img src="Assests/logo.jpg" alt="Supporter">
+          <span class="orbit-tip">Details</span>
+        </a>
+
+        <a class="orbit-item block lg b7" href="#">
+          <img src="Assests/logo.jpg" alt="Supporter">
+          <span class="orbit-tip">Learn more</span>
+        </a>
+
+        <a class="orbit-item block md b8" href="#">
+          <img src="Assests/logo.jpg" alt="Supporter">
+          <span class="orbit-tip">External link</span>
+        </a>
+
+        <a class="orbit-item block sm b9" href="#">
+          <img src="Assests/logo.jpg" alt="Supporter">
+          <span class="orbit-tip">Info</span>
+        </a>
+
+        <a class="orbit-item block lg b10" href="#">
+          <img src="Assests/logo.jpg" alt="Supporter">
+          <span class="orbit-tip">Visit site</span>
+        </a>
+
+      </div>
+
+      <div class="hero-center">
+        <div class="logo-card">
+          <img src="Assests/logo.jpg" alt="FRCsource logo">
+        </div>
+
+        <h1 class="hero-title">Thank You</h1>
+        <p class="hero-subtitle">
+          FRCsource exists because of the people who build, test, write, share, and improve the
+          resources that keep the community moving. This page is for the teams, mentors, students,
+          and contributors who made that possible.
+        </p>
+
+        <div class="badge-row">
+          <span class="pill">Community</span>
+          <span class="pill">Contributors</span>
+          <span class="pill">Mentors</span>
+          <span class="pill">Teams</span>
+          <span class="pill">Supporters</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Credits -->
+    <div class="w3-container w3-padding-large" style="max-width:1100px; margin: 0 auto;">
+
+      <div class="credit-card">
+        <h2 class="section-title">Credits</h2>
+        <div class="credit-grid">
+          <div class="credit-item">
+            <h4>Special Thanks</h4>
+            <p>
+              To everyone who contributed ideas, code, testing, feedback, documentation, and encouragement.
+              This page can grow into a full supporter wall later. Special thanks to Red Raider Robotics and
+              Ferradermis for their help during FIRST AGE.
+            </p>
+          </div>
+
+          <div class="credit-item">
+            <h4>Community Resources</h4>
+            <p>
+              FIRST teams, mentors, and public knowledge bases helped shape the tools and tutorials on this site.
+            </p>
+          </div>
+
+          <div class="credit-item">
+            <h4>Site Foundation</h4>
+            <p>
+              Built with W3.CSS, simple HTML, and a focus on fast access to programming and scouting resources.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="credit-card">
+        <h2 class="section-title">Supporters / Logos</h2>
+        <p class="w3-text-grey" style="margin-top:-0.25rem;">
+          Replace these with supporter logos later. The cards will wrap automatically on smaller screens.
+        </p>
+
+        <div class="support-grid">
+          <a class="support-card" href="https://example.com" target="_blank" rel="noopener noreferrer">
+            <img src="./Assests/Credits/RedRaiderRobotics.png" alt="Red Raider Robotics logo">
+            <div class="support-overlay">
+              <p class="support-name">Red Raider Robotics</p>
+              <p class="support-hover">Red Raider Robotics| First Rebuilt</p>
+            </div>
+          </a>
+
+          <a class="support-card" href="https://example.org" target="_blank" rel="noopener noreferrer">
+            <img src="./Assests/Credits/Ferradermis.png" alt="Ferradermis logo">
+            <div class="support-overlay">
+              <p class="support-name">Ferradermis</p>
+              <p class="support-hover">Ferradermis| First Rebuilt | CRESENDO</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="credit-card">
+        <h2 class="section-title">Closing Note</h2>
+        <p>
+          Thank you for using FRCsource. If this project helps even one team work faster, learn better,
+          or share knowledge more easily, then it did its job.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="w3-container w3-padding-32 w3-dark-grey">
+      <div class="w3-row-padding">
+        <div class="w3-third">
+          <h3>FRCsource</h3>
+          <p>Made by the FRC community, for the FRC community.</p>
+          <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" rel="noopener noreferrer">w3.css</a></p>
+        </div>
+
+        <div class="w3-third">
+          <h3>Credits</h3>
+          <p>Special thanks to everyone who helped build, test, and support this project.</p>
+        </div>
+
+        <div class="w3-third">
+          <h3>Tags</h3>
+          <span class="w3-tag w3-black w3-margin-bottom">Thanks</span>
+          <span class="w3-tag w3-grey  w3-small w3-margin-bottom">Credits</span>
+          <span class="w3-tag w3-grey  w3-small w3-margin-bottom">Community</span>
+          <span class="w3-tag w3-grey  w3-small w3-margin-bottom">FRCsource</span>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /w3-main -->
+
+  <script>
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

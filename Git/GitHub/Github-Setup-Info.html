@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Git Restore - Article Template</title>
+  <title>Setting Up the Git CLI</title>
 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
 
@@ -187,16 +187,6 @@
       }
     }
 
-    .sidebar .active-page {
-      background-color: #222;
-      border-left: 4px solid #ff3333;
-    }
-
-    .sidebar .active-section {
-      background-color: #ff3333;
-      color: white;
-    }
-
     html {
       scroll-behavior: smooth;
     }
@@ -204,170 +194,148 @@
 </head>
 <body>
 
-  <!-- Sidebar / Navigation -->
   <div class="sidebar w3-card">
     <h2>Git Docs</h2>
 
-    <h3>Previous</h3>
-    <a href="mv.html">mv</a>
-    <a href="commit.html">commit</a>
-    <a href="add.html">add</a>
-    <a href="mv.html">git mv</a>
-    <a href="restore.html">git restore</a>
-    <h3>This Page</h3>
-    <a href="#intro" class="nav-link">Introduction</a>
-    <a href="#syntax" class="nav-link">Syntax</a>
-    <a href="#basic-use" class="nav-link">Basic Use</a>
-    <a href="#examples" class="nav-link">Examples</a>
-    <a href="#options" class="nav-link">Options</a>
-    <a href="#troubleshooting" class="nav-link">Troubleshooting</a>
-    <a href="#practice" class="nav-link">Practice</a>
+    <h3>Basics of Github</h3>
+    <a href="Github-Setup.html">Setting Up Github</a>
+    <a href="Github-CLI-Setup.html">Setting Up the Git CLI</a>
+    <a href="Github-First-Repo.html">Making your First Repo</a>
+    <a href="Github-Merges.html">Intro to Merges</a>
+    <a href="Github-Forks.html">Intro to Forks</a>
 
-        <h3>Next Articles</h3>
-  
-  <a href="restore.html">git restore</a>
-  <a href="rm.html">git rm</a>
-  <a href="bisect.html">git bisect</a>
-  <a href="diff.html">git diff</a>
-  <a href="grep.html">git grep</a>
-  <a href="log.html">git log</a>
-  <a href="show.html">git show</a>
-  <a href="status.html">git status</a>
-  <a href="backfill.html">git backfill</a>
-  <a href="branch.html">git branch</a>
-  <a href="commit.html">git commit</a>
-  <a href="merge.html">git merge</a>
-  <a href="rebase.html">git rebase</a>
-  <a href="reset.html">git reset</a>
-  <a href="switch.html">git switch</a>
-  <a href="tag.html">git tag</a>
-  <a href="fetch.html">git fetch</a>
-  <a href="pull.html">git pull</a>
-  <a href="push.html">git push</a>
+    <h3>Previous</h3>
+    <a href="Github-Setup.html">Setting Up Github</a>
+
+    <h3>This Page</h3>
+    <a href="#intro">Introduction</a>
+    <a href="#install">Install GitHub CLI</a>
+    <a href="#auth">Authenticate with gh</a>
+    <a href="#pat">Use a PAT with HTTPS</a>
+    <a href="#identity">Set Git Identity</a>
+    <a href="#troubleshooting">Troubleshooting</a>
+
+    <h3>Next Articles</h3>
+    <a href="Github-First-Repo.html">Making your First Repo</a>
   </div>
 
-  <!-- Main Content -->
   <div class="main-content" id="mainContent">
     <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
 
     <div class="article-header">
-      <h1 class="article-title">Git Restore</h1>
+      <h1 class="article-title">Setting Up the Git CLI</h1>
       <p class="article-meta">
-        Command: <strong>git restore</strong> · Topic: <strong>Undoing local changes</strong> · Level: <strong>Beginner</strong>
+        Topic: <strong>GitHub CLI and PAT authentication</strong> · Level: <strong>Beginner</strong>
       </p>
     </div>
 
     <div class="article-section" id="intro">
       <h2>Introduction</h2>
       <p>
-        <code>git restore</code> is used to undo changes in your working directory or unstage files from the staging area.
-        It is a safer, more focused way to revert local changes without using older commands like <code>git checkout</code>.
+        Git can connect to GitHub over HTTPS or SSH. For HTTPS, GitHub recommends using GitHub CLI or Git Credential Manager to remember credentials. If you authenticate without GitHub CLI, Git uses a personal access token instead of a password. :contentReference[oaicite:1]{index=1}
       </p>
       <div class="article-box note">
-        Use <code>git restore</code> when you want to discard edits or remove files from staging.
+        GitHub recommends fine-grained personal access tokens when possible. Password-based Git authentication is no longer the normal path. :contentReference[oaicite:2]{index=2}
       </div>
     </div>
 
-    <div class="article-section" id="syntax">
-      <h2>Syntax</h2>
+    <div class="article-section" id="install">
+      <h2>Install GitHub CLI</h2>
       <div class="article-box">
-        <pre><code>git restore &lt;file&gt;</code></pre>
+        <ol>
+          <li>Install <code>gh</code> on your system.</li>
+          <li>Open a terminal.</li>
+          <li>Confirm it works with <code>gh --version</code>.</li>
+        </ol>
       </div>
+      <div class="article-box">
+<pre><code>gh --version</code></pre>
+      </div>
+    </div>
+
+    <div class="article-section" id="auth">
+      <h2>Authenticate with GitHub CLI</h2>
       <p>
-        You can also use options like <code>--staged</code> to unstage a file instead of discarding its working tree changes.
+        The standard command is <code>gh auth login</code>. GitHub CLI can authenticate by browser or by personal access token, and it can also help configure SSH keys. :contentReference[oaicite:3]{index=3}
       </p>
+      <div class="article-box">
+<pre><code>gh auth login</code></pre>
+      </div>
+      <div class="article-box note">
+        This is the easiest option if you want Git to stop asking for credentials all the time. GitHub also recommends Git Credential Manager or GitHub CLI for credential caching. :contentReference[oaicite:4]{index=4}
+      </div>
     </div>
 
-    <div class="article-section" id="basic-use">
-      <h2>Basic Use</h2>
+    <div class="article-section" id="pat">
+      <h2>Use a Personal Access Token</h2>
       <p>
-        The most common use is to restore a file back to its last committed version.
+        If you clone or push over HTTPS without GitHub CLI, Git will prompt for a username and password. In that case, use your GitHub username and paste your personal access token as the password. GitHub recommends fine-grained tokens where possible. :contentReference[oaicite:5]{index=5}
       </p>
+
       <div class="article-box">
-        <pre><code>git restore index.html</code></pre>
+        <h3>Create a PAT</h3>
+        <ol>
+          <li>Open your GitHub settings.</li>
+          <li>Go to personal access tokens.</li>
+          <li>Create a fine-grained token if your use case allows it.</li>
+          <li>Give it only the permissions you need.</li>
+          <li>Copy the token and store it securely.</li>
+        </ol>
       </div>
+
+      <div class="article-box note">
+        If your organization uses SSO, the token may need to be authorized for that organization before it works there. :contentReference[oaicite:6]{index=6}
+      </div>
+    </div>
+
+    <div class="article-section" id="identity">
+      <h2>Set Git Identity</h2>
       <p>
-        This removes local changes in <code>index.html</code> that have not been committed yet.
+        Git also needs your name and email for commits. Set these once on your machine so your commits are labeled correctly. :contentReference[oaicite:7]{index=7}
       </p>
-    </div>
-
-    <div class="article-section" id="examples">
-      <h2>Examples</h2>
-
       <div class="article-box">
-        <h3>Discard changes in one file</h3>
-        <pre><code>git restore notes.txt</code></pre>
-        <p>Reverts <code>notes.txt</code> to the version from the last commit.</p>
-      </div>
-
-      <div class="article-box">
-        <h3>Unstage a file</h3>
-        <pre><code>git restore --staged notes.txt</code></pre>
-        <p>Removes the file from the staging area, but keeps the file changes in your working directory.</p>
-      </div>
-
-      <div class="article-box">
-        <h3>Restore multiple files</h3>
-        <pre><code>git restore file1.txt file2.txt</code></pre>
-        <p>Restores more than one file at the same time.</p>
-      </div>
-    </div>
-
-    <div class="article-section" id="options">
-      <h2>Common Options</h2>
-      <ul>
-        <li><code>--staged</code> — unstages changes.</li>
-        <li><code>.</code> — restores all files in the current directory.</li>
-        <li><code>--source &lt;commit&gt;</code> — restores files from a specific commit.</li>
-      </ul>
-
-      <div class="article-box">
-        <pre><code>git restore --staged file.txt</code></pre>
+<pre><code>git config --global user.name "Your Name"
+git config --global user.email "you@example.com"</code></pre>
       </div>
     </div>
 
     <div class="article-section" id="troubleshooting">
       <h2>Troubleshooting</h2>
-      <div class="article-box">
-        <h3>Problem: Changes were lost</h3>
-        <p>
-          <code>git restore</code> can permanently discard uncommitted changes. Be careful before running it.
-        </p>
-      </div>
-      <div class="article-box">
-        <h3>Problem: File did not unstage</h3>
-        <p>
-          Make sure you used <code>--staged</code> if the file was in the staging area.
-        </p>
-      </div>
-      <div class="article-box">
-        <h3>Problem: Nothing changed</h3>
-        <p>
-          Check <code>git status</code> to confirm the file actually has changes to restore.
-        </p>
-      </div>
-    </div>
 
-    <div class="article-section" id="practice">
-      <h2>Practice</h2>
-      <p>
-        Try making a change, staging it, and then restoring it:
-      </p>
       <div class="article-box">
-        <pre><code>git status
-git restore --staged file.txt
-git restore file.txt
-git status</code></pre>
+        <h3>Git keeps asking for a password</h3>
+        <p>
+          Use GitHub CLI or a credential helper such as Git Credential Manager so your token is cached instead of re-entered every time. :contentReference[oaicite:8]{index=8}
+        </p>
       </div>
-      <p>
-        This shows the difference between unstaging and discarding changes.
-      </p>
+
+      <div class="article-box">
+        <h3>Authentication fails on push</h3>
+        <p>
+          Check that the remote URL is correct, that the token has the right permissions, and that you have access to the repository. :contentReference[oaicite:9]{index=9}
+        </p>
+      </div>
+
+      <div class="article-box">
+        <h3>Token works on GitHub but not in an organization</h3>
+        <p>
+          The token may need SSO authorization or organization access approval. :contentReference[oaicite:10]{index=10}
+        </p>
+      </div>
     </div>
 
     <div class="bottom-nav">
-      <button class="w3-button w3-blue" onclick="window.location.href='./mv.html'">Previous: Mv</button>
-      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
-      <button class="w3-button w3-red" onclick="window.location.href='./rm.html'">Next: Rm</button>
+      <button class="w3-button w3-blue" onclick="window.location.href='Github-Setup.html'">
+        Previous: Setup
+      </button>
+
+      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">
+        Back to Index
+      </button>
+
+      <button class="w3-button w3-red" onclick="window.location.href='Github-First-Repo.html'">
+        Next: First Repo
+      </button>
     </div>
   </div>
 
@@ -380,10 +348,8 @@ git status</code></pre>
         content.classList.add('darkmode');
       } else if (saved === 'false') {
         content.classList.remove('darkmode');
-      } else {
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          content.classList.add('darkmode');
-        }
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        content.classList.add('darkmode');
       }
     }
 

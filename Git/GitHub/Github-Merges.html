@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intro to GitHub Merges</title>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+
+  <style>
+    :root {
+      --sidebar-width: 220px;
+      --sidebar-bg: #003366;
+      --accent: #ff3333;
+      --text: #111;
+      --bg: #ffffff;
+      --card: #f7f7f7;
+      --border: #ddd;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .sidebar {
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      width: var(--sidebar-width);
+      background-color: var(--sidebar-bg);
+      color: white;
+      padding-bottom: 20px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+    }
+
+    .sidebar h2 {
+      margin: 0;
+      padding: 16px 12px 10px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .sidebar h3 {
+      margin: 18px 0 6px;
+      padding: 0 12px;
+      color: var(--accent);
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: white;
+      border-radius: 4px;
+      margin: 2px 8px;
+      font-size: 14px;
+    }
+
+    .sidebar a:hover {
+      background-color: var(--accent);
+    }
+
+    .main-content {
+      margin-left: calc(var(--sidebar-width) + 10px);
+      padding: 24px;
+      max-width: 1000px;
+    }
+
+    .article-header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .article-title {
+      margin: 0 0 8px 0;
+      color: #003366;
+      font-size: 2rem;
+    }
+
+    .article-meta {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+
+    .article-section {
+      margin-bottom: 28px;
+    }
+
+    .article-section h2,
+    .article-section h3 {
+      color: #003366;
+      margin-bottom: 10px;
+    }
+
+    .article-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin: 14px 0;
+    }
+
+    .article-box code {
+      background: #ececec;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .note {
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+      color: #444;
+    }
+
+    .darkmode {
+      --bg: #1e1e1e;
+      --text: #f1f1f1;
+      --card: #2a2a2a;
+      --border: #444;
+    }
+
+    .darkmode .article-title,
+    .darkmode .article-section h2,
+    .darkmode .article-section h3 {
+      color: #ff6666;
+    }
+
+    .toggle-btn {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .toggle-btn:hover {
+      background-color: #cc0000;
+    }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .bottom-nav .w3-button {
+      min-width: 160px;
+    }
+
+    @media (max-width: 800px) {
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 16px;
+      }
+
+      .bottom-nav {
+        flex-direction: column;
+      }
+
+      .bottom-nav .w3-button {
+        width: 100%;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar w3-card">
+    <h2>Git Docs</h2>
+
+    <h3>Basics of Github</h3>
+    <a href="Github-Setup.html">Setting Up Github</a>
+    <a href="Github-First-Repo.html">Making your First Repo</a>
+    <a href="Github-Merges.html">Intro to Merges</a>
+    <a href="Github-Forks.html">Intro to Forks</a>
+
+    <h3>Previous</h3>
+    <a href="Github-First-Repo.html">Making your First Repo</a>
+
+    <h3>This Page</h3>
+    <a href="#intro">Introduction</a>
+    <a href="#what-is-merge">What is a Merge?</a>
+    <a href="#types">Merge Types</a>
+    <a href="#workflow">Basic Workflow</a>
+    <a href="#examples">Examples</a>
+    <a href="#troubleshooting">Troubleshooting</a>
+
+    <h3>Next Articles</h3>
+    <a href="Github-Forks.html">Intro to Forks</a>
+  </div>
+
+  <div class="main-content" id="mainContent">
+    <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+    <div class="article-header">
+      <h1 class="article-title">Intro to GitHub Merges</h1>
+      <p class="article-meta">
+        Topic: <strong>Branches and merging</strong> · Level: <strong>Beginner</strong>
+      </p>
+    </div>
+
+    <div class="article-section" id="intro">
+      <h2>Introduction</h2>
+      <p>
+        A merge is what happens when you combine changes from one branch into another.
+        On GitHub, merges are commonly used after a feature branch has been reviewed and is ready to be added into the main branch.
+      </p>
+      <div class="article-box note">
+        Merging helps teams work on separate features at the same time without overwriting each other’s work.
+      </div>
+    </div>
+
+    <div class="article-section" id="what-is-merge">
+      <h2>What is a Merge?</h2>
+      <p>
+        A merge takes the commits from one branch and integrates them into another branch.
+        If the branches share the same history, Git can merge cleanly. If both branches changed the same lines, you may need to resolve conflicts.
+      </p>
+    </div>
+
+    <div class="article-section" id="types">
+      <h2>Merge Types</h2>
+
+      <div class="article-box">
+        <h3>Fast-forward merge</h3>
+        <p>
+          Git simply moves the branch pointer forward when no diverging history exists.
+        </p>
+      </div>
+
+      <div class="article-box">
+        <h3>Three-way merge</h3>
+        <p>
+          Git creates a new merge commit that combines the two branch histories.
+        </p>
+      </div>
+    </div>
+
+    <div class="article-section" id="workflow">
+      <h2>Basic Workflow</h2>
+
+      <div class="article-box">
+        <ol>
+          <li>Create a feature branch.</li>
+          <li>Make your changes and commit them.</li>
+          <li>Open a pull request on GitHub.</li>
+          <li>Review and approve the changes.</li>
+          <li>Merge the branch into the main branch.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="article-section" id="examples">
+      <h2>Examples</h2>
+
+      <div class="article-box">
+        <h3>Merging a branch locally</h3>
+<pre><code>git checkout main
+git merge feature-branch</code></pre>
+      </div>
+
+      <div class="article-box">
+        <h3>Resolving a merge conflict</h3>
+<pre><code># fix the conflicting files
+git add .
+git commit</code></pre>
+      </div>
+    </div>
+
+    <div class="article-section" id="troubleshooting">
+      <h2>Troubleshooting</h2>
+
+      <div class="article-box">
+        <h3>Merge conflicts</h3>
+        <p>Open the files, decide which changes to keep, then stage and commit the resolved version.</p>
+      </div>
+
+      <div class="article-box">
+        <h3>Wrong branch merged</h3>
+        <p>Use <code>git branch</code> and <code>git status</code> before merging to confirm you are on the correct branch.</p>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <button class="w3-button w3-blue" onclick="window.location.href='Github-First-Repo.html'">
+        Previous: First Repo
+      </button>
+
+      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">
+        Back to Index
+      </button>
+
+      <button class="w3-button w3-red" onclick="window.location.href='Github-Forks.html'">
+        Next: Forks
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const content = document.getElementById('mainContent');
+
+    function applyPreference() {
+      const saved = localStorage.getItem('darkmode');
+      if (saved === 'true') content.classList.add('darkmode');
+      else if (saved === 'false') content.classList.remove('darkmode');
+      else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        content.classList.add('darkmode');
+      }
+    }
+
+    function toggleDarkMode() {
+      if (content.classList.contains('darkmode')) {
+        content.classList.remove('darkmode');
+        localStorage.setItem('darkmode', 'false');
+      } else {
+        content.classList.add('darkmode');
+        localStorage.setItem('darkmode', 'true');
+      }
+    }
+
+    window.addEventListener('load', applyPreference);
+  </script>
+
+</body>
+</html>

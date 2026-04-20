@@ -1,67 +1,304 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Git Rebase</title>
+
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-  <style>/* shared styling */:root{--sidebar-width:220px;--sidebar-bg:#003366}body{font-family:Arial;margin:0}.sidebar{position:fixed;width:var(--sidebar-width);height:100vh;background:var(--sidebar-bg);color:#fff;padding:16px}.main-content{margin-left:calc(var(--sidebar-width)+10px);padding:24px}.bottom-nav{display:flex;justify-content:space-between;margin-top:32px}</style>
+
+  <style>
+    :root {
+      --sidebar-width: 220px;
+      --sidebar-bg: #003366;
+      --accent: #ff3333;
+      --text: #111;
+      --bg: #ffffff;
+      --card: #f7f7f7;
+      --border: #ddd;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .sidebar {
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      width: var(--sidebar-width);
+      background-color: var(--sidebar-bg);
+      color: white;
+      padding-bottom: 20px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+    }
+
+    .sidebar h2 {
+      margin: 0;
+      padding: 16px 12px 10px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .sidebar h3 {
+      margin: 18px 0 6px;
+      padding: 0 12px;
+      color: var(--accent);
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: white;
+      border-radius: 4px;
+      margin: 2px 8px;
+      font-size: 14px;
+    }
+
+    .sidebar a:hover {
+      background-color: var(--accent);
+    }
+
+    .main-content {
+      margin-left: calc(var(--sidebar-width) + 10px);
+      padding: 24px;
+      max-width: 1000px;
+    }
+
+    .article-header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .article-title {
+      margin: 0 0 8px 0;
+      color: #003366;
+      font-size: 2rem;
+    }
+
+    .article-meta {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .article-section {
+      margin-bottom: 28px;
+    }
+
+    .article-section h2 {
+      color: #003366;
+    }
+
+    .article-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin: 14px 0;
+    }
+
+    .note {
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+    }
+
+    .darkmode {
+      --bg: #1e1e1e;
+      --text: #f1f1f1;
+      --card: #2a2a2a;
+      --border: #444;
+    }
+
+    .darkmode .article-title,
+    .darkmode .article-section h2 {
+      color: #ff6666;
+    }
+
+    .toggle-btn {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 18px;
+    }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 800px) {
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .bottom-nav {
+        flex-direction: column;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
+
 <body>
-  <div class="sidebar w3-card">
-    <h2>Git Docs</h2>
-    <h3>Previous</h3>
-    <a href="merge.html">merge</a>
-    <h3>This Page</h3>
-    <a href="#intro">Introduction</a>
-    <h3>Next Articles</h3>
-    <a href="reset.html">reset</a>
+
+<!-- Sidebar -->
+<div class="sidebar w3-card">
+  <h2>Git Docs</h2>
+
+  <h3>Previous</h3>
+  <a href="./merge.html">merge</a>
+
+  <h3>This Page</h3>
+  <a href="#intro">Introduction</a>
+  <a href="#syntax">Syntax</a>
+  <a href="#basic-use">Basic Use</a>
+  <a href="#examples">Examples</a>
+  <a href="#troubleshooting">Troubleshooting</a>
+
+  <h3>Next Articles</h3>
+  <a href="./reset.html">reset</a>
+</div>
+
+<!-- Main -->
+<div class="main-content" id="mainContent">
+
+  <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+  <div class="article-header">
+    <h1 class="article-title">Git Rebase</h1>
+    <p class="article-meta">
+      Command: <strong>git rebase</strong> · Topic: <strong>Reapply commits</strong> · Level: <strong>Intermediate–Advanced</strong>
+    </p>
   </div>
 
-  <div class="main-content">
-    <div class="article-header">
-      <h1>Git Rebase</h1>
-      <p>Command: <strong>git rebase</strong> · Topic: <strong>Reapply commits</strong></p>
+  <div class="article-section" id="intro">
+    <h2>Introduction</h2>
+    <p>
+      <code>git rebase</code> reapplies commits from one branch onto another base commit,
+      rewriting history to create a linear commit sequence.
+    </p>
+    <div class="article-box note">
+      Avoid rebasing shared/public branches—it rewrites history and can break collaborators.
     </div>
+  </div>
 
-    <section id="intro">
-      <h2>Introduction</h2>
-      <p><code>git rebase</code> reapplies commits from one branch onto another base tip. It rewrites history and is often used to keep a linear history.</p>
-    </section>
+  <div class="article-section" id="syntax">
+    <h2>Syntax</h2>
+    <div class="article-box">
+<pre><code>git rebase &lt;base&gt;
+git rebase -i &lt;base&gt;
+git rebase --abort
+git rebase --continue</code></pre>
+    </div>
+  </div>
 
-    <section id="syntax">
-      <h2>Syntax</h2>
-      <pre><code>git rebase &lt;base&gt;
-git rebase --interactive &lt;base&gt;
-git rebase --abort</code></pre>
-    </section>
-
-    <section id="basic-use">
-      <h2>Basic Use</h2>
-      <pre><code># rebase feature onto main
+  <div class="article-section" id="basic-use">
+    <h2>Basic Use</h2>
+    <div class="article-box">
+<pre><code># rebase feature branch onto main
 git checkout feature
 git rebase main</code></pre>
-    </section>
-
-    <section id="examples">
-      <h2>Examples</h2>
-      <div class="article-box w3-light-grey"><pre><code># interactive rebase to squash commits
-git rebase -i HEAD~4
-
-# abort a rebase in progress
-git rebase --abort</code></pre></div>
-    </section>
-
-    <section id="troubleshooting">
-      <h2>Troubleshooting</h2>
-      <p>Resolve conflicts as they appear, use <code>git rebase --continue</code>, or abort with <code>--abort</code>.</p>
-    </section>
-
-    <div class="bottom-nav">
-      <button class="w3-button w3-blue" onclick="window.location.href='./merge.html'">Previous: Merge</button>
-      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
-      <button class="w3-button w3-red" onclick="window.location.href='./reset.html'">Next: Reset</button>
     </div>
   </div>
+
+  <div class="article-section" id="examples">
+    <h2>Examples</h2>
+
+    <div class="article-box">
+      <h3>Interactive rebase (cleanup commits)</h3>
+<pre><code>git rebase -i HEAD~4</code></pre>
+    </div>
+
+    <div class="article-box">
+      <h3>Continue after resolving conflicts</h3>
+<pre><code>git add .
+git rebase --continue</code></pre>
+    </div>
+
+  </div>
+
+  <div class="article-section" id="troubleshooting">
+    <h2>Troubleshooting</h2>
+
+    <div class="article-box">
+      <h3>Merge conflicts during rebase</h3>
+      <p>Resolve conflicts, stage files, then run <code>git rebase --continue</code>.</p>
+    </div>
+
+    <div class="article-box">
+      <h3>Need to cancel rebase</h3>
+      <p>Use <code>git rebase --abort</code> to return to the previous state.</p>
+    </div>
+
+  </div>
+
+  <div class="bottom-nav">
+    <button class="w3-button w3-blue" onclick="window.location.href='./merge.html'">
+      Previous: Merge
+    </button>
+
+    <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">
+      Back to Index
+    </button>
+
+    <button class="w3-button w3-red" onclick="window.location.href='./reset.html'">
+      Next: Reset
+    </button>
+  </div>
+
+</div>
+
+<script>
+  const content = document.getElementById('mainContent');
+
+  function applyPreference() {
+    const saved = localStorage.getItem('darkmode');
+    if (saved === 'true') {
+      content.classList.add('darkmode');
+    } else if (saved === 'false') {
+      content.classList.remove('darkmode');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      content.classList.add('darkmode');
+    }
+  }
+
+  function toggleDarkMode() {
+    if (content.classList.contains('darkmode')) {
+      content.classList.remove('darkmode');
+      localStorage.setItem('darkmode', 'false');
+    } else {
+      content.classList.add('darkmode');
+      localStorage.setItem('darkmode', 'true');
+    }
+  }
+
+  window.addEventListener('load', applyPreference);
+</script>
+
 </body>
 </html>

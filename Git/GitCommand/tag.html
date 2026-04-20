@@ -1,60 +1,297 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Git Tag</title>
+
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-  <style>:root{--sidebar-width:220px;--sidebar-bg:#003366}body{font-family:Arial;margin:0}.sidebar{position:fixed;width:var(--sidebar-width);height:100vh;background:var(--sidebar-bg);color:#fff;padding:16px}.main-content{margin-left:calc(var(--sidebar-width)+10px);padding:24px}.bottom-nav{display:flex;justify-content:space-between;margin-top:32px}</style>
+
+  <style>
+    :root {
+      --sidebar-width: 220px;
+      --sidebar-bg: #003366;
+      --accent: #ff3333;
+      --text: #111;
+      --bg: #ffffff;
+      --card: #f7f7f7;
+      --border: #ddd;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .sidebar {
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      width: var(--sidebar-width);
+      background-color: var(--sidebar-bg);
+      color: white;
+      padding-bottom: 20px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+    }
+
+    .sidebar h2 {
+      margin: 0;
+      padding: 16px 12px 10px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .sidebar h3 {
+      margin: 18px 0 6px;
+      padding: 0 12px;
+      color: var(--accent);
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: white;
+      border-radius: 4px;
+      margin: 2px 8px;
+      font-size: 14px;
+    }
+
+    .sidebar a:hover {
+      background-color: var(--accent);
+    }
+
+    .main-content {
+      margin-left: calc(var(--sidebar-width) + 10px);
+      padding: 24px;
+      max-width: 1000px;
+    }
+
+    .article-header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .article-title {
+      margin: 0 0 8px 0;
+      color: #003366;
+      font-size: 2rem;
+    }
+
+    .article-meta {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .article-section {
+      margin-bottom: 28px;
+    }
+
+    .article-section h2 {
+      color: #003366;
+    }
+
+    .article-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin: 14px 0;
+    }
+
+    .note {
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+    }
+
+    .darkmode {
+      --bg: #1e1e1e;
+      --text: #f1f1f1;
+      --card: #2a2a2a;
+      --border: #444;
+    }
+
+    .darkmode .article-title,
+    .darkmode .article-section h2 {
+      color: #ff6666;
+    }
+
+    .toggle-btn {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 18px;
+    }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 800px) {
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .bottom-nav {
+        flex-direction: column;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
+
 <body>
-  <div class="sidebar w3-card">
-    <h2>Git Docs</h2>
-    <h3>Previous</h3>
-    <a href="switch.html">switch</a>
-    <h3>This Page</h3>
-    <a href="#intro">Introduction</a>
-    <h3>Next Articles</h3>
-    <a href="fetch.html">fetch</a>
+
+<!-- Sidebar -->
+<div class="sidebar w3-card">
+  <h2>Git Docs</h2>
+
+  <h3>Previous</h3>
+  <a href="./switch.html">switch</a>
+
+  <h3>This Page</h3>
+  <a href="#intro">Introduction</a>
+  <a href="#syntax">Syntax</a>
+  <a href="#examples">Examples</a>
+  <a href="#troubleshooting">Troubleshooting</a>
+
+  <h3>Next Articles</h3>
+  <a href="./fetch.html">fetch</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+
+  <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+  <div class="article-header">
+    <h1 class="article-title">Git Tag</h1>
+    <p class="article-meta">
+      Command: <strong>git tag</strong> · Topic: <strong>Tagging commits</strong> · Level: <strong>Beginner</strong>
+    </p>
   </div>
 
-  <div class="main-content">
-    <div class="article-header">
-      <h1>Git Tag</h1>
-      <p>Command: <strong>git tag</strong> · Topic: <strong>Tags</strong></p>
-    </div>
-
-    <section id="intro">
-      <h2>Introduction</h2>
-      <p><code>git tag</code> creates, lists, or deletes tags which are convenient labels for specific commits (commonly used for releases).</p>
-    </section>
-
-    <section id="syntax">
-      <h2>Syntax</h2>
-      <pre><code>git tag            # list tags
-git tag -a v1.0 -m "Release 1.0"
-git push origin v1.0</code></pre>
-    </section>
-
-    <section id="examples">
-      <h2>Examples</h2>
-      <div class="article-box w3-light-grey"><pre><code># create annotated tag
-git tag -a v1.2 -m "Version 1.2"
-
-# push a single tag
-git push origin v1.2</code></pre></div>
-    </section>
-
-    <section id="troubleshooting">
-      <h2>Troubleshooting</h2>
-      <p>Tags are local until pushed. To remove a remote tag, use <code>git push --delete origin v1.2</code>.</p>
-    </section>
-
-    <div class="bottom-nav">
-      <button class="w3-button w3-blue" onclick="window.location.href='./switch.html'">Previous: Switch</button>
-      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
-      <button class="w3-button w3-red" onclick="window.location.href='./fetch.html'">Next: Fetch</button>
+  <div class="article-section" id="intro">
+    <h2>Introduction</h2>
+    <p>
+      <code>git tag</code> assigns a fixed label to a specific commit.
+      Tags are most commonly used to mark release points such as <code>v1.0</code>.
+    </p>
+    <div class="article-box note">
+      Tags do not move—they always reference the exact commit they were created on.
     </div>
   </div>
+
+  <div class="article-section" id="syntax">
+    <h2>Syntax</h2>
+    <div class="article-box">
+<pre><code>git tag
+git tag -a &lt;name&gt; -m "message"
+git tag -d &lt;name&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="article-section" id="examples">
+    <h2>Examples</h2>
+
+    <div class="article-box">
+      <h3>Create annotated tag</h3>
+<pre><code>git tag -a v1.0 -m "Release 1.0"</code></pre>
+    </div>
+
+    <div class="article-box">
+      <h3>Push a tag</h3>
+<pre><code>git push origin v1.0</code></pre>
+    </div>
+
+    <div class="article-box">
+      <h3>Push all tags</h3>
+<pre><code>git push --tags</code></pre>
+    </div>
+
+  </div>
+
+  <div class="article-section" id="troubleshooting">
+    <h2>Troubleshooting</h2>
+
+    <div class="article-box">
+      <h3>Tag not on remote</h3>
+      <p>Tags must be pushed manually using <code>git push origin &lt;tag&gt;</code>.</p>
+    </div>
+
+    <div class="article-box">
+      <h3>Delete remote tag</h3>
+      <p><code>git push --delete origin v1.0</code></p>
+    </div>
+
+  </div>
+
+  <div class="bottom-nav">
+    <button class="w3-button w3-blue" onclick="window.location.href='./switch.html'">
+      Previous: Switch
+    </button>
+
+    <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">
+      Back to Index
+    </button>
+
+    <button class="w3-button w3-red" onclick="window.location.href='./fetch.html'">
+      Next: Fetch
+    </button>
+  </div>
+
+</div>
+
+<script>
+  const content = document.getElementById('mainContent');
+
+  function applyPreference() {
+    const saved = localStorage.getItem('darkmode');
+    if (saved === 'true') {
+      content.classList.add('darkmode');
+    } else if (saved === 'false') {
+      content.classList.remove('darkmode');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      content.classList.add('darkmode');
+    }
+  }
+
+  function toggleDarkMode() {
+    if (content.classList.contains('darkmode')) {
+      content.classList.remove('darkmode');
+      localStorage.setItem('darkmode', 'false');
+    } else {
+      content.classList.add('darkmode');
+      localStorage.setItem('darkmode', 'true');
+    }
+  }
+
+  window.addEventListener('load', applyPreference);
+</script>
+
 </body>
 </html>

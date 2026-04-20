@@ -1,59 +1,312 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Git Reset</title>
+
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-  <style>:root{--sidebar-width:220px;--sidebar-bg:#003366}body{font-family:Arial;margin:0}.sidebar{position:fixed;width:var(--sidebar-width);height:100vh;background:var(--sidebar-bg);color:#fff;padding:16px}.main-content{margin-left:calc(var(--sidebar-width)+10px);padding:24px}.bottom-nav{display:flex;justify-content:space-between;margin-top:32px}</style>
+
+  <style>
+    :root {
+      --sidebar-width: 220px;
+      --sidebar-bg: #003366;
+      --accent: #ff3333;
+      --text: #111;
+      --bg: #ffffff;
+      --card: #f7f7f7;
+      --border: #ddd;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .sidebar {
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      width: var(--sidebar-width);
+      background-color: var(--sidebar-bg);
+      color: white;
+      padding-bottom: 20px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+    }
+
+    .sidebar h2 {
+      margin: 0;
+      padding: 16px 12px 10px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .sidebar h3 {
+      margin: 18px 0 6px;
+      padding: 0 12px;
+      color: var(--accent);
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: white;
+      border-radius: 4px;
+      margin: 2px 8px;
+      font-size: 14px;
+    }
+
+    .sidebar a:hover {
+      background-color: var(--accent);
+    }
+
+    .main-content {
+      margin-left: calc(var(--sidebar-width) + 10px);
+      padding: 24px;
+      max-width: 1000px;
+    }
+
+    .article-header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .article-title {
+      margin: 0 0 8px 0;
+      color: #003366;
+      font-size: 2rem;
+    }
+
+    .article-meta {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .article-section {
+      margin-bottom: 28px;
+    }
+
+    .article-section h2 {
+      color: #003366;
+    }
+
+    .article-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin: 14px 0;
+    }
+
+    .note {
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+    }
+
+    .darkmode {
+      --bg: #1e1e1e;
+      --text: #f1f1f1;
+      --card: #2a2a2a;
+      --border: #444;
+    }
+
+    .darkmode .article-title,
+    .darkmode .article-section h2 {
+      color: #ff6666;
+    }
+
+    .toggle-btn {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 18px;
+    }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 800px) {
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .bottom-nav {
+        flex-direction: column;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
+
 <body>
-  <div class="sidebar w3-card">
-    <h2>Git Docs</h2>
-    <h3>Previous</h3>
-    <a href="rebase.html">rebase</a>
-    <h3>This Page</h3>
-    <a href="#intro">Introduction</a>
-    <h3>Next Articles</h3>
-    <a href="switch.html">switch</a>
+
+<!-- Sidebar -->
+<div class="sidebar w3-card">
+  <h2>Git Docs</h2>
+
+  <h3>Previous</h3>
+  <a href="./rebase.html">rebase</a>
+
+  <h3>This Page</h3>
+  <a href="#intro">Introduction</a>
+  <a href="#syntax">Syntax</a>
+  <a href="#basic-use">Basic Use</a>
+  <a href="#examples">Examples</a>
+  <a href="#troubleshooting">Troubleshooting</a>
+
+  <h3>Next Articles</h3>
+  <a href="./switch.html">switch</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+
+  <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+  <div class="article-header">
+    <h1 class="article-title">Git Reset</h1>
+    <p class="article-meta">
+      Command: <strong>git reset</strong> · Topic: <strong>Move HEAD or index</strong> · Level: <strong>Intermediate</strong>
+    </p>
   </div>
 
-  <div class="main-content">
-    <div class="article-header">
-      <h1>Git Reset</h1>
-      <p>Command: <strong>git reset</strong> · Topic: <strong>Move HEAD or index</strong></p>
+  <div class="article-section" id="intro">
+    <h2>Introduction</h2>
+    <p>
+      <code>git reset</code> moves the current branch pointer (HEAD) and optionally updates the index and working directory.
+      Its behavior depends on the mode used.
+    </p>
+    <div class="article-box note">
+      <strong>--hard</strong> will permanently discard changes—use with caution.
     </div>
+  </div>
 
-    <section id="intro">
-      <h2>Introduction</h2>
-      <p><code>git reset</code> moves the current branch tip (HEAD) and can modify the index and working tree depending on mode: --soft, --mixed, or --hard.</p>
-    </section>
-
-    <section id="syntax">
-      <h2>Syntax</h2>
-      <pre><code>git reset [--soft|--mixed|--hard] &lt;commit&gt;
+  <div class="article-section" id="syntax">
+    <h2>Syntax</h2>
+    <div class="article-box">
+<pre><code>git reset [--soft|--mixed|--hard] &lt;commit&gt;
 git reset -- &lt;path&gt;...</code></pre>
-    </section>
-
-    <section id="basic-use">
-      <h2>Basic Use</h2>
-      <pre><code># reset HEAD to previous commit but keep changes staged
-git reset --soft HEAD~1
-
-# discard working tree changes (dangerous)
-git reset --hard HEAD</code></pre>
-    </section>
-
-    <section id="troubleshooting">
-      <h2>Troubleshooting</h2>
-      <p>Be careful with <code>--hard</code> as it discards changes. Use <code>git reflog</code> to recover commits if needed.</p>
-    </section>
-
-    <div class="bottom-nav">
-      <button class="w3-button w3-blue" onclick="window.location.href='./rebase.html'">Previous: Rebase</button>
-      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
-      <button class="w3-button w3-red" onclick="window.location.href='./switch.html'">Next: Switch</button>
     </div>
   </div>
+
+  <div class="article-section" id="basic-use">
+    <h2>Basic Use</h2>
+
+    <div class="article-box">
+      <h3>Undo last commit (keep staged)</h3>
+<pre><code>git reset --soft HEAD~1</code></pre>
+    </div>
+
+    <div class="article-box">
+      <h3>Unstage files (default behavior)</h3>
+<pre><code>git reset HEAD file.txt</code></pre>
+    </div>
+
+    <div class="article-box">
+      <h3>Discard all local changes</h3>
+<pre><code>git reset --hard HEAD</code></pre>
+    </div>
+
+  </div>
+
+  <div class="article-section" id="examples">
+    <h2>Examples</h2>
+
+    <div class="article-box">
+      <h3>Reset to a specific commit</h3>
+<pre><code>git reset --mixed abc1234</code></pre>
+    </div>
+
+    <div class="article-box">
+      <h3>Remove last 2 commits completely</h3>
+<pre><code>git reset --hard HEAD~2</code></pre>
+    </div>
+
+  </div>
+
+  <div class="article-section" id="troubleshooting">
+    <h2>Troubleshooting</h2>
+
+    <div class="article-box">
+      <h3>Lost commits</h3>
+      <p>Use <code>git reflog</code> to find and restore previous states.</p>
+    </div>
+
+    <div class="article-box">
+      <h3>Accidental hard reset</h3>
+      <p>If recent, recover via <code>git reflog</code> and reset back.</p>
+    </div>
+
+  </div>
+
+  <div class="bottom-nav">
+    <button class="w3-button w3-blue" onclick="window.location.href='./rebase.html'">
+      Previous: Rebase
+    </button>
+
+    <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">
+      Back to Index
+    </button>
+
+    <button class="w3-button w3-red" onclick="window.location.href='./switch.html'">
+      Next: Switch
+    </button>
+  </div>
+
+</div>
+
+<script>
+  const content = document.getElementById('mainContent');
+
+  function applyPreference() {
+    const saved = localStorage.getItem('darkmode');
+    if (saved === 'true') {
+      content.classList.add('darkmode');
+    } else if (saved === 'false') {
+      content.classList.remove('darkmode');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      content.classList.add('darkmode');
+    }
+  }
+
+  function toggleDarkMode() {
+    if (content.classList.contains('darkmode')) {
+      content.classList.remove('darkmode');
+      localStorage.setItem('darkmode', 'false');
+    } else {
+      content.classList.add('darkmode');
+      localStorage.setItem('darkmode', 'true');
+    }
+  }
+
+  window.addEventListener('load', applyPreference);
+</script>
+
 </body>
 </html>

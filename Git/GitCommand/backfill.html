@@ -4,67 +4,290 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Git Backfill - Article Template</title>
+
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-  <style>/* same styles as other pages */
-    :root{--sidebar-width:220px;--sidebar-bg:#003366;--accent:#ff3333;--text:#111;--bg:#fff;--card:#f7f7f7;--border:#ddd}
-    body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
-    .sidebar{height:100vh;overflow-y:auto;position:fixed;width:var(--sidebar-width);background-color:var(--sidebar-bg);color:white;padding-bottom:20px;box-shadow:2px 0 10px rgba(0,0,0,0.15)}
-    .main-content{margin-left:calc(var(--sidebar-width)+10px);padding:24px;max-width:1000px}
-    .article-header{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:24px}
-    .article-title{margin:0 0 8px 0;color:#003366;font-size:2rem}
-    .article-section{margin-bottom:28px}.article-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin:14px 0}
-    .bottom-nav{display:flex;justify-content:space-between;gap:12px;margin-top:40px;padding-top:18px;border-top:1px solid var(--border)}
+
+  <style>
+    :root {
+      --sidebar-width: 220px;
+      --sidebar-bg: #003366;
+      --accent: #ff3333;
+      --text: #111;
+      --bg: #ffffff;
+      --card: #f7f7f7;
+      --border: #ddd;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .sidebar {
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      width: var(--sidebar-width);
+      background-color: var(--sidebar-bg);
+      color: white;
+      padding-bottom: 20px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+    }
+
+    .sidebar h2 {
+      margin: 0;
+      padding: 16px 12px 10px;
+      font-size: 18px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .sidebar h3 {
+      margin: 18px 0 6px;
+      padding: 0 12px;
+      color: var(--accent);
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: white;
+      font-size: 14px;
+      border-radius: 4px;
+      margin: 2px 8px;
+    }
+
+    .sidebar a:hover {
+      background-color: var(--accent);
+    }
+
+    .main-content {
+      margin-left: calc(var(--sidebar-width) + 10px);
+      padding: 24px;
+      max-width: 1000px;
+    }
+
+    .article-header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .article-title {
+      margin: 0 0 8px 0;
+      color: #003366;
+      font-size: 2rem;
+    }
+
+    .article-meta {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .article-section {
+      margin-bottom: 28px;
+    }
+
+    .article-section h2 {
+      color: #003366;
+    }
+
+    .article-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin: 14px 0;
+    }
+
+    .note {
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+    }
+
+    .darkmode {
+      --bg: #1e1e1e;
+      --text: #f1f1f1;
+      --card: #2a2a2a;
+      --border: #444;
+    }
+
+    .darkmode .article-title,
+    .darkmode .article-section h2 {
+      color: #ff6666;
+    }
+
+    .toggle-btn {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 18px;
+    }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 800px) {
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .bottom-nav {
+        flex-direction: column;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
   </style>
 </head>
+
 <body>
-  <div class="sidebar w3-card">
-    <h2>Git Docs</h2>
-    <h3>Previous</h3>
-    <a href="../GitCommand/status.html">status</a>
-    <h3>This Page</h3>
-    <a href="#intro">Introduction</a>
-    <h3>Next Articles</h3>
-    <a href="branch.html">branch</a>
+
+<!-- Sidebar -->
+<div class="sidebar w3-card">
+  <h2>Git Docs</h2>
+
+  <h3>Previous</h3>
+  <a href="./status.html">status</a>
+
+  <h3>This Page</h3>
+  <a href="#intro">Introduction</a>
+  <a href="#syntax">Syntax</a>
+  <a href="#basic-use">Basic Use</a>
+  <a href="#examples">Examples</a>
+  <a href="#troubleshooting">Troubleshooting</a>
+
+  <h3>Next Articles</h3>
+  <a href="./branch.html">branch</a>
+</div>
+
+<!-- Main -->
+<div class="main-content" id="mainContent">
+
+  <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+  <div class="article-header">
+    <h1 class="article-title">Git Backfill</h1>
+    <p class="article-meta">
+      Command: <strong>git backfill</strong> · Topic: <strong>Partial clones & missing objects</strong> · Level: <strong>Advanced</strong>
+    </p>
   </div>
 
-  <div class="main-content" id="mainContent">
-    <div class="article-header">
-      <h1 class="article-title">Git Backfill</h1>
-      <p class="article-meta">Command: <strong>git backfill</strong> · Topic: <strong>Partial clones & missing objects</strong> · Level: <strong>Advanced</strong></p>
-    </div>
-
-    <div class="article-section" id="intro">
-      <h2>Introduction</h2>
-      <p><code>git backfill</code> (used in some tooling/partial-clone workflows) downloads missing objects that a partial clone deferred. It helps make the working tree complete when needed.</p>
-    </div>
-
-    <div class="article-section" id="syntax">
-      <h2>Syntax</h2>
-      <div class="article-box"><pre><code>git backfill [--object &lt;oid&gt;] [--] [&lt;path&gt;...]
-# Note: Some Git installations expose backfill via plumbing or server-specific tools.</code></pre></div>
-    </div>
-
-    <div class="article-section" id="basic-use">
-      <h2>Basic Use</h2>
-      <p>Typically invoked by tools or servers when a full object is required for checkout or inspection.</p>
-    </div>
-
-    <div class="article-section" id="examples">
-      <h2>Examples</h2>
-      <div class="article-box"><pre><code># Backfill a specific object (tooling-dependent)
-git backfill --object 3a4b5c6d</code></pre></div>
-    </div>
-
-    <div class="article-section" id="troubleshooting">
-      <h2>Troubleshooting</h2>
-      <div class="article-box">If objects cannot be fetched, check remote access or the partial clone's filter configuration.</div>
-    </div>
-
-    <div class="bottom-nav">
-      <button class="w3-button w3-blue" onclick="window.location.href='./status.html'">Previous: Status</button>
-      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
-      <button class="w3-button w3-red" onclick="window.location.href='./branch.html'">Next: Branch</button>
+  <div class="article-section" id="intro">
+    <h2>Introduction</h2>
+    <p>
+      <code>git backfill</code> is used in partial clone workflows to fetch missing Git objects on demand.
+      It allows a repository to remain lightweight until full data is required.
+    </p>
+    <div class="article-box note">
+      This command is not part of standard porcelain Git workflows and may depend on tooling or server configuration.
     </div>
   </div>
+
+  <div class="article-section" id="syntax">
+    <h2>Syntax</h2>
+    <div class="article-box">
+<pre><code>git backfill [--object &lt;oid&gt;] [--] [&lt;path&gt;...]</code></pre>
+    </div>
+  </div>
+
+  <div class="article-section" id="basic-use">
+    <h2>Basic Use</h2>
+    <p>
+      Typically triggered automatically when a missing object is accessed.
+      Manual usage is rare outside debugging or specialized tooling.
+    </p>
+  </div>
+
+  <div class="article-section" id="examples">
+    <h2>Examples</h2>
+    <div class="article-box">
+<pre><code># Backfill a specific object
+git backfill --object 3a4b5c6d</code></pre>
+    </div>
+  </div>
+
+  <div class="article-section" id="troubleshooting">
+    <h2>Troubleshooting</h2>
+
+    <div class="article-box">
+      <h3>Objects fail to download</h3>
+      <p>Verify remote connectivity and permissions.</p>
+    </div>
+
+    <div class="article-box">
+      <h3>Partial clone misconfiguration</h3>
+      <p>Check clone filters and ensure the remote supports object filtering.</p>
+    </div>
+
+  </div>
+
+  <div class="bottom-nav">
+    <button class="w3-button w3-blue" onclick="window.location.href='./status.html'">
+      Previous: Status
+    </button>
+
+    <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">
+      Back to Index
+    </button>
+
+    <button class="w3-button w3-red" onclick="window.location.href='./branch.html'">
+      Next: Branch
+    </button>
+  </div>
+
+</div>
+
+<script>
+  const content = document.getElementById('mainContent');
+
+  function applyPreference() {
+    const saved = localStorage.getItem('darkmode');
+    if (saved === 'true') {
+      content.classList.add('darkmode');
+    } else if (saved === 'false') {
+      content.classList.remove('darkmode');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      content.classList.add('darkmode');
+    }
+  }
+
+  function toggleDarkMode() {
+    if (content.classList.contains('darkmode')) {
+      content.classList.remove('darkmode');
+      localStorage.setItem('darkmode', 'false');
+    } else {
+      content.classList.add('darkmode');
+      localStorage.setItem('darkmode', 'true');
+    }
+  }
+
+  window.addEventListener('load', applyPreference);
+</script>
+
 </body>
 </html>

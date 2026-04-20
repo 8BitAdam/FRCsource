@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Git Clone - Article Template</title>
+  <title>Setting Up a GitHub Account</title>
 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
 
@@ -186,193 +186,142 @@
         width: 100%;
       }
     }
-  /* Active page (current article) */
-.sidebar .active-page {
-  background-color: #222;
-  border-left: 4px solid #ff3333;
-}
 
-/* Active section (scroll highlight) */
-.sidebar .active-section {
-  background-color: #ff3333;
-  color: white;
-}
-
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
-}
+    html {
+      scroll-behavior: smooth;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Sidebar / Navigation -->
   <div class="sidebar w3-card">
-  <h2>Git Docs</h2>
+    <h2>Git Docs</h2>
+
     <h3>Basics of Github</h3>
     <a href="../GitHub/Github-Setup.html">Setting Up Github</a>
     <a href="../GitHub/Github-First-Repo.html">Making your First Repo</a>
     <a href="../GitHub/Github-Merges.html">Intro to Merges</a>
     <a href="../GitHub/Github-Forks.html">Intro to Forks</a>
-  <!-- GLOBAL COMMAND LIST -->
-  <h3>Previous</h3>
-  <!-- no previous for first article -->
+
+    <h3>Previous</h3>
+    <a href="../Git-Index.html">Back to Index</a>
 
     <h3>This Page</h3>
-  <a href="#intro" class="nav-link">Introduction</a>
-  <a href="#syntax" class="nav-link">Syntax</a>
-  <a href="#basic-use" class="nav-link">Basic Use</a>
-  <a href="#examples" class="nav-link">Examples</a>
-  <a href="#options" class="nav-link">Options</a>
-  <a href="#troubleshooting" class="nav-link">Troubleshooting</a>
-  <a href="#practice" class="nav-link">Practice</a>
+    <a href="#intro">Introduction</a>
+    <a href="#signup">Sign Up</a>
+    <a href="#verify">Verify Email</a>
+    <a href="#profile">Set Up Profile</a>
+    <a href="#security">Security Options</a>
+    <a href="#troubleshooting">Troubleshooting</a>
 
-  <!--NEXT ARTICLES -->
-  <h3>Next Articles</h3>
-  <a href="init.html">git init</a>
-  <a href="add.html">git add</a>
-  <a href="mv.html">git mv</a>
-  <a href="restore.html">git restore</a>
-  <a href="rm.html">git rm</a>
-  <a href="bisect.html">git bisect</a>
-  <a href="diff.html">git diff</a>
-  <a href="grep.html">git grep</a>
-  <a href="log.html">git log</a>
-  <a href="show.html">git show</a>
-  <a href="status.html">git status</a>
-  <a href="backfill.html">git backfill</a>
-  <a href="branch.html">git branch</a>
-  <a href="commit.html">git commit</a>
-  <a href="merge.html">git merge</a>
-  <a href="rebase.html">git rebase</a>
-  <a href="reset.html">git reset</a>
-  <a href="switch.html">git switch</a>
-  <a href="tag.html">git tag</a>
-  <a href="fetch.html">git fetch</a>
-  <a href="pull.html">git pull</a>
-  <a href="push.html">git push</a>
+    <h3>Next Articles</h3>
+    <a href="Github-First-Repo.html">Making your First Repo</a>
   </div>
 
-  <!-- Main Content -->
   <div class="main-content" id="mainContent">
     <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
 
     <div class="article-header">
-      <h1 class="article-title">Git Clone</h1>
+      <h1 class="article-title">Setting Up a GitHub Account</h1>
       <p class="article-meta">
-        Command: <strong>git clone</strong> · Topic: <strong>Starting a working area</strong> · Level: <strong>Beginner</strong>
+        Topic: <strong>GitHub account creation</strong> · Level: <strong>Beginner</strong>
       </p>
     </div>
 
     <div class="article-section" id="intro">
       <h2>Introduction</h2>
       <p>
-        <code>git clone</code> is used to make a copy of an existing repository. It downloads the repository history,
-        creates a new local folder, and sets up a remote connection so you can fetch, pull, and push later.
+        A GitHub account lets you host code, track projects, collaborate with others, and work with GitHub repositories.
+        This page walks through creating an account and setting up the basic profile options.
       </p>
       <div class="article-box note">
-        Use <code>git clone</code> when you want to start working from an existing project instead of creating a brand-new repository.
+        Use a strong password and enable two-factor authentication as soon as the account is created.
       </div>
     </div>
 
-    <div class="article-section" id="syntax">
-      <h2>Syntax</h2>
+    <div class="article-section" id="signup">
+      <h2>Sign Up</h2>
       <div class="article-box">
-        <pre><code>git clone &lt;repository-url&gt;</code></pre>
+        <ol>
+          <li>Go to GitHub’s sign-up page.</li>
+          <li>Enter your email address.</li>
+          <li>Create a username and password.</li>
+          <li>Choose the free plan or another plan that fits your needs.</li>
+          <li>Complete the verification step if prompted.</li>
+        </ol>
       </div>
+    </div>
+
+    <div class="article-section" id="verify">
+      <h2>Verify Email</h2>
       <p>
-        The repository URL can come from GitHub, GitLab, Bitbucket, or another Git server.
-      </p>
-    </div>
-
-    <div class="article-section" id="basic-use">
-      <h2>Basic Use</h2>
-      <p>
-        The most common use is cloning a remote repository into a local directory.
+        After sign-up, GitHub sends a verification email. Open the message and click the verification link to activate the account fully.
       </p>
       <div class="article-box">
-        <pre><code>git clone https://github.com/username/project-name.git</code></pre>
-      </div>
-      <p>
-        This creates a new folder named <code>project-name</code> and downloads the repository into it.
-      </p>
-    </div>
-
-    <div class="article-section" id="examples">
-      <h2>Examples</h2>
-
-      <div class="article-box">
-        <h3>Clone into the default folder</h3>
-        <pre><code>git clone https://github.com/username/project-name.git</code></pre>
-        <p>Creates a local folder with the same name as the repository.</p>
-      </div>
-
-      <div class="article-box">
-        <h3>Clone into a custom folder name</h3>
-        <pre><code>git clone https://github.com/username/project-name.git my-folder</code></pre>
-        <p>Creates the repository contents inside <code>my-folder</code>.</p>
-      </div>
-
-      <div class="article-box">
-        <h3>Clone with SSH</h3>
-        <pre><code>git clone git@github.com:username/project-name.git</code></pre>
-        <p>Useful when your SSH key is already set up.</p>
+        <strong>Tip:</strong> Check spam or junk folders if the email does not appear right away.
       </div>
     </div>
 
-    <div class="article-section" id="options">
-      <h2>Common Options</h2>
-      <ul>
-        <li><code>--depth 1</code> — clones only the latest commit history.</li>
-        <li><code>--branch &lt;name&gt;</code> — clones a specific branch.</li>
-        <li><code>--single-branch</code> — clones only one branch instead of all branches.</li>
-      </ul>
-
+    <div class="article-section" id="profile">
+      <h2>Set Up Profile</h2>
       <div class="article-box">
-        <pre><code>git clone --depth 1 --branch main https://github.com/username/project-name.git</code></pre>
+        <h3>Recommended profile items</h3>
+        <ul>
+          <li>Add a profile photo.</li>
+          <li>Write a short bio.</li>
+          <li>Set your display name.</li>
+          <li>Link a website or portfolio if you have one.</li>
+        </ul>
+      </div>
+      <div class="article-box">
+        <h3>Example bio</h3>
+        <pre><code>Student learning Python, Java, web development, and Linux.</code></pre>
+      </div>
+    </div>
+
+    <div class="article-section" id="security">
+      <h2>Security Options</h2>
+      <div class="article-box">
+        <ul>
+          <li>Enable two-factor authentication.</li>
+          <li>Save recovery codes in a safe place.</li>
+          <li>Use a password manager if possible.</li>
+          <li>Review account permissions for connected apps.</li>
+        </ul>
       </div>
     </div>
 
     <div class="article-section" id="troubleshooting">
       <h2>Troubleshooting</h2>
-      <div class="article-box">
-        <h3>Problem: “Repository not found”</h3>
-        <p>
-          Check the URL, confirm the repo exists, and make sure you have permission to access it.
-        </p>
-      </div>
-      <div class="article-box">
-        <h3>Problem: Clone is too large</h3>
-        <p>
-          Use a shallow clone with <code>--depth 1</code> if you only need the latest version.
-        </p>
-      </div>
-      <div class="article-box">
-        <h3>Problem: Authentication fails</h3>
-        <p>
-          Use the correct HTTPS credentials or set up SSH authentication properly.
-        </p>
-      </div>
-    </div>
 
-    <div class="article-section" id="practice">
-      <h2>Practice</h2>
-      <p>
-        Try cloning a small repository from GitHub, then run:
-      </p>
       <div class="article-box">
-        <pre><code>cd project-name
-git status</code></pre>
+        <h3>Did not receive the verification email</h3>
+        <p>Check spam folders, confirm the email address was entered correctly, and request a new verification email if needed.</p>
       </div>
-      <p>
-        This confirms that the repository was cloned successfully and shows the current state.
-      </p>
+
+      <div class="article-box">
+        <h3>Username already taken</h3>
+        <p>Choose a different username or adjust the spelling slightly until it is available.</p>
+      </div>
+
+      <div class="article-box">
+        <h3>Locked out after sign-up</h3>
+        <p>Use account recovery steps and make sure your email and password are stored securely.</p>
+      </div>
     </div>
 
     <div class="bottom-nav">
-      <button class="w3-button w3-blue" onclick="window.location.href='./'" disabled>Previous</button>
-      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">Back to Index</button>
-      <button class="w3-button w3-red" onclick="window.location.href='./init.html'">Next: Init</button>
+      <button class="w3-button w3-blue" onclick="window.location.href='../Git-Index.html'">
+        Previous: Index
+      </button>
+
+      <button class="w3-button w3-grey" onclick="window.location.href='../Git-Index.html'">
+        Back to Index
+      </button>
+
+      <button class="w3-button w3-red" onclick="window.location.href='Github-First-Repo.html'">
+        Next: First Repo
+      </button>
     </div>
   </div>
 
@@ -385,10 +334,8 @@ git status</code></pre>
         content.classList.add('darkmode');
       } else if (saved === 'false') {
         content.classList.remove('darkmode');
-      } else {
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          content.classList.add('darkmode');
-        }
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        content.classList.add('darkmode');
       }
     }
 
@@ -407,4 +354,3 @@ git status</code></pre>
 
 </body>
 </html>
-
