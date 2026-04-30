@@ -5,7 +5,204 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Git Push</title>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-  <style>:root{--sidebar-width:220px;--sidebar-bg:#333366}body{font-family:Arial;margin:0}.sidebar{position:fixed;width:var(--sidebar-width);height:100vh;background:var(--sidebar-bg);color:#fff;padding:16px}.main-content{margin-left:calc(var(--sidebar-width)+10px);padding:24px}.bottom-nav{display:flex;justify-content:space-between;margin-top:32px}</style>
+ <style>
+    :root {
+      --sidebar-width: 220px;
+      --sidebar-bg: #003366;
+      --accent: #ff3333;
+      --text: #111;
+      --bg: #ffffff;
+      --card: #f7f7f7;
+      --border: #ddd;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .sidebar {
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      width: var(--sidebar-width);
+      background-color: var(--sidebar-bg);
+      color: white;
+      padding-bottom: 20px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+      border-radius: 4px;
+      margin: 2px 8px;
+    }
+
+    .sidebar h2 {
+      margin: 0;
+      padding: 16px 12px 10px;
+      font-size: 18px;
+      text-align: center;
+      color: white;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .sidebar h3 {
+      margin: 18px 0 6px;
+      padding: 0 12px;
+      color: var(--accent);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: white;
+      font-size: 14px;
+      border-radius: 4px;
+      margin: 2px 8px;
+    }
+
+    .sidebar a:hover {
+      background-color: var(--accent);
+      color: white;
+    }
+
+    .main-content {
+      margin-left: calc(var(--sidebar-width) + 10px);
+      padding: 24px;
+      max-width: 1000px;
+    }
+
+    .article-header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .article-title {
+      margin: 0 0 8px 0;
+      color: #003366;
+      font-size: 2rem;
+    }
+
+    .article-meta {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+
+    .article-section {
+      margin-bottom: 28px;
+    }
+
+    .article-section h2,
+    .article-section h3 {
+      color: #003366;
+      margin-bottom: 10px;
+    }
+
+    .article-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin: 14px 0;
+    }
+
+    .article-box code {
+      background: #ececec;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .note {
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+      color: #444;
+    }
+
+    .darkmode {
+      --bg: #1e1e1e;
+      --text: #f1f1f1;
+      --card: #2a2a2a;
+      --border: #444;
+    }
+
+    .darkmode .article-title,
+    .darkmode .article-section h2,
+    .darkmode .article-section h3 {
+      color: #ff6666;
+    }
+
+    .toggle-btn {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .toggle-btn:hover {
+      background-color: #cc0000;
+    }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .bottom-nav .w3-button {
+      min-width: 160px;
+    }
+
+    @media (max-width: 800px) {
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 16px;
+      }
+
+      .bottom-nav {
+        flex-direction: column;
+      }
+
+      .bottom-nav .w3-button {
+        width: 100%;
+      }
+    }
+  /* Active page (current article) */
+.sidebar .active-page {
+  background-color: #222;
+  border-left: 4px solid #ff3333;
+}
+
+/* Active section (scroll highlight) */
+.sidebar .active-section {
+  background-color: #ff3333;
+  color: white;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+  </style>
 </head>
 <body>
   <div class="sidebar w3-card">

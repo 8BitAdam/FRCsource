@@ -34,12 +34,16 @@
       color: white;
       padding-bottom: 20px;
       box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+      border-radius: 4px;
+      margin: 2px 8px;
     }
 
     .sidebar h2 {
       margin: 0;
       padding: 16px 12px 10px;
+      font-size: 18px;
       text-align: center;
+      color: white;
       border-bottom: 1px solid rgba(255,255,255,0.15);
     }
 
@@ -49,6 +53,7 @@
       color: var(--accent);
       font-size: 14px;
       text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     .sidebar a {
@@ -56,13 +61,14 @@
       padding: 8px 12px;
       text-decoration: none;
       color: white;
+      font-size: 14px;
       border-radius: 4px;
       margin: 2px 8px;
-      font-size: 14px;
     }
 
     .sidebar a:hover {
       background-color: var(--accent);
+      color: white;
     }
 
     .main-content {
@@ -88,14 +94,17 @@
     .article-meta {
       color: #666;
       font-size: 0.95rem;
+      margin-bottom: 0;
     }
 
     .article-section {
       margin-bottom: 28px;
     }
 
-    .article-section h2 {
+    .article-section h2,
+    .article-section h3 {
       color: #003366;
+      margin-bottom: 10px;
     }
 
     .article-box {
@@ -106,9 +115,16 @@
       margin: 14px 0;
     }
 
+    .article-box code {
+      background: #ececec;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
     .note {
       border-left: 4px solid var(--accent);
       padding-left: 12px;
+      color: #444;
     }
 
     .darkmode {
@@ -119,7 +135,8 @@
     }
 
     .darkmode .article-title,
-    .darkmode .article-section h2 {
+    .darkmode .article-section h2,
+    .darkmode .article-section h3 {
       color: #ff6666;
     }
 
@@ -131,6 +148,11 @@
       border-radius: 6px;
       cursor: pointer;
       margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .toggle-btn:hover {
+      background-color: #cc0000;
     }
 
     .bottom-nav {
@@ -142,6 +164,10 @@
       border-top: 1px solid var(--border);
     }
 
+    .bottom-nav .w3-button {
+      min-width: 160px;
+    }
+
     @media (max-width: 800px) {
       .sidebar {
         position: static;
@@ -151,16 +177,33 @@
 
       .main-content {
         margin-left: 0;
+        padding: 16px;
       }
 
       .bottom-nav {
         flex-direction: column;
       }
-    }
 
-    html {
-      scroll-behavior: smooth;
+      .bottom-nav .w3-button {
+        width: 100%;
+      }
     }
+  /* Active page (current article) */
+.sidebar .active-page {
+  background-color: #222;
+  border-left: 4px solid #ff3333;
+}
+
+/* Active section (scroll highlight) */
+.sidebar .active-section {
+  background-color: #ff3333;
+  color: white;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
   </style>
 </head>
 

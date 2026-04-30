@@ -4,11 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Git Bisect - Article Template</title>
-  
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+
+  <style>
+    :root {
+      --sidebar-width: 220px;
+      --sidebar-bg: #003366;
+      --accent: #ff3333;
+      --text: #111;
+      --bg: #ffffff;
+      --card: #f7f7f7;
+      --border: #ddd;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .sidebar {
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      width: var(--sidebar-width);
       background-color: var(--sidebar-bg);
       color: white;
       padding-bottom: 20px;
       box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+      border-radius: 4px;
+      margin: 2px 8px;
     }
 
     .sidebar h2 {
@@ -161,20 +188,22 @@
         width: 100%;
       }
     }
+  /* Active page (current article) */
+.sidebar .active-page {
+  background-color: #222;
+  border-left: 4px solid #ff3333;
+}
 
-    .sidebar .active-page {
-      background-color: #222;
-      border-left: 4px solid #ff3333;
-    }
+/* Active section (scroll highlight) */
+.sidebar .active-section {
+  background-color: #ff3333;
+  color: white;
+}
 
-    .sidebar .active-section {
-      background-color: #ff3333;
-      color: white;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
   </style>
 </head>
 <body>
