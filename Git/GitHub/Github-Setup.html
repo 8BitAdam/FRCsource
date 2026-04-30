@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en-US">
 <head>
   <meta charset="UTF-8" />
@@ -325,32 +326,7 @@
     </div>
   </div>
 
-  <script>
-    const content = document.getElementById('mainContent');
-
-    function applyPreference() {
-      const saved = localStorage.getItem('darkmode');
-      if (saved === 'true') {
-        content.classList.add('darkmode');
-      } else if (saved === 'false') {
-        content.classList.remove('darkmode');
-      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        content.classList.add('darkmode');
-      }
-    }
-
-    function toggleDarkMode() {
-      if (content.classList.contains('darkmode')) {
-        content.classList.remove('darkmode');
-        localStorage.setItem('darkmode', 'false');
-      } else {
-        content.classList.add('darkmode');
-        localStorage.setItem('darkmode', 'true');
-      }
-    }
-
-    window.addEventListener('load', applyPreference);
-  </script>
+    <script src="/Assets/js/darkmode.js"></script>
 
 </body>
 </html>

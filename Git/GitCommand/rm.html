@@ -4,34 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Git Rm - Article Template</title>
-
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-
-  <style>
-    :root {
-      --sidebar-width: 220px;
-      --sidebar-bg: #003366;
-      --accent: #ff3333;
-      --text: #111;
-      --bg: #ffffff;
-      --card: #f7f7f7;
-      --border: #ddd;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    .sidebar {
-      height: 100vh;
-      overflow-y: auto;
-      position: fixed;
-      width: var(--sidebar-width);
-      background-color: var(--sidebar-bg);
-      color: white;
       padding-bottom: 20px;
       box-shadow: 2px 0 10px rgba(0,0,0,0.15);
     }
@@ -207,6 +179,11 @@
   <!-- Sidebar / Navigation -->
   <div class="sidebar w3-card">
     <h2>Git Docs</h2>
+    <h3>Basics of Github</h3>
+    <a href="../GitHub/Github-Setup.html">Setting Up Github</a>
+    <a href="../GitHub/Github-First-Repo.html">Making your First Repo</a>
+    <a href="../GitHub/Github-Merges.html">Intro to Merges</a>
+    <a href="../GitHub/Github-Forks.html">Intro to Forks</a>
 
     <h3>Previous</h3>
     <a href="restore.html">restore</a>
@@ -351,34 +328,7 @@ git status</code></pre>
     </div>
   </div>
 
-  <script>
-    const content = document.getElementById('mainContent');
-
-    function applyPreference() {
-      const saved = localStorage.getItem('darkmode');
-      if (saved === 'true') {
-        content.classList.add('darkmode');
-      } else if (saved === 'false') {
-        content.classList.remove('darkmode');
-      } else {
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          content.classList.add('darkmode');
-        }
-      }
-    }
-
-    function toggleDarkMode() {
-      if (content.classList.contains('darkmode')) {
-        content.classList.remove('darkmode');
-        localStorage.setItem('darkmode', 'false');
-      } else {
-        content.classList.add('darkmode');
-        localStorage.setItem('darkmode', 'true');
-      }
-    }
-
-    window.addEventListener('load', applyPreference);
-  </script>
+  <script src="/Assets/js/darkmode.js"></script>
 
 </body>
 </html>

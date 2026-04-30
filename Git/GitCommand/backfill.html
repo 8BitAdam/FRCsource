@@ -168,8 +168,13 @@
 <body>
 
 <!-- Sidebar -->
-<div class="sidebar w3-card">
-  <h2>Git Docs</h2>
+  <div class="sidebar w3-card">
+    <h2>Git Docs</h2>
+    <h3>Basics of Github</h3>
+    <a href="../GitHub/Github-Setup.html">Setting Up Github</a>
+    <a href="../GitHub/Github-First-Repo.html">Making your First Repo</a>
+    <a href="../GitHub/Github-Merges.html">Intro to Merges</a>
+    <a href="../GitHub/Github-Forks.html">Intro to Forks</a>
 
   <h3>Previous</h3>
   <a href="./status.html">status</a>
@@ -262,32 +267,7 @@ git backfill --object 3a4b5c6d</code></pre>
 
 </div>
 
-<script>
-  const content = document.getElementById('mainContent');
-
-  function applyPreference() {
-    const saved = localStorage.getItem('darkmode');
-    if (saved === 'true') {
-      content.classList.add('darkmode');
-    } else if (saved === 'false') {
-      content.classList.remove('darkmode');
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      content.classList.add('darkmode');
-    }
-  }
-
-  function toggleDarkMode() {
-    if (content.classList.contains('darkmode')) {
-      content.classList.remove('darkmode');
-      localStorage.setItem('darkmode', 'false');
-    } else {
-      content.classList.add('darkmode');
-      localStorage.setItem('darkmode', 'true');
-    }
-  }
-
-  window.addEventListener('load', applyPreference);
-</script>
+  <script src="/Assets/js/darkmode.js"></script>
 
 </body>
 </html>
