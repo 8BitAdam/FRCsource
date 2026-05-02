@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en-US" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alliance Composition and Roles — FRCsource</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    :root {
+      --frc-blue:#1d4ed8;--frc-blue-dark:#1e3a8a;--frc-blue-light:#dbeafe;
+      --frc-red:#dc2626;--frc-red-dark:#991b1b;--frc-red-light:#fee2e2;
+      --frc-teal:#0d9488;--frc-teal-dark:#0f766e;--frc-teal-light:#ccfbf1;
+      --bg-primary:#f8fafc;--bg-secondary:#ffffff;--bg-sidebar:#ffffff;
+      --bg-card:#ffffff;--bg-code:#f1f5f9;--bg-callout:#f0fdf4;
+      --text-primary:#0f172a;--text-secondary:#475569;--text-muted:#94a3b8;
+      --text-inverse:#ffffff;--border-color:#e2e8f0;--border-subtle:#f1f5f9;
+      --shadow-sm:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+      --shadow-md:0 4px 16px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.05);
+      --shadow-lg:0 10px 40px rgba(0,0,0,.10),0 4px 12px rgba(0,0,0,.06);
+      --sidebar-width:300px;--accent:var(--frc-teal);
+    }
+    [data-theme="dark"] {
+      --bg-primary:#0f172a;--bg-secondary:#1e293b;--bg-sidebar:#1e293b;
+      --bg-card:#1e293b;--bg-code:#0f172a;--bg-callout:#164e3f;
+      --text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;
+      --text-inverse:#0f172a;--border-color:#334155;--border-subtle:#1e293b;
+      --shadow-sm:0 1px 3px rgba(0,0,0,.3);--shadow-md:0 4px 16px rgba(0,0,0,.4);
+      --shadow-lg:0 10px 40px rgba(0,0,0,.5);
+      --frc-blue-light:#1e3a8a40;--frc-red-light:#7f1d1d40;--frc-teal-light:#0f766e40;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Barlow',sans-serif;font-size:17px;line-height:1.75;
+      background:var(--bg-primary);color:var(--text-primary);
+      transition:background .3s ease,color .3s ease;max-width:1600px;margin:0 auto}
+    ::-webkit-scrollbar{width:6px}
+    ::-webkit-scrollbar-track{background:var(--bg-primary)}
+    ::-webkit-scrollbar-thumb{background:var(--frc-teal);border-radius:3px}
+
+    /* ─── Sidebar ─── */
+    #mySidebar{position:fixed;top:0;left:0;width:var(--sidebar-width);height:100vh;
+      background:var(--bg-sidebar);border-right:1px solid var(--border-color);
+      overflow-y:auto;z-index:100;
+      transition:background .3s ease,border-color .3s ease,transform .3s ease;
+      display:flex;flex-direction:column}
+    .sidebar-logo-area{padding:28px 24px 20px;border-bottom:1px solid var(--border-color)}
+    .sidebar-logo-area img{width:52px;height:52px;border-radius:10px;object-fit:cover}
+    .sidebar-brand{font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;
+      font-weight:800;letter-spacing:.03em;color:var(--text-primary);margin-top:12px;line-height:1.2}
+    .sidebar-brand span{color:var(--frc-teal)}
+    .sidebar-tagline{font-size:.78rem;color:var(--text-muted);margin-top:4px;font-weight:400}
+    .sidebar-close{display:none;position:absolute;top:16px;right:16px;background:none;
+      border:none;font-size:1.5rem;color:var(--text-secondary);cursor:pointer;
+      padding:4px 8px;border-radius:6px;transition:background .2s,color .2s}
+    .sidebar-close:hover{background:var(--border-color);color:var(--text-primary)}
+    .sidebar-nav{padding:12px 0;flex:1}
+    .sidebar-section-label{font-family:'Barlow Condensed',sans-serif;font-size:.68rem;
+      font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+      color:var(--text-muted);padding:16px 24px 6px}
+    .sidebar-link{display:flex;align-items:center;gap:10px;padding:9px 24px;
+      color:var(--text-secondary);text-decoration:none;font-size:.9rem;font-weight:500;
+      transition:all .2s ease;border-left:3px solid transparent}
+    .sidebar-link:hover{background:var(--bg-primary);color:var(--text-primary);border-left-color:var(--frc-teal)}
+    .sidebar-link.active{background:var(--frc-teal-light);color:var(--frc-teal-dark);
+      border-left-color:var(--frc-teal);font-weight:600}
+    [data-theme="dark"] .sidebar-link.active{color:var(--frc-teal)}
+    .sidebar-link i{width:16px;font-size:.85rem;opacity:.7;flex-shrink:0}
+    .sidebar-footer{padding:16px 24px;border-top:1px solid var(--border-color);
+      display:flex;align-items:center;justify-content:space-between}
+    .sidebar-github{color:var(--text-muted);font-size:1.3rem;text-decoration:none;transition:color .2s}
+    .sidebar-github:hover{color:var(--text-primary)}
+    .dark-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;background:none;
+      border:1.5px solid var(--border-color);border-radius:20px;padding:4px 10px;
+      color:var(--text-secondary);font-size:.78rem;font-family:'Barlow',sans-serif;
+      font-weight:600;letter-spacing:.04em;transition:all .25s ease}
+    .dark-toggle:hover{border-color:var(--frc-teal);color:var(--frc-teal)}
+    .dark-toggle .toggle-track{width:28px;height:15px;background:var(--border-color);
+      border-radius:10px;position:relative;transition:background .3s}
+    [data-theme="dark"] .dark-toggle .toggle-track{background:var(--frc-teal)}
+    .dark-toggle .toggle-thumb{position:absolute;top:2px;left:2px;width:11px;height:11px;
+      background:white;border-radius:50%;transition:transform .3s}
+    [data-theme="dark"] .dark-toggle .toggle-thumb{transform:translateX(13px)}
+    #myOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
+      z-index:99;backdrop-filter:blur(2px)}
+
+    /* ─── Main Layout ─── */
+    #main-content{margin-left:var(--sidebar-width);min-height:100vh;transition:margin-left .3s ease}
+    .topbar{display:none;align-items:center;justify-content:space-between;
+      padding:12px 20px;background:var(--bg-secondary);border-bottom:1px solid var(--border-color);
+      position:sticky;top:0;z-index:50;transition:background .3s ease}
+    .hamburger-btn{background:none;border:none;font-size:1.4rem;color:var(--text-primary);cursor:pointer;padding:4px}
+    .topbar-logo{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.1rem;
+      color:var(--text-primary);text-decoration:none}
+    .topbar-logo span{color:var(--frc-teal)}
+    .topbar-actions{display:flex;align-items:center;gap:8px}
+
+    /* ─── Article Hero ─── */
+    .article-hero{position:relative;background:var(--bg-secondary);
+      border-bottom:1px solid var(--border-color);overflow:hidden;transition:background .3s ease}
+    .hero-geometry{position:absolute;top:0;right:0;width:45%;height:100%;
+      pointer-events:none;overflow:hidden}
+    .hero-geometry svg{width:100%;height:100%}
+    .hero-content{position:relative;z-index:2;max-width:780px;padding:56px 56px 48px}
+    .article-category-badge{display:inline-flex;align-items:center;gap:6px;
+      font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;
+      letter-spacing:.12em;text-transform:uppercase;color:var(--frc-teal-dark);
+      background:var(--frc-teal-light);border:1px solid var(--frc-teal);
+      padding:4px 12px;border-radius:4px;margin-bottom:20px}
+    [data-theme="dark"] .article-category-badge{color:#5eead4;background:#0f766e30}
+    .article-title{font-family:'Barlow Condensed',sans-serif;
+      font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.1;
+      letter-spacing:-.01em;color:var(--text-primary);margin-bottom:16px}
+    .article-title .title-accent{position:relative;display:inline-block}
+    .article-title .title-accent::after{content:'';position:absolute;bottom:4px;left:0;
+      width:100%;height:4px;
+      background:linear-gradient(90deg,var(--frc-teal),var(--frc-blue));
+      border-radius:2px;opacity:.7}
+    .article-subtitle{font-size:1.05rem;color:var(--text-secondary);font-weight:400;
+      margin-bottom:28px;max-width:600px;line-height:1.6}
+    .article-meta{display:flex;flex-wrap:wrap;align-items:center;gap:20px}
+    .meta-item{display:flex;align-items:center;gap:6px;font-size:.83rem;
+      color:var(--text-muted);font-weight:500}
+    .meta-item i{font-size:.8rem}
+    .difficulty-badge{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;
+      font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:.08em;
+      text-transform:uppercase;padding:3px 10px;border-radius:4px}
+    .difficulty-intermediate{background:var(--frc-blue-light);color:var(--frc-blue-dark);border:1px solid #93c5fd}
+    [data-theme="dark"] .difficulty-intermediate{background:#1e3a8a40;color:#93c5fd}
+    .hero-tags{display:flex;flex-wrap:wrap;gap:8px;padding:16px 56px;
+      background:var(--bg-primary);border-bottom:1px solid var(--border-color);transition:background .3s ease}
+    .tag{font-size:.75rem;font-weight:600;font-family:'Barlow Condensed',sans-serif;
+      letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:3px;
+      background:var(--bg-card);color:var(--text-secondary);border:1px solid var(--border-color);
+      cursor:default;transition:all .2s}
+    .tag:hover{border-color:var(--frc-teal);color:var(--frc-teal)}
+    .tag.blue{background:var(--frc-blue-light);color:var(--frc-blue);border-color:var(--frc-blue)}
+    .tag.red{background:var(--frc-red-light);color:var(--frc-red);border-color:var(--frc-red)}
+    .tag.teal{background:var(--frc-teal-light);color:var(--frc-teal-dark);border-color:var(--frc-teal)}
+    [data-theme="dark"] .tag.teal{color:#5eead4}
+    [data-theme="dark"] .tag.blue{color:#93c5fd}
+    [data-theme="dark"] .tag.red{color:#fca5a5}
+
+    /* ─── Article Layout ─── */
+    .article-layout{display:grid;grid-template-columns:1fr 260px;gap:0;
+      max-width:1200px;margin:0 auto;padding:48px 56px;align-items:start}
+    .article-body{min-width:0;padding-right:56px}
+    .article-body h2{font-family:'Barlow Condensed',sans-serif;font-size:1.85rem;
+      font-weight:800;letter-spacing:.01em;color:var(--text-primary);
+      margin:2.5rem 0 1rem;padding-bottom:10px;border-bottom:2px solid var(--border-color);
+      display:flex;align-items:center;gap:10px}
+    .article-body h2::before{content:'';display:inline-block;width:4px;height:1.4em;
+      background:linear-gradient(180deg,var(--frc-blue),var(--frc-teal));
+      border-radius:2px;flex-shrink:0}
+    .article-body h3{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;
+      font-weight:700;color:var(--text-primary);margin:2rem 0 .75rem;letter-spacing:.02em}
+    .article-body p{color:var(--text-secondary);margin-bottom:1.25rem;font-weight:400}
+    .article-body strong{color:var(--text-primary);font-weight:600}
+    .article-body a{color:var(--frc-teal);text-decoration:none;
+      border-bottom:1px solid transparent;transition:border-color .2s}
+    .article-body a:hover{border-bottom-color:var(--frc-teal)}
+    .article-body ul,.article-body ol{color:var(--text-secondary);padding-left:1.5rem;margin-bottom:1.25rem}
+    .article-body li{margin-bottom:.4rem}
+    .article-body code{font-family:'JetBrains Mono',monospace;font-size:.84em;
+      background:var(--bg-code);color:var(--frc-teal-dark);padding:2px 6px;
+      border-radius:4px;border:1px solid var(--border-color)}
+    [data-theme="dark"] .article-body code{color:#5eead4}
+    .callout{border-radius:8px;padding:18px 20px;margin:1.5rem 0;
+      display:flex;gap:14px;align-items:flex-start}
+    .callout-icon{font-size:1.1rem;margin-top:2px;flex-shrink:0}
+    .callout-content{flex:1}
+    .callout-title{font-family:'Barlow Condensed',sans-serif;font-size:.88rem;
+      font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+    .callout-text{font-size:.9rem;line-height:1.6;margin:0}
+    .callout.info{background:var(--frc-blue-light);border-left:4px solid var(--frc-blue)}
+    .callout.info .callout-title,.callout.info .callout-icon{color:var(--frc-blue)}
+    .callout.info .callout-text{color:var(--frc-blue-dark)}
+    [data-theme="dark"] .callout.info .callout-text{color:#93c5fd}
+    [data-theme="dark"] .callout.info .callout-title,[data-theme="dark"] .callout.info .callout-icon{color:#60a5fa}
+    .callout.warning{background:#fefce8;border-left:4px solid #eab308}
+    .callout.warning .callout-title,.callout.warning .callout-icon{color:#a16207}
+    .callout.warning .callout-text{color:#713f12}
+    [data-theme="dark"] .callout.warning{background:#422006}
+    [data-theme="dark"] .callout.warning .callout-text{color:#fde68a}
+    [data-theme="dark"] .callout.warning .callout-title{color:#fbbf24}
+    .callout.tip{background:var(--frc-teal-light);border-left:4px solid var(--frc-teal)}
+    .callout.tip .callout-title,.callout.tip .callout-icon{color:var(--frc-teal-dark)}
+    .callout.tip .callout-text{color:#134e4a}
+    [data-theme="dark"] .callout.tip .callout-text{color:#5eead4}
+    [data-theme="dark"] .callout.tip .callout-title{color:#2dd4bf}
+    .prereqs{display:flex;flex-wrap:wrap;gap:8px;margin:.5rem 0 1.5rem}
+    .prereq-pill{display:inline-flex;align-items:center;gap:5px;background:var(--bg-code);
+      border:1px solid var(--border-color);color:var(--text-secondary);font-size:.8rem;
+      font-weight:600;padding:4px 12px;border-radius:20px}
+    .prereq-pill i{color:var(--frc-teal);font-size:.75rem}
+
+    /* ─── Role Cards ─── */
+    .role-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:1.5rem 0}
+    .role-card{background:var(--bg-card);border:1px solid var(--border-color);
+      border-radius:10px;padding:18px 20px;transition:all .25s ease;
+      box-shadow:var(--shadow-sm)}
+    .role-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+    .role-card.scorer{border-top:3px solid var(--frc-blue)}
+    .role-card.defender{border-top:3px solid var(--frc-red)}
+    .role-card.climber{border-top:3px solid var(--frc-teal)}
+    .role-card.support{border-top:3px solid #a855f7}
+    .role-card-icon{font-size:1.4rem;margin-bottom:8px}
+    .role-card-title{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;
+      font-weight:800;letter-spacing:.04em;margin-bottom:6px;color:var(--text-primary)}
+    .role-card-desc{font-size:.85rem;color:var(--text-secondary);line-height:1.55}
+    .role-tag{display:inline-block;font-family:'Barlow Condensed',sans-serif;
+      font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      padding:2px 8px;border-radius:3px;margin-top:8px}
+    .scorer .role-tag{background:var(--frc-blue-light);color:var(--frc-blue)}
+    .defender .role-tag{background:var(--frc-red-light);color:var(--frc-red)}
+    .climber .role-tag{background:var(--frc-teal-light);color:var(--frc-teal-dark)}
+    .support .role-tag{background:#f3e8ff;color:#7c3aed}
+    [data-theme="dark"] .scorer .role-tag{background:#1e3a8a40;color:#93c5fd}
+    [data-theme="dark"] .defender .role-tag{background:#7f1d1d40;color:#fca5a5}
+    [data-theme="dark"] .climber .role-tag{background:#0f766e40;color:#5eead4}
+    [data-theme="dark"] .support .role-tag{background:#4c1d9540;color:#c4b5fd}
+
+    /* ─── Game Theory Concept Boxes ─── */
+    .gt-concept{background:var(--bg-card);border:1px solid var(--border-color);
+      border-radius:8px;padding:16px 18px;margin:.75rem 0;
+      display:flex;gap:14px;align-items:flex-start;transition:background .3s}
+    .gt-concept-num{font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;
+      font-weight:800;line-height:1;color:var(--frc-teal);flex-shrink:0;min-width:32px}
+    .gt-concept-body{}
+    .gt-concept-title{font-family:'Barlow Condensed',sans-serif;font-size:1rem;
+      font-weight:700;color:var(--text-primary);margin-bottom:3px}
+    .gt-concept-text{font-size:.87rem;color:var(--text-secondary);line-height:1.55}
+
+    /* ─── TOC Panel ─── */
+    .toc-panel{position:sticky;top:24px;background:var(--bg-card);
+      border:1px solid var(--border-color);border-radius:10px;padding:20px;
+      box-shadow:var(--shadow-sm);transition:background .3s ease,border-color .3s ease}
+    .toc-title{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;
+      letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+    .toc-list{list-style:none;padding:0}
+    .toc-list li{border-left:2px solid var(--border-color);transition:border-color .2s;margin-bottom:2px}
+    .toc-list li:hover{border-left-color:var(--frc-teal)}
+    .toc-list li.active{border-left-color:var(--frc-teal)}
+    .toc-list a{display:block;padding:5px 12px;font-size:.83rem;color:var(--text-secondary);
+      text-decoration:none;font-weight:500;transition:color .2s;line-height:1.4}
+    .toc-list a:hover,.toc-list li.active a{color:var(--frc-teal)}
+    .toc-divider{height:1px;background:var(--border-color);margin:14px 0}
+    .toc-progress-label{font-size:.75rem;color:var(--text-muted);margin-bottom:6px}
+    .toc-progress-bar{width:100%;height:4px;background:var(--border-color);border-radius:2px;overflow:hidden}
+    .toc-progress-fill{height:100%;width:0%;
+      background:linear-gradient(90deg,var(--frc-blue),var(--frc-teal));
+      border-radius:2px;transition:width .2s ease}
+
+    /* ─── GAME SECTION ─── */
+    .game-section{
+      background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);
+      border:1px solid #334155;
+      border-radius:12px;
+      padding:28px;
+      margin:2.5rem 0;
+      position:relative;
+      overflow:hidden;
+    }
+    .game-section::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,#1d4ed8,#0d9488,#dc2626);
+    }
+    .game-header{margin-bottom:24px}
+    .game-title{
+      font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:800;
+      color:#f1f5f9;letter-spacing:.04em;display:flex;align-items:center;gap:10px;
+      margin-bottom:6px;
+    }
+    .game-title .game-badge{
+      font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      background:#0d9488;color:#fff;padding:2px 8px;border-radius:3px;
+    }
+    .game-subtitle{font-size:.88rem;color:#94a3b8;line-height:1.55}
+
+    /* Phase indicators */
+    .game-phases{display:flex;gap:0;margin-bottom:24px;border:1px solid #334155;border-radius:8px;overflow:hidden}
+    .phase-step{flex:1;padding:8px 12px;text-align:center;
+      font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;
+      letter-spacing:.08em;text-transform:uppercase;color:#64748b;
+      background:#0f172a;border-right:1px solid #334155;transition:all .3s;cursor:default}
+    .phase-step:last-child{border-right:none}
+    .phase-step.active{background:#1d4ed8;color:#fff}
+    .phase-step.done{background:#0f766e40;color:#0d9488}
+
+    /* Robot pool */
+    .pool-label{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;
+      letter-spacing:.12em;text-transform:uppercase;color:#64748b;margin-bottom:12px}
+    .robot-pool{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+    @media(max-width:700px){.robot-pool{grid-template-columns:repeat(2,1fr)}}
+    .robot-card{
+      background:#1e293b;border:2px solid #334155;border-radius:8px;
+      padding:12px;cursor:pointer;transition:all .2s ease;position:relative;
+      user-select:none;
+    }
+    .robot-card:hover:not(.taken){border-color:#0d9488;background:#0f766e10}
+    .robot-card.selected{border-color:#1d4ed8;background:#1d4ed810}
+    .robot-card.taken{opacity:.35;cursor:not-allowed;filter:grayscale(1)}
+    .robot-card.cpu-selected{border-color:#dc2626;background:#dc262610}
+    .robot-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+    .robot-name{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:800;
+      color:#f1f5f9;letter-spacing:.02em;line-height:1.2}
+    .robot-team{font-size:.7rem;color:#64748b;font-family:'JetBrains Mono',monospace}
+    .robot-role-badge{
+      font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:700;
+      letter-spacing:.08em;text-transform:uppercase;padding:1px 6px;border-radius:3px;
+      flex-shrink:0;
+    }
+    .role-badge-scorer{background:#1e3a8a60;color:#93c5fd;border:1px solid #1d4ed840}
+    .role-badge-defender{background:#7f1d1d60;color:#fca5a5;border:1px solid #dc262640}
+    .role-badge-climber{background:#0f766e60;color:#5eead4;border:1px solid #0d948840}
+    .role-badge-utility{background:#3730a360;color:#c4b5fd;border:1px solid #7c3aed40}
+    .robot-stats{display:flex;flex-direction:column;gap:4px}
+    .stat-row{display:flex;align-items:center;gap:6px}
+    .stat-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#64748b;
+      width:24px;flex-shrink:0;text-transform:uppercase}
+    .stat-bar-track{flex:1;height:5px;background:#334155;border-radius:3px;overflow:hidden}
+    .stat-bar-fill{height:100%;border-radius:3px;transition:width .4s ease}
+    .stat-fill-scr{background:linear-gradient(90deg,#1d4ed8,#60a5fa)}
+    .stat-fill-def{background:linear-gradient(90deg,#dc2626,#f87171)}
+    .stat-fill-end{background:linear-gradient(90deg,#0d9488,#34d399)}
+    .stat-fill-rel{background:linear-gradient(90deg,#f59e0b,#fcd34d)}
+    .stat-val{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#94a3b8;width:8px}
+    .robot-select-indicator{
+      position:absolute;top:6px;right:6px;width:18px;height:18px;
+      border-radius:50%;background:#1d4ed8;display:none;
+      align-items:center;justify-content:center;font-size:.6rem;color:white;font-weight:800;
+    }
+    .robot-card.selected .robot-select-indicator{display:flex}
+
+    /* Alliance preview */
+    .alliance-preview{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;
+      align-items:center;margin-bottom:20px}
+    .alliance-box{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:14px}
+    .alliance-box-label{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;
+      font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+    .alliance-box.player .alliance-box-label{color:#60a5fa}
+    .alliance-box.cpu .alliance-box-label{color:#f87171}
+    .alliance-slots{display:flex;flex-direction:column;gap:6px}
+    .alliance-slot{background:#0f172a;border:1px dashed #334155;border-radius:6px;
+      padding:8px 10px;font-size:.8rem;color:#475569;
+      font-family:'Barlow Condensed',sans-serif;letter-spacing:.04em;min-height:36px;
+      display:flex;align-items:center;transition:all .3s}
+    .alliance-slot.filled{border-color:#334155;border-style:solid;color:#f1f5f9}
+    .alliance-slot.filled.player-slot{border-left:3px solid #1d4ed8}
+    .alliance-slot.filled.cpu-slot{border-left:3px solid #dc2626}
+    .vs-badge{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:800;
+      color:#f1f5f9;text-align:center;background:#0f172a;border:1px solid #334155;
+      border-radius:8px;padding:10px 14px}
+
+    /* Game controls */
+    .game-controls{display:flex;gap:10px;flex-wrap:wrap}
+    .game-btn{
+      font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.85rem;
+      letter-spacing:.08em;text-transform:uppercase;padding:10px 22px;
+      border-radius:6px;border:none;cursor:pointer;transition:all .2s ease;
+      display:flex;align-items:center;gap:7px;
+    }
+    .game-btn:disabled{opacity:.4;cursor:not-allowed}
+    .game-btn-primary{background:#1d4ed8;color:white}
+    .game-btn-primary:hover:not(:disabled){background:#1e40af;transform:translateY(-1px)}
+    .game-btn-secondary{background:#334155;color:#94a3b8;border:1px solid #475569}
+    .game-btn-secondary:hover:not(:disabled){background:#475569;color:#f1f5f9}
+    .game-btn-danger{background:#dc2626;color:white}
+    .game-btn-danger:hover:not(:disabled){background:#b91c1c}
+
+    /* Selection counter */
+    .selection-counter{
+      font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:600;
+      color:#64748b;padding:10px 0;display:flex;align-items:center;gap:8px;
+      letter-spacing:.04em;
+    }
+    .counter-pips{display:flex;gap:5px}
+    .pip{width:10px;height:10px;border-radius:50%;border:2px solid #334155;
+      background:transparent;transition:all .2s}
+    .pip.filled{background:#1d4ed8;border-color:#1d4ed8}
+
+    /* Match simulation */
+    .match-sim{margin:20px 0;display:none}
+    .match-sim.visible{display:block}
+    .sim-bar-wrap{margin:10px 0}
+    .sim-bar-header{display:flex;justify-content:space-between;margin-bottom:5px;
+      font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;
+      letter-spacing:.06em;text-transform:uppercase}
+    .sim-bar-player{color:#60a5fa}
+    .sim-bar-cpu{color:#f87171}
+    .sim-track{height:12px;background:#334155;border-radius:6px;overflow:hidden;
+      display:flex;gap:2px}
+    .sim-fill-player{height:100%;background:linear-gradient(90deg,#1d4ed8,#60a5fa);
+      border-radius:6px 0 0 6px;transition:width 1.2s cubic-bezier(.22,1,.36,1);width:0}
+    .sim-fill-cpu{height:100%;background:linear-gradient(90deg,#dc2626,#f87171);
+      border-radius:0 6px 6px 0;transition:width 1.2s cubic-bezier(.22,1,.36,1);width:0}
+    .score-counters{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+    .score-box{background:#0f172a;border:1px solid #334155;border-radius:8px;padding:14px;text-align:center}
+    .score-box.player-score{border-color:#1d4ed840}
+    .score-box.cpu-score{border-color:#dc262640}
+    .score-box-label{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;
+      font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+    .score-box.player-score .score-box-label{color:#60a5fa}
+    .score-box.cpu-score .score-box-label{color:#f87171}
+    .score-number{font-family:'Barlow Condensed',sans-serif;font-size:2.4rem;
+      font-weight:800;color:#f1f5f9;line-height:1}
+    .score-breakdown{margin-top:8px;font-size:.72rem;color:#64748b;
+      font-family:'JetBrains Mono',monospace;line-height:1.7}
+
+    /* Result panel */
+    .result-panel{background:#0f172a;border:1px solid #334155;border-radius:8px;
+      padding:20px;margin:16px 0;display:none}
+    .result-panel.visible{display:block}
+    .result-headline{font-family:'Barlow Condensed',sans-serif;font-size:1.8rem;
+      font-weight:800;letter-spacing:.04em;text-align:center;margin-bottom:4px}
+    .result-headline.win{color:#34d399}
+    .result-headline.loss{color:#f87171}
+    .result-headline.tie{color:#fbbf24}
+    .result-subtitle{font-size:.85rem;color:#94a3b8;text-align:center;margin-bottom:20px}
+    .gt-insight{background:#1e293b;border:1px solid #334155;border-radius:6px;
+      padding:14px 16px;margin-top:16px}
+    .gt-insight-label{font-family:'Barlow Condensed',sans-serif;font-size:.68rem;
+      font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#0d9488;margin-bottom:6px}
+    .gt-insight-text{font-size:.87rem;color:#cbd5e1;line-height:1.6}
+    .gt-insight-concept{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;
+      font-weight:800;color:#5eead4;letter-spacing:.03em}
+
+    /* Contributor + nav + footer */
+    .contributor-section{max-width:1200px;margin:0 auto;padding:0 56px 56px}
+    .contributor-section-title{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;
+      font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);
+      margin-bottom:16px;display:flex;align-items:center;gap:10px}
+    .contributor-section-title::after{content:'';flex:1;height:1px;background:var(--border-color)}
+    .contributor-cards{display:flex;flex-wrap:wrap;gap:16px}
+    .contributor-card{display:flex;align-items:center;gap:16px;background:var(--bg-card);
+      border:1px solid var(--border-color);border-radius:10px;padding:20px 24px;
+      box-shadow:var(--shadow-sm);transition:all .3s ease;min-width:280px;flex:1;max-width:420px}
+    .contributor-card:hover{box-shadow:var(--shadow-md);border-color:var(--frc-teal);transform:translateY(-2px)}
+    .contributor-avatar-placeholder{width:64px;height:64px;border-radius:10px;flex-shrink:0;
+      background:linear-gradient(135deg,var(--frc-blue),var(--frc-teal));
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:800;
+      color:white;letter-spacing:.05em}
+    .contributor-info{flex:1;min-width:0}
+    .contributor-name{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;
+      font-weight:700;color:var(--text-primary);letter-spacing:.02em}
+    .contributor-team{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;
+      font-weight:600;color:var(--frc-blue);background:var(--frc-blue-light);
+      border:1px solid var(--frc-blue);padding:2px 8px;border-radius:4px;margin-top:4px;
+      font-family:'Barlow Condensed',sans-serif;letter-spacing:.05em}
+    [data-theme="dark"] .contributor-team{color:#93c5fd}
+    .contributor-role{font-size:.8rem;color:var(--text-muted);margin-top:4px}
+    .article-nav{max-width:1200px;margin:0 auto;padding:0 56px 56px;
+      display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .nav-card{display:flex;flex-direction:column;background:var(--bg-card);
+      border:1px solid var(--border-color);border-radius:10px;padding:18px 22px;
+      text-decoration:none;transition:all .25s ease;box-shadow:var(--shadow-sm)}
+    .nav-card:hover{border-color:var(--frc-teal);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+    .nav-card.next{text-align:right}
+    .nav-label{font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;
+      letter-spacing:.12em;text-transform:uppercase;color:var(--frc-teal);margin-bottom:4px}
+    .nav-title{font-size:.92rem;font-weight:600;color:var(--text-primary);line-height:1.4}
+    footer{background:var(--text-primary);color:var(--bg-primary);transition:background .3s ease}
+    [data-theme="dark"] footer{background:#020617}
+    .footer-inner{max-width:1200px;margin:0 auto;padding:48px 56px 32px}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:40px}
+    .footer-brand{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:800;
+      letter-spacing:.03em;margin-bottom:10px}
+    .footer-brand span{color:var(--frc-teal)}
+    .footer-desc{font-size:.88rem;line-height:1.7;color:#94a3b8;margin-bottom:16px}
+    .footer-powered{font-size:.78rem;color:#64748b}
+    .footer-powered a{color:var(--frc-teal);text-decoration:none}
+    .footer-heading{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;
+      letter-spacing:.14em;text-transform:uppercase;color:#64748b;margin-bottom:14px}
+    .footer-links{list-style:none}
+    .footer-links li{margin-bottom:8px}
+    .footer-links a{font-size:.88rem;color:#94a3b8;text-decoration:none;transition:color .2s}
+    .footer-links a:hover{color:var(--frc-teal)}
+    .footer-tags{display:flex;flex-wrap:wrap;gap:6px}
+    .footer-tag{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:600;
+      letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:3px;
+      border:1px solid #334155;color:#94a3b8;cursor:default;transition:all .2s}
+    .footer-tag:hover{border-color:var(--frc-teal);color:var(--frc-teal)}
+    .footer-bottom{display:flex;align-items:center;justify-content:space-between;
+      padding-top:24px;border-top:1px solid #1e293b;font-size:.8rem;color:#475569}
+    .footer-stripe{display:flex;height:4px}
+    .footer-stripe-seg{flex:1}
+    .section-divider{height:1px;
+      background:linear-gradient(90deg,transparent,var(--border-color),transparent);
+      margin:0 56px}
+
+    @media(max-width:1024px){
+      .article-layout{grid-template-columns:1fr;padding:32px 32px}
+      .article-body{padding-right:0}
+      .toc-panel{display:none}
+      .contributor-section,.article-nav{padding:0 32px 40px}
+      .hero-content{padding:40px 32px 36px}
+      .hero-tags{padding:12px 32px}
+      .section-divider{margin:0 32px}
+      .role-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:768px){
+      #mySidebar{transform:translateX(-100%)}
+      #mySidebar.open{transform:translateX(0)}
+      #main-content{margin-left:0}
+      .topbar{display:flex}
+      .hero-geometry{display:none}
+      .hero-content{padding:28px 20px 24px}
+      .hero-tags{padding:10px 20px}
+      .article-layout{padding:24px 20px}
+      .contributor-section,.article-nav{padding:0 20px 32px}
+      .section-divider{margin:0 20px}
+      .article-nav{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr;gap:32px}
+      .footer-inner{padding:36px 20px 24px}
+      .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+      .role-grid{grid-template-columns:1fr}
+      .robot-pool{grid-template-columns:repeat(2,1fr)}
+      .alliance-preview{grid-template-columns:1fr;gap:10px}
+      .vs-badge{display:none}
+      .score-counters{grid-template-columns:1fr 1fr}
+    }
+    .fade-in{animation:fadeUp .5s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade-in:nth-child(1){animation-delay:.05s}
+    .fade-in:nth-child(2){animation-delay:.12s}
+    .fade-in:nth-child(3){animation-delay:.19s}
+    .fade-in:nth-child(4){animation-delay:.26s}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
+</head>
+<body>
+
+<nav id="mySidebar" role="navigation" aria-label="Main navigation">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">
+    <i class="fa fa-times"></i>
+  </button>
+  <div class="sidebar-logo-area">
+    <img src="../../Assests/logo.jpg" alt="FRCsource logo">
+    <div class="sidebar-brand">FRC<span>source</span></div>
+    <div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Navigation</div>
+    <a href="../../index.html" class="sidebar-link"><i class="fa fa-th-large"></i> Home</a>
+    <a href="../../index.html#about" class="sidebar-link"><i class="fa fa-user"></i> About</a>
+    <div class="sidebar-section-label">Content</div>
+    <a href="../../Programming/Programming-Index.html" class="sidebar-link"><i class="fa fa-code"></i> Programming Index</a>
+    <a href="../../Scouting/Scouting-Index.html" class="sidebar-link active"><i class="fa fa-binoculars"></i> Scouting Index</a>
+    <a href="../../FRCsource/FRCsource-Index.html" class="sidebar-link"><i class="fa fa-envelope"></i> FRCsource Index</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="https://github.com/8BitAdam/FRCsource" class="sidebar-github" aria-label="GitHub"><i class="fa fa-github"></i></a>
+    <button class="dark-toggle" onclick="toggleDark()" id="darkToggleBtn" aria-label="Toggle dark mode">
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      <span id="darkLabel">Dark</span>
+    </button>
+  </div>
+</nav>
+
+<div id="myOverlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+<div id="main-content">
+  <div class="topbar" role="banner">
+    <button class="hamburger-btn" onclick="openSidebar()" aria-label="Open menu"><i class="fa fa-bars"></i></button>
+    <a href="../../index.html" class="topbar-logo">FRC<span>source</span></a>
+    <div class="topbar-actions">
+      <button class="dark-toggle" onclick="toggleDark()" aria-label="Toggle dark mode">
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      </button>
+    </div>
+  </div>
+
+  <header class="article-hero">
+    <div class="hero-geometry" aria-hidden="true">
+      <svg viewBox="0 0 500 300" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="heroGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"/>
+          </linearGradient>
+          <linearGradient id="heroGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"/>
+            <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"/>
+          </linearGradient>
+        </defs>
+        <polygon points="150,0 500,0 500,300 50,300" fill="url(#heroGrad1)"/>
+        <polygon points="300,0 500,0 500,180" fill="url(#heroGrad2)" opacity="0.6"/>
+        <line x1="280" y1="0" x2="100" y2="300" stroke="#0d9488" stroke-width="1.5" opacity="0.15"/>
+        <line x1="350" y1="0" x2="170" y2="300" stroke="#1d4ed8" stroke-width="1" opacity="0.10"/>
+        <line x1="420" y1="0" x2="240" y2="300" stroke="#dc2626" stroke-width="0.8" opacity="0.08"/>
+        <rect x="450" y="20" width="20" height="20" fill="#0d9488" opacity="0.2" rx="2"/>
+        <rect x="420" y="50" width="12" height="12" fill="#1d4ed8" opacity="0.15" rx="2"/>
+        <rect x="460" y="240" width="16" height="16" fill="#dc2626" opacity="0.12" rx="2"/>
+        <circle cx="310" cy="60" r="2" fill="#0d9488" opacity="0.25"/>
+        <circle cx="340" cy="60" r="2" fill="#0d9488" opacity="0.25"/>
+        <circle cx="370" cy="60" r="2" fill="#0d9488" opacity="0.25"/>
+        <circle cx="310" cy="90" r="2" fill="#0d9488" opacity="0.2"/>
+        <circle cx="340" cy="90" r="2" fill="#0d9488" opacity="0.2"/>
+        <circle cx="370" cy="90" r="2" fill="#0d9488" opacity="0.2"/>
+        <circle cx="310" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
+        <circle cx="340" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
+        <circle cx="370" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <div class="fade-in">
+        <span class="article-category-badge"><i class="fa fa-tag"></i> Scouting Strategy</span>
+      </div>
+      <h1 class="article-title fade-in">
+        Alliance <span class="title-accent">Composition</span> and Roles
+      </h1>
+      <p class="article-subtitle fade-in">
+        How FRC alliances are built, what roles each robot fills, and why game theory explains the difference between a good alliance and a great one.
+      </p>
+      <div class="article-meta fade-in">
+        <span class="meta-item"><i class="fa fa-clock-o"></i> 15 min read</span>
+        <span class="meta-item"><i class="fa fa-calendar"></i> Updated Apr 2025</span>
+        <span class="difficulty-badge difficulty-intermediate"><i class="fa fa-signal"></i> Intermediate</span>
+      </div>
+    </div>
+    <div class="hero-tags" role="list" aria-label="Article tags">
+      <span class="tag teal" role="listitem">Scouting</span>
+      <span class="tag blue" role="listitem">Strategy</span>
+      <span class="tag" role="listitem">Alliance Selection</span>
+      <span class="tag red" role="listitem">Game Theory</span>
+      <span class="tag" role="listitem">Data Analysis</span>
+    </div>
+  </header>
+
+  <div class="article-layout">
+    <article class="article-body" id="article-top">
+
+      <div class="callout info">
+        <span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Prerequisites</div>
+          <div class="prereqs">
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Intro to FRC Match Flow</span>
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Basic understanding of FRC scoring</span>
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Match scouting experience helpful</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Section 1 ─── -->
+      <h2 id="what-is-alliance">What Is an Alliance?</h2>
+      <p>
+        In FRC, every match is contested by two alliances of three robots each — Red Alliance and Blue Alliance. These three robots must coordinate to outscore the opposing alliance within a 2-minute 30-second match. Unlike individual sports, FRC rewards <strong>team synergy</strong>: an alliance of three highly specialized robots that complement each other will almost always beat an alliance of three identically skilled generalists.
+      </p>
+      <p>
+        Alliance composition refers to <em>which robots you put together and why</em>. This decision matters enormously — both during playoffs, when alliances are deliberately formed through alliance selection, and during qualifications, where scheduling assigns alliances randomly but scouts must still understand the dynamics unfolding in front of them.
+      </p>
+      <div class="callout tip">
+        <span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Why It Matters for Scouts</div>
+          <p class="callout-text">
+            Even during qualifications, understanding alliance composition helps you predict match outcomes, explain unexpected results, and identify which teams pair well together. This analysis is what separates good scouts from great ones.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── Section 2 ─── -->
+      <h2 id="alliance-roles">The Four Core Roles</h2>
+      <p>
+        While role names shift slightly each season, four archetypes appear consistently across FRC games. Learning to identify these roles from scouting data is fundamental to any alliance analysis.
+      </p>
+
+      <div class="role-grid">
+        <div class="role-card scorer">
+          <div class="role-card-icon">🎯</div>
+          <div class="role-card-title">Scorer / Cycler</div>
+          <p class="role-card-desc">The primary point generator. Focuses on moving game pieces from source to target as quickly and reliably as possible. Cycle time and consistency are the key metrics to track.</p>
+          <span class="role-tag">High Teleop Output</span>
+        </div>
+        <div class="role-card defender">
+          <div class="role-card-icon">🛡️</div>
+          <div class="role-card-title">Defender</div>
+          <p class="role-card-desc">Disrupts the opposing alliance's scorers by legally blocking, slowing, or rerouting them. A good defender can neutralize an opponent's top robot and swing a match entirely.</p>
+          <span class="role-tag">Disruption Focus</span>
+        </div>
+        <div class="role-card climber">
+          <div class="role-card-icon">🧗</div>
+          <div class="role-card-title">Climber / Endgame</div>
+          <p class="role-card-desc">Specializes in endgame objectives — climbing, docking, balancing. Endgame points are often high-value and can decide close matches. Watch for consistency and timing.</p>
+          <span class="role-tag">Endgame Specialist</span>
+        </div>
+        <div class="role-card support">
+          <div class="role-card-icon">⚙️</div>
+          <div class="role-card-title">Support / Utility</div>
+          <p class="role-card-desc">Fills gaps — feeds game pieces, holds a zone, performs secondary tasks. Often undervalued in scouting because their contributions don't show up directly in the score sheet.</p>
+          <span class="role-tag">Alliance Enabler</span>
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Common Mistake</div>
+          <p class="callout-text">
+            Teams often over-index on scorer stats and ignore defenders. A single effective defender can cut an opponent's teleop score by 30–40%. If you're not tracking defensive effectiveness in your scouting form, you're missing critical alliance-level data.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── Section 3 ─── -->
+      <h2 id="selection-process">Alliance Selection</h2>
+      <p>
+        After qualification matches conclude, the top eight seeded teams become Alliance Captains for playoffs. Selection follows a <strong>snake draft</strong> format: Captain 1 picks first, then 2 through 8 pick in order, then 8 picks again, followed by 7 back down to 1. This means the first and last alliances are locked in before the middle alliances make their second pick.
+      </p>
+      <p>
+        Teams can decline an invitation — they may prefer to be captain of a lower alliance rather than a second pick on a higher one. Scouts who understand this dynamic can advise their drive team on when to accept, decline, or strategically target specific partners.
+      </p>
+      <h3>What Captains Look For</h3>
+      <p>
+        The best alliance captains don't just pick the next highest-ranked team. They look for <strong>complementary capability</strong>: if they are a strong scorer, they want a reliable endgame robot and a capable defender — not another scorer who duplicates their function and offers no additional coverage. This is where scouting data becomes a competitive advantage.
+      </p>
+
+      <!-- ─── Section 4 — Game Theory ─── -->
+      <h2 id="game-theory">Game Theory and Alliance Building</h2>
+      <p>
+        Game theory is the mathematical study of strategic decision-making — and it turns out FRC alliance selection is a near-perfect real-world case study. Several classic concepts from game theory show up directly in how good teams think about composition.
+      </p>
+
+      <div class="gt-concept">
+        <div class="gt-concept-num">01</div>
+        <div class="gt-concept-body">
+          <div class="gt-concept-title">Nash Equilibrium</div>
+          <div class="gt-concept-text">A situation where no player can improve their outcome by changing strategy alone. In FRC, a <em>balanced alliance</em> (scorer + defender + climber) represents a Nash Equilibrium — neither side gains by abandoning their specialized role, because doing so leaves a gap the opponent can exploit.</div>
+        </div>
+      </div>
+      <div class="gt-concept">
+        <div class="gt-concept-num">02</div>
+        <div class="gt-concept-body">
+          <div class="gt-concept-title">Dominant Strategy</div>
+          <div class="gt-concept-text">A strategy that is optimal regardless of what the opponent does. Reliable endgame performance is often a dominant strategy: the points are guaranteed regardless of opponent behavior, and they apply pressure that forces opponents to respond.</div>
+        </div>
+      </div>
+      <div class="gt-concept">
+        <div class="gt-concept-num">03</div>
+        <div class="gt-concept-body">
+          <div class="gt-concept-title">Prisoner's Dilemma</div>
+          <div class="gt-concept-text">Both alliances stacking scorers feels individually rational — more scorers means more points. But if both alliances do this, neither has defense, and match outcomes become chaotic and luck-dependent. The "cooperative" equilibrium — both alliances using balanced composition — produces more predictable, strategy-driven competition.</div>
+        </div>
+      </div>
+      <div class="gt-concept">
+        <div class="gt-concept-num">04</div>
+        <div class="gt-concept-body">
+          <div class="gt-concept-title">Expected Value and Risk</div>
+          <div class="gt-concept-text">A high-ceiling but inconsistent scorer has lower <em>expected value</em> than a moderate but consistent one in a best-of-three playoff series. Scouts should track variance, not just peak performance. A robot that scores 12 points every match beats one that scores 20 points two matches and zero in a third.</div>
+        </div>
+      </div>
+
+      <!-- ─── GAME ─── -->
+      <h2 id="game">Alliance Draft Challenge</h2>
+      <p>
+        Put your knowledge to the test. Draft a 3-robot alliance from the pool below, then simulate a match against a CPU opponent that always tries to build a balanced, game-theory-optimal alliance. The scoring engine rewards role diversity and punishes redundancy — just like the real game.
+      </p>
+
+      <div class="game-section">
+        <div class="game-header">
+          <div class="game-title">
+            <i class="fa fa-gamepad"></i>
+            Alliance Draft Challenge
+            <span class="game-badge">Interactive</span>
+          </div>
+          <div class="game-subtitle">Pick 3 robots from the pool. The CPU builds a balanced counter-alliance. Simulate the match and see what game theory predicts.</div>
+        </div>
+
+        <div class="game-phases" id="gamePhases">
+          <div class="phase-step active" id="phase1">1 · Draft</div>
+          <div class="phase-step" id="phase2">2 · Preview</div>
+          <div class="phase-step" id="phase3">3 · Match</div>
+          <div class="phase-step" id="phase4">4 · Analysis</div>
+        </div>
+
+        <!-- DRAFT PHASE -->
+        <div id="draftPhase">
+          <div class="pool-label">Robot Pool — Select 3 Robots for Your Alliance</div>
+          <div class="robot-pool" id="robotPool"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+            <div class="selection-counter">
+              <span id="selectionText">Select 3 robots</span>
+              <div class="counter-pips">
+                <div class="pip" id="pip0"></div>
+                <div class="pip" id="pip1"></div>
+                <div class="pip" id="pip2"></div>
+              </div>
+            </div>
+            <div class="game-controls">
+              <button class="game-btn game-btn-secondary" onclick="resetDraft()"><i class="fa fa-refresh"></i> Reset</button>
+              <button class="game-btn game-btn-primary" id="draftBtn" onclick="confirmDraft()" disabled><i class="fa fa-arrow-right"></i> Lock In Alliance</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PREVIEW PHASE -->
+        <div id="previewPhase" style="display:none">
+          <div class="alliance-preview">
+            <div class="alliance-box player">
+              <div class="alliance-box-label"><i class="fa fa-user"></i> Your Alliance</div>
+              <div class="alliance-slots" id="playerSlots"></div>
+            </div>
+            <div class="vs-badge">VS</div>
+            <div class="alliance-box cpu">
+              <div class="alliance-box-label"><i class="fa fa-cog"></i> CPU Alliance</div>
+              <div class="alliance-slots" id="cpuSlots"></div>
+            </div>
+          </div>
+          <div class="game-controls">
+            <button class="game-btn game-btn-secondary" onclick="backToDraft()"><i class="fa fa-arrow-left"></i> Re-Draft</button>
+            <button class="game-btn game-btn-primary" onclick="startMatch()"><i class="fa fa-play"></i> Simulate Match</button>
+          </div>
+        </div>
+
+        <!-- MATCH + RESULT PHASE -->
+        <div id="matchPhase" style="display:none">
+          <div class="match-sim visible" id="matchSim">
+            <div class="pool-label">Match Simulation</div>
+            <div class="score-counters">
+              <div class="score-box player-score">
+                <div class="score-box-label"><i class="fa fa-user"></i> Your Alliance</div>
+                <div class="score-number" id="playerScoreNum">0</div>
+                <div class="score-breakdown" id="playerBreakdown"></div>
+              </div>
+              <div class="score-box cpu-score">
+                <div class="score-box-label"><i class="fa fa-cog"></i> CPU Alliance</div>
+                <div class="score-number" id="cpuScoreNum">0</div>
+                <div class="score-breakdown" id="cpuBreakdown"></div>
+              </div>
+            </div>
+            <div class="sim-bar-wrap">
+              <div class="sim-bar-header">
+                <span class="sim-bar-player" id="barLabelPlayer">Your Alliance</span>
+                <span class="sim-bar-cpu" id="barLabelCpu">CPU Alliance</span>
+              </div>
+              <div class="sim-track">
+                <div class="sim-fill-player" id="simFillPlayer"></div>
+                <div class="sim-fill-cpu" id="simFillCpu"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-panel" id="resultPanel">
+            <div class="result-headline" id="resultHeadline">—</div>
+            <div class="result-subtitle" id="resultSubtitle"></div>
+            <div class="gt-insight">
+              <div class="gt-insight-label"><i class="fa fa-flask"></i> Game Theory Insight</div>
+              <div class="gt-insight-text" id="gtInsight"></div>
+            </div>
+          </div>
+
+          <div class="game-controls" style="margin-top:16px" id="matchControls">
+            <button class="game-btn game-btn-secondary" onclick="fullReset()"><i class="fa fa-refresh"></i> Play Again</button>
+          </div>
+        </div>
+
+      </div><!-- /game-section -->
+
+      <!-- ─── Section 5 ─── -->
+      <h2 id="scouting-for-roles">Scouting for Role Fit</h2>
+      <p>
+        Knowing that roles matter is only useful if your scouting data actually captures them. Standard match forms often track only scoring metrics — which is why many alliances end up over-stacked with scorers. To scout for role fit, you need to deliberately track metrics for each archetype.
+      </p>
+      <h3>Metrics to Track by Role</h3>
+      <ul>
+        <li><strong>Scorer:</strong> Cycles per match, average cycle time, scoring zone consistency, auto performance</li>
+        <li><strong>Defender:</strong> Time spent defending, opponent cycles disrupted (estimate), fouls incurred, mobility in defense</li>
+        <li><strong>Climber:</strong> Endgame success rate, climb level achieved, time to complete climb, consistency across matches</li>
+        <li><strong>Support:</strong> Secondary actions completed, alliance-enabling behaviors, fouls avoided, field positioning</li>
+      </ul>
+      <p>
+        The most valuable scouting insight is not "Team X scored 47 points" — it's "Team X is a reliable endgame robot with a consistent 94% climb rate that has never defended and scores slowly." That profile tells an alliance captain exactly where Team X fits and what they need to surround it with.
+      </p>
+
+      <div class="callout tip">
+        <span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Build Role Profiles, Not Score Sheets</div>
+          <p class="callout-text">
+            The most powerful output from your scouting system isn't a ranked list by total points — it's a set of role profiles that let alliance captains ask "do I have all four roles covered?" rather than "who scored the most?"
+          </p>
+        </div>
+      </div>
+
+    </article>
+
+    <aside class="toc-panel" aria-label="Table of contents">
+      <div class="toc-title">On This Page</div>
+      <ul class="toc-list">
+        <li id="toc-what-is-alliance"><a href="#what-is-alliance">What Is an Alliance?</a></li>
+        <li id="toc-alliance-roles"><a href="#alliance-roles">The Four Core Roles</a></li>
+        <li id="toc-selection-process"><a href="#selection-process">Alliance Selection</a></li>
+        <li id="toc-game-theory"><a href="#game-theory">Game Theory</a></li>
+        <li id="toc-game"><a href="#game">Draft Challenge ⚡</a></li>
+        <li id="toc-scouting-for-roles"><a href="#scouting-for-roles">Scouting for Roles</a></li>
+      </ul>
+      <div class="toc-divider"></div>
+      <div class="toc-progress-label">Reading progress</div>
+      <div class="toc-progress-bar">
+        <div class="toc-progress-fill" id="readingProgress"></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <section class="contributor-section" aria-label="Article contributors">
+    <div class="contributor-section-title">Provided to you by</div>
+    <div class="contributor-cards">
+      <div class="contributor-card">
+        <div class="contributor-avatar-placeholder" aria-hidden="true">AI</div>
+        <div class="contributor-info">
+          <div class="contributor-name">Claude AI</div>
+          <div class="contributor-team"><i class="fa fa-robot"></i> AI Author</div>
+          <div class="contributor-role">Article Author &amp; Game Designer</div>
+        </div>
+      </div>
+      <div class="contributor-card">
+        <div class="contributor-avatar-placeholder" aria-hidden="true">MS</div>
+        <div class="contributor-info">
+          <div class="contributor-name">Marcus S.</div>
+          <div class="contributor-team"><i class="fa fa-wrench"></i> Team 5678 — Circuit Breakers</div>
+          <div class="contributor-role">Technical Reviewer</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <nav class="article-nav" aria-label="Article navigation">
+    <a href="./match-flow.html" class="nav-card prev">
+      <div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
+      <div class="nav-title">Intro to FRC Match Flow and Timing</div>
+    </a>
+    <a href="./pit-vs-match.html" class="nav-card next">
+      <div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+      <div class="nav-title">Pit Scouting vs Match Scouting</div>
+    </a>
+  </nav>
+
+  <footer>
+    <div class="footer-stripe">
+      <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+      <div class="footer-stripe-seg" style="background:#dc2626;"></div>
+      <div class="footer-stripe-seg" style="background:#0d9488;"></div>
+      <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+      <div class="footer-stripe-seg" style="background:#dc2626;"></div>
+      <div class="footer-stripe-seg" style="background:#0d9488;"></div>
+    </div>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">FRC<span>source</span></div>
+          <p class="footer-desc">A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.</p>
+          <p class="footer-powered">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" rel="noopener">w3.css</a></p>
+        </div>
+        <div>
+          <div class="footer-heading">Explore</div>
+          <ul class="footer-links">
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+            <li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+            <li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+            <li><a href="../../index.html#about">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Tags</div>
+          <div class="footer-tags">
+            <span class="footer-tag">Alliance</span>
+            <span class="footer-tag">Strategy</span>
+            <span class="footer-tag">Scouting</span>
+            <span class="footer-tag">Game Theory</span>
+            <span class="footer-tag">Data</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2025 FRCsource. Made by the FRC community.</span>
+        <span><a href="https://github.com" style="color:#475569;text-decoration:none;"><i class="fa fa-github"></i> GitHub</a></span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ─── Sidebar ─── */
+function openSidebar(){
+  document.getElementById('mySidebar').classList.add('open');
+  document.getElementById('myOverlay').style.display='block';
+  document.body.style.overflow='hidden';
+}
+function closeSidebar(){
+  document.getElementById('mySidebar').classList.remove('open');
+  document.getElementById('myOverlay').style.display='none';
+  document.body.style.overflow='';
+}
+
+/* ─── Dark Mode ─── */
+const html=document.documentElement;
+const darkLabel=document.getElementById('darkLabel');
+function applyTheme(t){
+  html.setAttribute('data-theme',t);
+  localStorage.setItem('frc-theme',t);
+  if(darkLabel)darkLabel.textContent=t==='dark'?'Light':'Dark';
+}
+function toggleDark(){applyTheme(html.getAttribute('data-theme')==='dark'?'light':'dark')}
+(function(){
+  const saved=localStorage.getItem('frc-theme');
+  const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved||(prefersDark?'dark':'light'));
+})();
+
+/* ─── Reading Progress ─── */
+const progressFill=document.getElementById('readingProgress');
+const sections=document.querySelectorAll('.article-body h2[id]');
+const tocItems=document.querySelectorAll('.toc-list li[id]');
+function updateProgress(){
+  const st=window.scrollY;
+  const dh=document.documentElement.scrollHeight-window.innerHeight;
+  if(progressFill)progressFill.style.width=dh>0?Math.round((st/dh)*100)+'%':'0%';
+  let activeId=null;
+  sections.forEach(s=>{if(st>=s.offsetTop-120)activeId=s.id;});
+  tocItems.forEach(item=>{
+    item.classList.remove('active');
+    if(item.id==='toc-'+activeId)item.classList.add('active');
+  });
+}
+window.addEventListener('scroll',updateProgress,{passive:true});
+updateProgress();
+
+/* ─── GAME ─── */
+const ROBOTS = [
+  {id:0, name:'Speed Demon',  team:'Team 0042', role:'Scorer',   scoring:5, defense:1, endgame:3, reliability:4,
+   desc:'Blazing fast cycles, fragile under pressure'},
+  {id:1, name:'Iron Wall',    team:'Team 0117', role:'Defender', scoring:2, defense:5, endgame:2, reliability:5,
+   desc:'Immovable object, shuts down top scorers'},
+  {id:2, name:'Sky Hook',     team:'Team 0304', role:'Climber',  scoring:3, defense:2, endgame:5, reliability:4,
+   desc:'Guaranteed endgame points every match'},
+  {id:3, name:'All-Rounder',  team:'Team 0512', role:'Utility',  scoring:3, defense:3, endgame:3, reliability:5,
+   desc:'Consistent across all phases, never a liability'},
+  {id:4, name:'Rapid Fire',   team:'Team 0721', role:'Scorer',   scoring:4, defense:2, endgame:3, reliability:3,
+   desc:'High output but prone to driver errors'},
+  {id:5, name:'Fortress',     team:'Team 0868', role:'Defender', scoring:2, defense:4, endgame:4, reliability:4,
+   desc:'Hybrid defender with solid endgame backup'},
+  {id:6, name:'Glass Cannon', team:'Team 0953', role:'Scorer',   scoring:5, defense:1, endgame:2, reliability:2,
+   desc:'Explosive scorer — but breaks down often'},
+  {id:7, name:'Steady Eddie', team:'Team 1024', role:'Utility',  scoring:3, defense:3, endgame:4, reliability:5,
+   desc:'Reliable utility bot, never misses endgame'},
+];
+
+const ROLE_BADGE_CLASS = {
+  'Scorer':'role-badge-scorer','Defender':'role-badge-defender',
+  'Climber':'role-badge-climber','Utility':'role-badge-utility'
+};
+
+let selectedIds = [];
+let playerRobots = [];
+let cpuRobots = [];
+
+function renderRobotPool(){
+  const pool = document.getElementById('robotPool');
+  pool.innerHTML = '';
+  ROBOTS.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'robot-card';
+    card.id = 'rc_'+r.id;
+    card.onclick = () => toggleRobot(r.id);
+    const badgeClass = ROLE_BADGE_CLASS[r.role]||'role-badge-utility';
+    card.innerHTML = `
+      <div class="robot-select-indicator" id="rsi_${r.id}">✓</div>
+      <div class="robot-card-top">
+        <div>
+          <div class="robot-name">${r.name}</div>
+          <div class="robot-team">${r.team}</div>
+        </div>
+        <span class="robot-role-badge ${badgeClass}">${r.role}</span>
+      </div>
+      <div class="robot-stats">
+        ${statRow('SCR', r.scoring, 'stat-fill-scr')}
+        ${statRow('DEF', r.defense, 'stat-fill-def')}
+        ${statRow('END', r.endgame, 'stat-fill-end')}
+        ${statRow('REL', r.reliability, 'stat-fill-rel')}
+      </div>
+    `;
+    pool.appendChild(card);
+  });
+}
+
+function statRow(label, val, fillClass){
+  return `<div class="stat-row">
+    <span class="stat-label">${label}</span>
+    <div class="stat-bar-track"><div class="stat-bar-fill ${fillClass}" style="width:${val*20}%"></div></div>
+    <span class="stat-val">${val}</span>
+  </div>`;
+}
+
+function toggleRobot(id){
+  const idx = selectedIds.indexOf(id);
+  if(idx !== -1){
+    selectedIds.splice(idx,1);
+  } else {
+    if(selectedIds.length >= 3) return;
+    selectedIds.push(id);
+  }
+  updateDraftUI();
+}
+
+function updateDraftUI(){
+  ROBOTS.forEach(r => {
+    const card = document.getElementById('rc_'+r.id);
+    card.classList.toggle('selected', selectedIds.includes(r.id));
+  });
+  for(let i=0;i<3;i++){
+    const pip = document.getElementById('pip'+i);
+    pip.classList.toggle('filled', i < selectedIds.length);
+  }
+  const btn = document.getElementById('draftBtn');
+  btn.disabled = selectedIds.length !== 3;
+  const txt = document.getElementById('selectionText');
+  const rem = 3 - selectedIds.length;
+  txt.textContent = rem > 0 ? `Select ${rem} more robot${rem>1?'s':''}` : 'Alliance ready!';
+}
+
+function resetDraft(){
+  selectedIds = [];
+  updateDraftUI();
+}
+
+function confirmDraft(){
+  if(selectedIds.length !== 3) return;
+  playerRobots = selectedIds.map(id => ROBOTS.find(r=>r.id===id));
+  // CPU picks: balance-first strategy (game theory optimal)
+  const remaining = ROBOTS.filter(r => !selectedIds.includes(r.id));
+  cpuRobots = cpuDraftStrategy(remaining);
+  // Mark taken
+  ROBOTS.forEach(r=>{
+    const card = document.getElementById('rc_'+r.id);
+    if(cpuRobots.find(c=>c.id===r.id)) card.classList.add('cpu-selected');
+  });
+  showPreview();
+}
+
+function cpuDraftStrategy(pool){
+  // CPU tries to build: 1 high scorer, 1 defender, 1 climber/utility
+  // Sorts by coverage of missing roles
+  const sorted = [...pool];
+  // Pick top scorer first
+  const scorer = sorted.sort((a,b)=>b.scoring-a.scoring)[0];
+  // Pick best defender from remaining
+  const rest1 = sorted.filter(r=>r.id!==scorer.id);
+  const defender = rest1.sort((a,b)=>b.defense-a.defense)[0];
+  // Pick best endgame from remaining
+  const rest2 = rest1.filter(r=>r.id!==defender.id);
+  const climber = rest2.sort((a,b)=>b.endgame-a.endgame)[0];
+  return [scorer, defender, climber];
+}
+
+function showPreview(){
+  setPhase(2);
+  document.getElementById('draftPhase').style.display='none';
+  document.getElementById('previewPhase').style.display='block';
+  renderAllianceSlots('playerSlots', playerRobots, 'player-slot');
+  renderAllianceSlots('cpuSlots', cpuRobots, 'cpu-slot');
+}
+
+function renderAllianceSlots(containerId, robots, slotClass){
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  robots.forEach(r => {
+    const slot = document.createElement('div');
+    slot.className = `alliance-slot filled ${slotClass}`;
+    const badgeClass = ROLE_BADGE_CLASS[r.role]||'role-badge-utility';
+    slot.innerHTML = `<span style="flex:1;font-weight:700;color:#f1f5f9">${r.name}</span><span class="robot-role-badge ${badgeClass}" style="font-size:.6rem">${r.role}</span>`;
+    container.appendChild(slot);
+  });
+}
+
+function backToDraft(){
+  setPhase(1);
+  document.getElementById('previewPhase').style.display='none';
+  document.getElementById('draftPhase').style.display='block';
+  // Un-mark cpu selections
+  ROBOTS.forEach(r=>{
+    const card = document.getElementById('rc_'+r.id);
+    card.classList.remove('cpu-selected','taken');
+  });
+  cpuRobots = [];
+}
+
+function calcScore(alliance, oppAlliance){
+  const totalScoring = alliance.reduce((s,r)=>s+r.scoring,0);
+  const totalDefense = alliance.reduce((s,r)=>s+r.defense,0);
+  const totalEndgame = alliance.reduce((s,r)=>s+r.endgame,0);
+  const avgReliability = alliance.reduce((s,r)=>s+r.reliability,0)/alliance.length;
+  const oppDefense = oppAlliance.reduce((s,r)=>s+r.defense,0);
+
+  // Auto: reliability-scaled flat bonus
+  const auto = Math.round(avgReliability * 3);
+
+  // Teleop: scoring minus opponent defensive pressure, floored at 20% base
+  const teleopBase = totalScoring * 9;
+  const defReduction = oppDefense * 4;
+  const teleopActual = Math.max(Math.round((teleopBase - defReduction) * (avgReliability/5)), Math.round(teleopBase * 0.2));
+
+  // Endgame
+  const endgame = Math.round(totalEndgame * 5 * (avgReliability/5));
+
+  // Diversity bonus (game theory reward for balanced composition)
+  const hasDedicatedScorer  = alliance.some(r=>r.scoring>=4);
+  const hasDedicatedDefender = alliance.some(r=>r.defense>=3);
+  const hasDedicatedClimber  = alliance.some(r=>r.endgame>=4);
+  const diversityBonus = (hasDedicatedScorer?8:0)+(hasDedicatedDefender?8:0)+(hasDedicatedClimber?8:0);
+
+  const total = auto + teleopActual + endgame + diversityBonus;
+  return {total, breakdown:{auto, teleop:teleopActual, endgame, diversity:diversityBonus}};
+}
+
+function startMatch(){
+  setPhase(3);
+  document.getElementById('previewPhase').style.display='none';
+  document.getElementById('matchPhase').style.display='block';
+
+  const playerResult = calcScore(playerRobots, cpuRobots);
+  const cpuResult = calcScore(cpuRobots, playerRobots);
+
+  // Animate score counters
+  animateCounter('playerScoreNum', playerResult.total, 1400);
+  animateCounter('cpuScoreNum', cpuResult.total, 1400);
+
+  // Animate bars
+  const total = playerResult.total + cpuResult.total;
+  setTimeout(()=>{
+    document.getElementById('simFillPlayer').style.width = Math.round((playerResult.total/total)*100)+'%';
+    document.getElementById('simFillCpu').style.width = Math.round((cpuResult.total/total)*100)+'%';
+  }, 100);
+
+  // Show breakdowns after a delay
+  setTimeout(()=>{
+    document.getElementById('playerBreakdown').innerHTML =
+      `Auto: +${playerResult.breakdown.auto} | Teleop: +${playerResult.breakdown.teleop}<br>Endgame: +${playerResult.breakdown.endgame} | Synergy: +${playerResult.breakdown.diversity}`;
+    document.getElementById('cpuBreakdown').innerHTML =
+      `Auto: +${cpuResult.breakdown.auto} | Teleop: +${cpuResult.breakdown.teleop}<br>Endgame: +${cpuResult.breakdown.endgame} | Synergy: +${cpuResult.breakdown.diversity}`;
+  }, 800);
+
+  setTimeout(()=>{showResult(playerResult, cpuResult);}, 1800);
+}
+
+function animateCounter(id, target, duration){
+  const el = document.getElementById(id);
+  const start = performance.now();
+  function step(now){
+    const progress = Math.min((now-start)/duration,1);
+    const ease = 1-Math.pow(1-progress,3);
+    el.textContent = Math.round(ease*target);
+    if(progress<1) requestAnimationFrame(step);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(step);
+}
+
+function showResult(playerResult, cpuResult){
+  setPhase(4);
+  const panel = document.getElementById('resultPanel');
+  panel.classList.add('visible');
+  const headline = document.getElementById('resultHeadline');
+  const subtitle = document.getElementById('resultSubtitle');
+  const insight = document.getElementById('gtInsight');
+
+  const pScore = playerResult.total;
+  const cScore = cpuResult.total;
+  const diff = Math.abs(pScore - cScore);
+
+  if(pScore > cScore){
+    headline.textContent = '🏆 Victory!';
+    headline.className = 'result-headline win';
+    subtitle.textContent = `You won by ${diff} points. Your alliance composition paid off.`;
+  } else if(cScore > pScore){
+    headline.textContent = '⚡ Defeat';
+    headline.className = 'result-headline loss';
+    subtitle.textContent = `You lost by ${diff} points. The CPU's balanced strategy prevailed.`;
+  } else {
+    headline.textContent = '🤝 Tie Match';
+    headline.className = 'result-headline tie';
+    subtitle.textContent = 'Perfectly matched alliances. Both sides played optimally.';
+  }
+
+  // Generate game theory insight
+  insight.innerHTML = generateInsight(playerRobots, cpuRobots, playerResult, cpuResult);
+}
+
+function generateInsight(player, cpu, pRes, cRes){
+  const pScorers = player.filter(r=>r.scoring>=4).length;
+  const pDefenders = player.filter(r=>r.defense>=3).length;
+  const pClimbers = player.filter(r=>r.endgame>=4).length;
+  const pDiversity = pRes.breakdown.diversity;
+  const cDiversity = cRes.breakdown.diversity;
+  const won = pRes.total > cRes.total;
+
+  if(pScorers===3){
+    return `<span class="gt-insight-concept">Prisoner's Dilemma</span><br>You stacked all three scorer slots — the instinct feels right (more scoring = more points), but the CPU's defender significantly cut your teleop output. This mirrors the Prisoner's Dilemma: the individually rational choice (pick the best scorers) leads to a collectively suboptimal outcome when the opponent has defense covered.`;
+  }
+  if(pDefenders >= 2){
+    return `<span class="gt-insight-concept">Over-Defending</span><br>Two dedicated defenders consumed roster space without generating enough offense to compensate. Defense is most valuable when it's the <em>one</em> role the opponent can't counter — stacking defenders is diminishing returns. The Nash Equilibrium here is one defender, not two.`;
+  }
+  if(pDiversity >= 24 && won){
+    return `<span class="gt-insight-concept">Nash Equilibrium ✓</span><br>Your alliance covered all three core roles — scorer, defender, and endgame — earning the full synergy bonus. This is the Nash Equilibrium in alliance composition: no individual robot swap improves your outcome, because every role is already optimally filled. The CPU tried the same strategy, but your specific robots were a stronger fit.`;
+  }
+  if(pDiversity >= 24 && !won){
+    return `<span class="gt-insight-concept">Close Nash Equilibrium</span><br>Both alliances achieved role diversity and earned full synergy bonuses — a true Nash Equilibrium where neither side could improve by swapping a single robot. The CPU edged you out on raw stat values. In real FRC, this margin is where expected value and reliability data (like match-over-match consistency) decide the winner.`;
+  }
+  if(pDiversity < cDiversity && !won){
+    return `<span class="gt-insight-concept">Dominant Strategy Gap</span><br>The CPU's balanced alliance earned <strong>${cRes.breakdown.diversity}</strong> synergy points to your <strong>${pRes.breakdown.diversity}</strong>. Covering all roles is a <em>dominant strategy</em> in alliance building — it's optimal regardless of what the opponent picks. Filling the gaps in your roster would have changed the outcome.`;
+  }
+  return `<span class="gt-insight-concept">Expected Value in Action</span><br>Alliance outcomes in FRC depend on reliability-adjusted averages, not peak performance. The scoring engine weighed each robot's reliability against its raw stats. The lesson: a consistent mid-tier robot often outperforms a volatile high-scorer across a best-of-three playoff series.`;
+}
+
+function setPhase(n){
+  for(let i=1;i<=4;i++){
+    const el = document.getElementById('phase'+i);
+    if(i<n) el.className='phase-step done';
+    else if(i===n) el.className='phase-step active';
+    else el.className='phase-step';
+  }
+}
+
+function fullReset(){
+  selectedIds=[];playerRobots=[];cpuRobots=[];
+  setPhase(1);
+  document.getElementById('matchPhase').style.display='none';
+  document.getElementById('previewPhase').style.display='none';
+  document.getElementById('draftPhase').style.display='block';
+  document.getElementById('resultPanel').classList.remove('visible');
+  document.getElementById('simFillPlayer').style.width='0';
+  document.getElementById('simFillCpu').style.width='0';
+  document.getElementById('playerScoreNum').textContent='0';
+  document.getElementById('cpuScoreNum').textContent='0';
+  document.getElementById('playerBreakdown').textContent='';
+  document.getElementById('cpuBreakdown').textContent='';
+  renderRobotPool();
+  updateDraftUI();
+}
+
+// Init
+renderRobotPool();
+updateDraftUI();
+</script>
+</body>
+</html>
