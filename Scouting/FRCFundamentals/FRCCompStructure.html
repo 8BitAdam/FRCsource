@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="en-US" data-theme="light">
+
+<html data-theme="light" lang="en-US">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Article Title — FRCsource</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Article Title — FRCsource</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&amp;family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<style>
     /* ─── CSS Variables (Light Mode) ─────────────────────────────── */
     :root {
       --frc-blue:       #1d4ed8;
@@ -1141,439 +1140,299 @@
   </style>
 </head>
 <body>
-
 <!-- ─── Sidebar ──────────────────────────────────────────── -->
-<nav id="mySidebar" role="navigation" aria-label="Main navigation">
-  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">
-    <i class="fa fa-times"></i>
-  </button>
-
-  <div class="sidebar-logo-area">
-    <img src="../../Assests/logo.jpg" alt="FRCsource logo">
-    <div class="sidebar-brand">FRC<span>source</span></div>
-    <div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
-  </div>
-
-  <nav class="sidebar-nav">
-    <div class="sidebar-section-label">Navigation</div>
-    <a href="../../index.html" class="sidebar-link">
-      <i class="fa fa-th-large"></i> Home
+<nav aria-label="Main navigation" id="mySidebar" role="navigation">
+<button aria-label="Close menu" class="sidebar-close" onclick="closeSidebar()">
+<i class="fa fa-times"></i>
+</button>
+<div class="sidebar-logo-area">
+<img alt="FRCsource logo" src="../../Assests/logo.jpg"/>
+<div class="sidebar-brand">FRC<span>source</span></div>
+<div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+</div>
+<nav class="sidebar-nav">
+<div class="sidebar-section-label">Navigation</div>
+<a class="sidebar-link" href="../../index.html">
+<i class="fa fa-th-large"></i> Home
     </a>
-    <a href="../../index.html#about" class="sidebar-link">
-      <i class="fa fa-user"></i> About
+<a class="sidebar-link" href="../../index.html#about">
+<i class="fa fa-user"></i> About
     </a>
-
-    <div class="sidebar-section-label">Content</div>
-    <a href="../../Programming/Programming-Index.html" class="sidebar-link">
-      <i class="fa fa-code"></i> Programming Index
+<div class="sidebar-section-label">Content</div>
+<a class="sidebar-link" href="../../Programming/Programming-Index.html">
+<i class="fa fa-code"></i> Programming Index
     </a>
-    <a href="../../Scouting/Scouting-Index.html" class="sidebar-link active">
-      <i class="fa fa-binoculars"></i> Scouting Index
+<a class="sidebar-link active" href="../../Scouting/Scouting-Index.html">
+<i class="fa fa-binoculars"></i> Scouting Index
     </a>
-    <a href="../../FRCsource/FRCsource-Index.html" class="sidebar-link">
-      <i class="fa fa-envelope"></i> FRCsource Index
+<a class="sidebar-link" href="../../FRCsource/FRCsource-Index.html">
+<i class="fa fa-envelope"></i> FRCsource Index
     </a>
-  </nav>
-
-  <div class="sidebar-footer">
-    <a href="https://github.com/8BitAdam/FRCsource" class="sidebar-github" aria-label="GitHub">
-      <i class="fa fa-github"></i>
-    </a>
-    <button class="dark-toggle" onclick="toggleDark()" id="darkToggleBtn" aria-label="Toggle dark mode">
-      <span class="toggle-track"><span class="toggle-thumb"></span></span>
-      <span id="darkLabel">Dark</span>
-    </button>
-  </div>
 </nav>
-
+<div class="sidebar-footer">
+<a aria-label="GitHub" class="sidebar-github" href="https://github.com/8BitAdam/FRCsource">
+<i class="fa fa-github"></i>
+</a>
+<button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggleBtn" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+<span id="darkLabel">Dark</span>
+</button>
+</div>
+</nav>
 <!-- Overlay -->
-<div id="myOverlay" onclick="closeSidebar()" aria-hidden="true"></div>
-
+<div aria-hidden="true" id="myOverlay" onclick="closeSidebar()"></div>
 <!-- ─── Main Content ──────────────────────────────────────── -->
 <div id="main-content">
-
-  <!-- Mobile top bar -->
-  <div class="topbar" role="banner">
-    <button class="hamburger-btn" onclick="openSidebar()" aria-label="Open menu">
-      <i class="fa fa-bars"></i>
-    </button>
-    <a href="../../index.html" class="topbar-logo">FRC<span>source</span></a>
-    <div class="topbar-actions">
-      <button class="dark-toggle" onclick="toggleDark()" aria-label="Toggle dark mode">
-        <span class="toggle-track"><span class="toggle-thumb"></span></span>
-      </button>
-    </div>
-  </div>
-
-  <!-- ─── Article Hero ──────────────────────────────── -->
-  <header class="article-hero">
-    <div class="hero-geometry" aria-hidden="true">
-      <svg viewBox="0 0 500 300" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="heroGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"/>
-            <stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"/>
-          </linearGradient>
-          <linearGradient id="heroGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"/>
-            <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"/>
-          </linearGradient>
-        </defs>
-        <!-- Large background shape -->
-        <polygon points="150,0 500,0 500,300 50,300" fill="url(#heroGrad1)"/>
-        <!-- Geometric accents -->
-        <polygon points="300,0 500,0 500,180" fill="url(#heroGrad2)" opacity="0.6"/>
-        <line x1="280" y1="0" x2="100" y2="300" stroke="#0d9488" stroke-width="1.5" opacity="0.15"/>
-        <line x1="350" y1="0" x2="170" y2="300" stroke="#1d4ed8" stroke-width="1" opacity="0.10"/>
-        <line x1="420" y1="0" x2="240" y2="300" stroke="#dc2626" stroke-width="0.8" opacity="0.08"/>
-        <!-- Corner accent squares -->
-        <rect x="450" y="20" width="20" height="20" fill="#0d9488" opacity="0.2" rx="2"/>
-        <rect x="420" y="50" width="12" height="12" fill="#1d4ed8" opacity="0.15" rx="2"/>
-        <rect x="460" y="240" width="16" height="16" fill="#dc2626" opacity="0.12" rx="2"/>
-        <!-- Dot grid -->
-        <circle cx="310" cy="60"  r="2" fill="#0d9488" opacity="0.25"/>
-        <circle cx="340" cy="60"  r="2" fill="#0d9488" opacity="0.25"/>
-        <circle cx="370" cy="60"  r="2" fill="#0d9488" opacity="0.25"/>
-        <circle cx="310" cy="90"  r="2" fill="#0d9488" opacity="0.2"/>
-        <circle cx="340" cy="90"  r="2" fill="#0d9488" opacity="0.2"/>
-        <circle cx="370" cy="90"  r="2" fill="#0d9488" opacity="0.2"/>
-        <circle cx="310" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
-        <circle cx="340" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
-        <circle cx="370" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
-      </svg>
-    </div>
-
-    <div class="hero-content">
-      <div class="fade-in">
-        <span class="article-category-badge">
-          <i class="fa fa-tag"></i>
-          <!-- EDIT: Article category (e.g. Scouting Basics, Data Engineering) -->
+<!-- Mobile top bar -->
+<div class="topbar" role="banner">
+<button aria-label="Open menu" class="hamburger-btn" onclick="openSidebar()">
+<i class="fa fa-bars"></i>
+</button>
+<a class="topbar-logo" href="../../index.html">FRC<span>source</span></a>
+<div class="topbar-actions">
+<button aria-label="Toggle dark mode" class="dark-toggle" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+</button>
+</div>
+</div>
+<!-- ─── Article Hero ──────────────────────────────── -->
+<header class="article-hero">
+<div aria-hidden="true" class="hero-geometry">
+<svg preserveaspectratio="xMaxYMid slice" viewbox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="heroGrad1" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"></stop>
+<stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"></stop>
+</lineargradient>
+<lineargradient id="heroGrad2" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"></stop>
+<stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"></stop>
+</lineargradient>
+</defs>
+<!-- Large background shape -->
+<polygon fill="url(#heroGrad1)" points="150,0 500,0 500,300 50,300"></polygon>
+<!-- Geometric accents -->
+<polygon fill="url(#heroGrad2)" opacity="0.6" points="300,0 500,0 500,180"></polygon>
+<line opacity="0.15" stroke="#0d9488" stroke-width="1.5" x1="280" x2="100" y1="0" y2="300"></line>
+<line opacity="0.10" stroke="#1d4ed8" stroke-width="1" x1="350" x2="170" y1="0" y2="300"></line>
+<line opacity="0.08" stroke="#dc2626" stroke-width="0.8" x1="420" x2="240" y1="0" y2="300"></line>
+<!-- Corner accent squares -->
+<rect fill="#0d9488" height="20" opacity="0.2" rx="2" width="20" x="450" y="20"></rect>
+<rect fill="#1d4ed8" height="12" opacity="0.15" rx="2" width="12" x="420" y="50"></rect>
+<rect fill="#dc2626" height="16" opacity="0.12" rx="2" width="16" x="460" y="240"></rect>
+<!-- Dot grid -->
+<circle cx="310" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="340" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="370" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="310" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="340" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="370" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="310" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="340" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="370" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+</svg>
+</div>
+<div class="hero-content">
+<div class="fade-in">
+<span class="article-category-badge">
+<i class="fa fa-tag"></i>
+<!-- EDIT: Article category (e.g. Scouting Basics, Data Engineering) -->
           Scouting Basics
         </span>
-      </div>
-
-      <h1 class="article-title fade-in">
-        <!-- EDIT: Article title -->
+</div>
+<h1 class="article-title fade-in">
+<!-- EDIT: Article title -->
         Intro to FRC<span class="title-accent">Competition Structure</span>
-      </h1>
-
-      <p class="article-subtitle fade-in">
-        <!-- EDIT: One-sentence description of the article -->
+</h1>
+<p class="article-subtitle fade-in">
+<!-- EDIT: One-sentence description of the article -->
         A comprehensive overview of FRC competition structure, including alliances, matches, and scoring systems.
       </p>
-
-      <div class="article-meta fade-in">
-        <span class="meta-item">
-          <i class="fa fa-clock-o"></i>
-          <!-- EDIT: Estimated read time -->
+<div class="article-meta fade-in">
+<span class="meta-item">
+<i class="fa fa-clock-o"></i>
+<!-- EDIT: Estimated read time -->
           12 min read
         </span>
-        <span class="meta-item">
-          <i class="fa fa-calendar"></i>
-          <!-- EDIT: Last updated date -->
+<span class="meta-item">
+<i class="fa fa-calendar"></i>
+<!-- EDIT: Last updated date -->
           Updated Apr 2025
         </span>
-        <span class="difficulty-badge difficulty-beginner">
-          <!-- EDIT: difficulty-beginner / difficulty-intermediate / difficulty-advanced -->
-          <i class="fa fa-signal"></i> Beginner
+<span class="difficulty-badge difficulty-beginner">
+<!-- EDIT: difficulty-beginner / difficulty-intermediate / difficulty-advanced -->
+<i class="fa fa-signal"></i> Beginner
         </span>
-      </div>
-    </div>
-
-    <!-- Tags strip -->
-    <div class="hero-tags" role="list" aria-label="Article tags">
-      <!-- EDIT: Add/remove tags as needed. Classes: blue, red, teal, or leave blank -->
-      <span class="tag teal" role="listitem">Scouting</span>
-      <span class="tag blue" role="listitem">FRC</span>
-      <span class="tag"      role="listitem">Data Collection</span>
-      <span class="tag"      role="listitem">Strategy</span>
-      <span class="tag red"  role="listitem">Beginner Friendly</span>
-    </div>
-  </header>
-
-  <!-- ─── Article Layout ────────────────────────────────── -->
-  <div class="article-layout">
-
-    <!-- Article Body -->
-    <article class="article-body" id="article-top">
-
-      <!-- Prerequisites -->
-      <div class="callout info">
-        <span class="callout-icon"><i class="fa fa-info-circle"></i></span>
-        <div class="callout-content">
-          <div class="callout-title">Prerequisites</div>
-          <div class="prereqs">
-            <!-- EDIT: List prerequisite knowledge/articles. Remove section if none needed. -->
-            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Knowledge of FRC rules helpful</span>
-            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Basic spreadsheet skills</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- ─── Section 1 ────────────────────────── -->
-      <h2 id="what-is-scouting">What is a FRC Competition?</h2>
-      <p>
-        FRC competitions are structured events where teams compete in alliances to score points by completing specific tasks
-        with their robots. Each match typically lasts around 2.5 minutes and consists of an autonomous period followed by a teleoperated period, with various scoring opportunities throughout.
-      </p>
-      <p>
-        Every team on the field has strengths, weaknesses, and tendencies. A well-run scouting operation turns those
-        observations into structured data, and that data into competitive advantage.
-      </p>
-
-      <div class="callout tip">
-        <span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
-        <div class="callout-content">
-          <div class="callout-title">Pro Tip</div>
-          <p class="callout-text">
-            <!-- EDIT: Tip content -->
-            FRC competitions are as much about strategy and adaptability as they are about engineering. The best scouts aren't just data recorders — they're pattern spotters, trend analyzers, and storytellers who can turn raw numbers into actionable insights.
-          </p>
-        </div>
-      </div>
-
-      <!-- ─── Section 2 ────────────────────────── -->
-      <h2 id="types-of-scouting">Season Structure</h2>
-      <p>
-        there are 6 primary stages in the FRc season, Kickoff, Build, Week 0, Regionals/Districts, Championships, and Offseason events. Each stage has unique scouting opportunities and challenges:
-
-      <h3>kick off</h3>
-      <p>
-        Kickoff is the season's starting point, where the new game is revealed. Scouting during kickoff focuses on understanding the game rules, identifying key scoring opportunities, and analyzing the initial design concepts teams share. This early information can help shape your scouting strategy for the rest of the season.
-      </p>
-      <h3>Build Season</h3>
-      <p>
-        During the build season, scouting focuses on tracking team progress, design choices, and testing outcomes. This
-        early insight can help predict which teams will be strong competitors and identify potential alliance partners before the season even starts.
-      </p>
-      <h3>Week 0</h3>
-      <p>
-        Week 0 events are unofficial competitions that allow teams to test their robots in a real match environment. Scouting at Week 0 is crucial for gathering baseline performance data, identifying early strengths and weaknesses, and refining your scouting process before the official season begins.
-      </p>
-
-       <h3>Regionals/Districts</h3>
-      <p>
-        Regionals and districts are official competitions where teams compete for advancement to the Championship event. Scouting at these events is critical for evaluating team performance under pressure and identifying potential alliance partners for the Championship.
-      </p>
-      <h3>Championships</h3>
-      <p>
-        The Championship event are district events where top teams around the district (commonly the top 3rd of the teams) compete for the title of district champion. Scouting at these events is crucial for evaluating team performance under pressure and identifying potential alliance partners for the Championship.
-      </p>
-      <h3>World Championships</h3>
-      <p>
-        The World Championships are the pinnacle of FRC competition, where the best teams from around the world compete for the title of world champion. Scouting at these events is crucial for evaluating team performance under pressure and identifying potential alliance partners for the Championship.
-      </p>
-<h3>Offseason</h3>
-      <p>
-        The offseason is a period after the official season ends, where teams often participate in less formal competitions and events. Scouting during the offseason can provide insights into team development, new strategies, and emerging trends that may carry over into the next season.
-      </p>
-      <div class="callout warning">
-        <span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
-        <div class="callout-content">
-          <div class="callout-title">Common Mistake</div>
-          <p class="callout-text">
-            <!-- EDIT: Warning content -->
-            Tracking too many metrics per match leads to missed entries and fatigued scouts. Limit your form to the 5–8 metrics that actually influence alliance selection.
-          </p>
-        </div>
-      </div>
-
-      <!-- ─── Section 3 (Code example) ────────── -->
-      <h2 id="example">Example: Simple Match Form</h2>
-      <p>
-        Below is a minimal example of a match scouting data structure in JSON format — the same data a digital
-        scouting app might produce after each match:
-      </p>
-
-      <div class="code-block">
-        <div class="code-block-header">
-          <span class="code-lang">JSON</span>
-        </div>
-        <pre><!-- EDIT: Code content -->{
-  "match": 14,
-  "team": 4321,
-  "scout": "Alex M.",
-  "auto": {
-    "mobility": true,
-    "scoredHigh": 2,
-    "scoredLow": 0
-  },
-  "teleop": {
-    "cycles": 8,
-    "avgCycleTime": 22.4
-  },
-  "endgame": "climbed",
-  "defense": false,
-  "notes": "Very consistent auto, struggled with defense late game"
-}</pre>
-      </div>
-
-      <!-- ─── Section 4 ────────────────────────── -->
-      <h2 id="next-steps">Next Steps</h2>
-      <p>
-        Once you understand the basics of scouting, explore the following topics to build toward a full scouting system:
-      </p>
-      <ul>
-        <li><strong>Data Standardization</strong> — Ensure every scout records data the same way</li>
-        <li><strong>Form Design</strong> — Build input forms that are fast and error-resistant</li>
-        <li><strong>Statistics &amp; Analytics</strong> — Turn raw data into meaningful team comparisons</li>
-        <li><strong>Picklist Generation</strong> — Use your data to drive alliance selection decisions</li>
-      </ul>
-
-    </article>
-
-    <!-- TOC Panel -->
-    <aside class="toc-panel" aria-label="Table of contents">
-      <div class="toc-title">On This Page</div>
-      <ul class="toc-list">
-        <!-- EDIT: Match section IDs and labels to your article's h2s -->
-        <li id="toc-what-is-scouting"><a href="#what-is-scouting">What is Scouting?</a></li>
-        <li id="toc-types-of-scouting"><a href="#types-of-scouting">Types of Scouting</a></li>
-        <li id="toc-example"><a href="#example">Code Example</a></li>
-        <li id="toc-next-steps"><a href="#next-steps">Next Steps</a></li>
-      </ul>
-
-      <div class="toc-divider"></div>
-      <div class="toc-progress-label">Reading progress</div>
-      <div class="toc-progress-bar">
-        <div class="toc-progress-fill" id="readingProgress"></div>
-      </div>
-    </aside>
-
-  </div><!-- /article-layout -->
-
-  <div class="section-divider"></div>
-
-  <!-- ─── Contributor Section ───────────────────────────────── -->
-  <section class="contributor-section" aria-label="Article contributors">
-    <div class="contributor-section-title">Provided to you by</div>
-
-    <div class="contributor-cards">
-
-      <!--
+</div>
+</div>
+<!-- Tags strip -->
+<div aria-label="Article tags" class="hero-tags" role="list">
+<!-- EDIT: Add/remove tags as needed. Classes: blue, red, teal, or leave blank -->
+<span class="tag teal" role="listitem">Scouting</span>
+<span class="tag blue" role="listitem">FRC</span>
+<span class="tag" role="listitem">Data Collection</span>
+<span class="tag" role="listitem">Strategy</span>
+<span class="tag red" role="listitem">Beginner Friendly</span>
+</div>
+</header>
+<!-- ─── Article Layout ────────────────────────────────── -->
+<div class="article-layout">
+<!-- Article Body -->
+<article class="article-body" id="article-top">
+<!-- Prerequisites -->
+<div class="callout info">
+<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Prerequisites</div>
+<div class="prereqs">
+<!-- EDIT: List prerequisite knowledge/articles. Remove section if none needed. -->
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Knowledge of FRC rules helpful</span>
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Basic spreadsheet skills</span>
+</div>
+</div>
+</div>
+<!-- ─── Section 1 ────────────────────────── -->
+<h2 id="what-is-scouting">What is a FRC Competition?</h2>
+<p>FRC competitions are structured events where teams compete in alliances to score points by completing specific tasks with their robots. Each play typically lasts around 2.5 minutes and consists of an autonomous period followed by a teleoperated period, with various scoring opportunities throughout.</p>
+<p>Every team on the field has strengths, weaknesses, and tendencies. A well-and that data into competitive advantage., administer scouting operation turns those observations into structured data</p>
+<div class="callout tip">
+<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+<div class="callout-content">
+<div class="callout-title">Pro Tip</div>
+<p class="callout-text">FRC competitions are as much about strategy and adaptability as they are about engineering. The best scouts aren't just data recorders — they're pattern spotters, trend analyzers, and storytellers who can transform raw numbers into actionable insights.</p>
+</div>
+</div>
+<!-- ─── Section 2 ────────────────────────── -->
+<h2 id="types-of-scouting">Season Structure</h2>
+<p>there are 6 primary stages in the FRc season, Kickoff, Grow, Week 0, Regionals/Districts, Championships, and Offseason events. Each stage has unique scouting opportunities and challenges: kick off Kickoff is the season's starting point, where the modern game is revealed. Scouting during kickoff focuses on understanding the game rules, identifying key scoring opportunities, and analyzing the initial design concepts teams share. This early information can reinforce shape your scouting strategy for the rest of the season. Build Season During the build season, plan choices, scouting focuses on tracking team progress, and testing outcomes. This early insight can facilitate predict which teams will be robust competitors and detect potential alliance partners before the season even starts. Week 0 Week 0 events are unofficial competitions that enable teams to test their robots in a real match environment. Scouting at Week 0 is crucial for gathering baseline performance data, identifying early strengths and weaknesses, and refining your scouting approach before the official season begins. Regionals/Districts Regionals and districts are official competitions where teams compete for advancement to the Championship event. Scouting at these events is critical for evaluating team performance under pressure and identifying potential alliance partners for the Championship. Championships The Championship event are district events where top teams around the district (commonly the top 3rd of the teams) compete for the title of district champion. Scouting at these events is crucial for evaluating team performance under pressure and identifying potential alliance partners for the Championship. World Championships The World Championships are the pinnacle of FRC competition, where the best teams from around the world compete for the title of world champion. Scouting at these events is crucial for evaluating team performance under pressure and identifying potential alliance partners for the Championship. Offseason The offseason is a period after the official season ends, where teams regularly participate in less formal competitions and events. Scouting during the offseason can provide insights into team development, new strategies, and emerging trends that may carry over into the next season. Typical Mistake Tracking too many metrics per bout leads to missed entries and fatigued scouts. Confine your develop to the 5–8 metrics that actually influence alliance selection. Example: Simple Match Create Below is a minimal example of a match scouting data structure in JSON format — the same data a digital scouting app might produce after each play: JSON { "match": 14, "team": 4321, "scout": "Alex M.", "auto": { "mobility": true, "scoredHigh": 2, "scoredLow": 0 }, "teleop": { "cycles": 8, "avgCycleTime": 22.4 }, "endgame": "climbed", "zone defense": false, "notes": "Very consistent auto, struggled with defensive play late game" } Succeeding Steps Once you understand the basics of scouting, examine the following topics to build toward a full scouting system: Data Standardization — Ensure every scout records data the same approach Form Design — Develop input forms that are rapid and error-resistant Statistics &amp; Analytics — Turn raw data into meaningful team comparisons Picklist Generation — Leverage your data to drive alliance selection decisions</p></article>
+<!-- TOC Panel -->
+<aside aria-label="Table of contents" class="toc-panel">
+<div class="toc-title">On This Page</div>
+<ul class="toc-list">
+<!-- EDIT: Match section IDs and labels to your article's h2s -->
+<li id="toc-what-is-scouting"><a href="#what-is-scouting">What is Scouting?</a></li>
+<li id="toc-types-of-scouting"><a href="#types-of-scouting">Types of Scouting</a></li>
+<li id="toc-example"><a href="#example">Code Example</a></li>
+<li id="toc-next-steps"><a href="#next-steps">Next Steps</a></li>
+</ul>
+<div class="toc-divider"></div>
+<div class="toc-progress-label">Reading progress</div>
+<div class="toc-progress-bar">
+<div class="toc-progress-fill" id="readingProgress"></div>
+</div>
+</aside>
+</div><!-- /article-layout -->
+<div class="section-divider"></div>
+<!-- ─── Contributor Section ───────────────────────────────── -->
+<section aria-label="Article contributors" class="contributor-section">
+<div class="contributor-section-title">Provided to you by</div>
+<div class="contributor-cards">
+<!--
         CONTRIBUTOR CARD — duplicate this block for multiple contributors.
         Replace placeholder values with real data.
         For avatar: use <img> with src pointing to a .png/.jpg/.webp
         If no photo is available, use the placeholder div instead.
       -->
-      <div class="contributor-card">
-        <!-- OPTION A: Use an image file -->
-        <!-- <img src="../Assests/contributors/jane-doe.png" alt="Jane Doe" class="contributor-avatar"> -->
-
-        <!-- OPTION B: Initials placeholder (remove if using image above) -->
-        <div class="contributor-avatar-placeholder" aria-hidden="true">JD</div>
-
-        <div class="contributor-info">
-          <!-- EDIT: Contributor name -->
-          <div class="contributor-name">Claude AI</div>
-          <!-- EDIT: Team number and name -->
-          <div class="contributor-team">
-            <i class="fa fa-wrench">AI</i> 
-          </div>
-          <!-- EDIT: Role/contribution description -->
-          <div class="contributor-role">Article Author as whats scouting without stree and limited time</div>
-        </div>
-      </div>
-
-      <!--
+<div class="contributor-card">
+<!-- OPTION A: Use an image file -->
+<!-- <img src="../Assests/contributors/jane-doe.png" alt="Jane Doe" class="contributor-avatar"> -->
+<!-- OPTION B: Initials placeholder (remove if using image above) -->
+<div aria-hidden="true" class="contributor-avatar-placeholder">JD</div>
+<div class="contributor-info">
+<!-- EDIT: Contributor name -->
+<div class="contributor-name">Claude AI</div>
+<!-- EDIT: Team number and name -->
+<div class="contributor-team">
+<i class="fa fa-wrench">AI</i>
+</div>
+<!-- EDIT: Role/contribution description -->
+<div class="contributor-role">Article Author as whats scouting without stree and limited time</div>
+</div>
+</div>
+<!--
         SECOND CONTRIBUTOR EXAMPLE — remove if not needed
       -->
-      <div class="contributor-card">
-        <div class="contributor-avatar-placeholder" aria-hidden="true">MS</div>
-        <div class="contributor-info">
-          <div class="contributor-name">Marcus S.</div>
-          <div class="contributor-team">
-            <i class="fa fa-wrench"></i> Team 5678 — Circuit Breakers
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">AG</div>
+<div class="contributor-info">
+<div class="contributor-name">Adam G.</div>
+<div class="contributor-team">
+<i class="fa fa-wrench"></i> Team 2062 — CORE
           </div>
-          <div class="contributor-role">Technical Reviewer</div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ─── Next / Previous Navigation ──────────────────────────── -->
-  <nav class="article-nav" aria-label="Article navigation">
-
-    <!-- EDIT: Previous article link and title. Add class="placeholder" if none exists. -->
-    <a href="../../Scouting/Scouting-Index.html" class="nav-card prev">
-      <div class="nav-label"><i class="fa fa-arrow-left"></i> Index</div>
-      <div class="nav-title">FRC Competition Structure</div>
-    </a>
-
-    <!-- EDIT: Next article link and title. Add class="placeholder" if none exists. -->
-    <a href="./Next-Article.html" class="nav-card next">
-      <div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
-      <div class="nav-title">Pit Scouting vs Match Scouting</div>
-    </a>
-
-  </nav>
-
-  <!-- ─── Footer ───────────────────────────────────────────────── -->
-  <footer>
-    <!-- Color stripe -->
-    <div class="footer-stripe">
-      <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
-      <div class="footer-stripe-seg" style="background:#dc2626;"></div>
-      <div class="footer-stripe-seg" style="background:#0d9488;"></div>
-      <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
-      <div class="footer-stripe-seg" style="background:#dc2626;"></div>
-      <div class="footer-stripe-seg" style="background:#0d9488;"></div>
-    </div>
-
-    <div class="footer-inner">
-      <div class="footer-grid">
-
-        <div>
-          <div class="footer-brand">FRC<span>source</span></div>
-          <p class="footer-desc">
+<div class="contributor-role">Technical Reviewer</div>
+</div>
+</div>
+</div>
+</section></div>
+<div class="section-divider"></div>
+<!-- ─── Next / Previous Navigation ──────────────────────────── -->
+<nav aria-label="Article navigation" class="article-nav">
+<!-- EDIT: Previous article link and title. Add class="placeholder" if none exists. -->
+<a class="nav-card prev" href="../../Scouting/Scouting-Index.html">
+<div class="nav-label"><i class="fa fa-arrow-left"></i> Index</div>
+<div class="nav-title">FRC Competition Structure</div>
+</a>
+<!-- EDIT: Next article link and title. Add class="placeholder" if none exists. -->
+<a class="nav-card next" href="./Next-Article.html">
+<div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+<div class="nav-title">Pit Scouting vs Match Scouting</div>
+</a>
+</nav>
+<!-- ─── Footer ───────────────────────────────────────────────── -->
+<footer>
+<!-- Color stripe -->
+<div class="footer-stripe">
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+</div>
+<div class="footer-inner">
+<div class="footer-grid">
+<div>
+<div class="footer-brand">FRC<span>source</span></div>
+<p class="footer-desc">
             A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.
           </p>
-          <p class="footer-powered">
-            Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" rel="noopener">w3.css</a>
-          </p>
-        </div>
-
-        <div>
-          <div class="footer-heading">Explore</div>
-          <ul class="footer-links">
-            <li><a href="../../index.html">Home</a></li>
-            <li><a href="../../Programming/Programming-Index.html">Programming</a></li>
-            <li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
-            <li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
-            <li><a href="../../index.html#about">About</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="footer-heading">Tags</div>
-          <div class="footer-tags">
-            <span class="footer-tag">Index</span>
-            <span class="footer-tag">Programming</span>
-            <span class="footer-tag">Scouting</span>
-            <span class="footer-tag">FRCsource</span>
-            <span class="footer-tag">Strategy</span>
-            <span class="footer-tag">Data</span>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="footer-bottom">
-        <span>&copy; 2025 FRCsource. Made by the FRC community.</span>
-        <span>
-          <a href="https://github.com" style="color:#475569; text-decoration:none;">
-            <i class="fa fa-github"></i> GitHub
+<p class="footer-powered">
+            Powered by <a href="https://www.w3schools.com/w3css/default.asp" rel="noopener" target="_blank">w3.css</a>
+</p>
+</div>
+<div>
+<div class="footer-heading">Explore</div>
+<ul class="footer-links">
+<li><a href="../../index.html">Home</a></li>
+<li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+<li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+<li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+<li><a href="../../index.html#about">About</a></li>
+</ul>
+</div>
+<div>
+<div class="footer-heading">Tags</div>
+<div class="footer-tags">
+<span class="footer-tag">Index</span>
+<span class="footer-tag">Programming</span>
+<span class="footer-tag">Scouting</span>
+<span class="footer-tag">FRCsource</span>
+<span class="footer-tag">Strategy</span>
+<span class="footer-tag">Data</span>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2025 FRCsource. Made by the FRC community.</span>
+<span>
+<a href="https://github.com" style="color:#475569; text-decoration:none;">
+<i class="fa fa-github"></i> GitHub
           </a>
-        </span>
-      </div>
-    </div>
-  </footer>
-
-</div><!-- /main-content -->
-
+</span>
+</div>
+</div>
+</footer>
+<!-- /main-content -->
 <script>
   /* ─── Sidebar ────────────────────────────────────── */
   function openSidebar() {
@@ -1636,6 +1495,5 @@
   window.addEventListener('scroll', updateProgress, { passive: true });
   updateProgress();
 </script>
-
 </body>
 </html>

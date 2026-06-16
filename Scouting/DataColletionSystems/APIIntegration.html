@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en-US">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>API Integration — FRCsource</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&amp;family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="https://8bitadam.github.io/FRCsource/Assets/CSS/Article.css" rel="stylesheet"/>
+<script src="../../vendor/CoffeeScript/coffeescript.js"></script>
+</head>
+<body>
+<!-- ─── Sidebar ──────────────────────────────────────────── -->
+<nav aria-label="Main navigation" id="mySidebar" role="navigation">
+<button aria-label="Close menu" class="sidebar-close" onclick="closeSidebar()">
+<i class="fa fa-times"></i>
+</button>
+<div class="sidebar-logo-area">
+<img alt="FRCsource logo" src="../../Assests/logo.jpg"/>
+<div class="sidebar-brand">FRC<span>source</span></div>
+<div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+</div>
+<nav class="sidebar-nav">
+<div class="sidebar-section-label">Navigation</div>
+<a class="sidebar-link" href="../../index.html">
+<i class="fa fa-th-large"></i> Home
+    </a>
+<a class="sidebar-link" href="../../index.html#about">
+<i class="fa fa-user"></i> About
+    </a>
+<div class="sidebar-section-label">Content</div>
+<a class="sidebar-link" href="../../Programming/Programming-Index.html">
+<i class="fa fa-code"></i> Programming Index
+    </a>
+<a class="sidebar-link active" href="../../Scouting/Scouting-Index.html">
+<i class="fa fa-binoculars"></i> Scouting Index
+    </a>
+<a class="sidebar-link" href="../../FRCsource/FRCsource-Index.html">
+<i class="fa fa-envelope"></i> FRCsource Index
+    </a>
+</nav>
+<div class="sidebar-footer">
+<a aria-label="GitHub" class="sidebar-github" href="https://github.com/8BitAdam/FRCsource">
+<i class="fa fa-github"></i>
+</a>
+<button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggleBtn" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+<span id="darkLabel">Dark</span>
+</button>
+</div>
+</nav>
+<div aria-hidden="true" id="myOverlay" onclick="closeSidebar()"></div>
+<!-- ─── Main Content ──────────────────────────────────────── -->
+<div id="main-content">
+<div class="topbar" role="banner">
+<button aria-label="Open menu" class="hamburger-btn" onclick="openSidebar()">
+<i class="fa fa-bars"></i>
+</button>
+<a class="topbar-logo" href="../../index.html">FRC<span>source</span></a>
+<div class="topbar-actions">
+<button aria-label="Toggle dark mode" class="dark-toggle" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+</button>
+</div>
+</div>
+<!-- ─── Article Hero ──────────────────────────────── -->
+<header class="article-hero">
+<div aria-hidden="true" class="hero-geometry">
+<svg preserveaspectratio="xMaxYMid slice" viewbox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="heroGrad1" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"></stop>
+<stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"></stop>
+</lineargradient>
+<lineargradient id="heroGrad2" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"></stop>
+<stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"></stop>
+</lineargradient>
+</defs>
+<polygon fill="url(#heroGrad1)" points="150,0 500,0 500,300 50,300"></polygon>
+<polygon fill="url(#heroGrad2)" opacity="0.6" points="300,0 500,0 500,180"></polygon>
+<line opacity="0.15" stroke="#0d9488" stroke-width="1.5" x1="280" x2="100" y1="0" y2="300"></line>
+<line opacity="0.10" stroke="#1d4ed8" stroke-width="1" x1="350" x2="170" y1="0" y2="300"></line>
+<line opacity="0.08" stroke="#dc2626" stroke-width="0.8" x1="420" x2="240" y1="0" y2="300"></line>
+<rect fill="#0d9488" height="20" opacity="0.2" rx="2" width="20" x="450" y="20"></rect>
+<rect fill="#1d4ed8" height="12" opacity="0.15" rx="2" width="12" x="420" y="50"></rect>
+<rect fill="#dc2626" height="16" opacity="0.12" rx="2" width="16" x="460" y="240"></rect>
+<circle cx="310" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="340" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="370" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="310" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="340" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="370" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="310" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="340" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="370" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+</svg>
+</div>
+<div class="hero-content">
+<div class="fade-in">
+<span class="article-category-badge">
+<i class="fa fa-tag"></i>
+          Data Collection &amp; Systems
+        </span>
+</div>
+<h1 class="article-title fade-in">
+        API <span class="title-accent">Integration</span>
+</h1>
+<p class="article-subtitle fade-in">
+        How to pull real match schedules, live results, and team history directly into your scouting system — using The Blue Alliance API and the FRC Events API as your data backbone.
+      </p>
+<div class="article-meta fade-in">
+<span class="meta-item">
+<i class="fa fa-clock-o"></i> 15 min read
+        </span>
+<span class="meta-item">
+<i class="fa fa-calendar"></i> Updated Apr 2025
+        </span>
+<span class="difficulty-badge" style="background:rgba(234,179,8,0.15); color:#854d0e; border-color:rgba(234,179,8,0.3);">
+<i class="fa fa-signal"></i> Intermediate
+        </span>
+</div>
+</div>
+<div aria-label="Article tags" class="hero-tags" role="list">
+<span class="tag teal" role="listitem">Scouting</span>
+<span class="tag blue" role="listitem">Data Systems</span>
+<span class="tag" role="listitem">TBA API</span>
+<span class="tag" role="listitem">FRC Events API</span>
+<span class="tag red" role="listitem">Intermediate</span>
+</div>
+</header>
+<!-- ─── Article Layout ────────────────────────────────── -->
+<div class="article-layout">
+<article class="article-body" id="article-top">
+<div class="callout info">
+<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Prerequisites</div>
+<div class="prereqs">
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Syncing &amp; Data Pipelines</span>
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Data Integrity &amp; Error Handling</span>
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Basic programming familiarity</span>
+</div>
+</div>
+</div>
+<!-- ─── Section 1 ─── -->
+<h2 id="what-is-an-api">What Is an API and Why Does It Matter for Scouting?</h2>
+<p>An API — Application Programming Interface — is a structured way for one piece of software to request data from another. Instead of a human navigating to a website and reading information off the screen, an API lets your scouting program ask a server directly: "give me the competition cycle schedule for event X," and receive that data in a clean, machine-readable format that can be immediately used, stored, or displayed.</p>
+<p>For FRC scouting, quality data sources exist that publish exactly the information your scouting system needs-APIs matter because two high — and both are free to apply. The Blue Alliance API provides access to match schedules, official results, team information, event history, and more, covering essentially every FRC event ever recorded. The FRC Events API, maintained by FIRST directly, provides official event and match data straight from the source. Connecting your scouting pipeline to either — referencing with automated — replaces a significant amount of manual data entry and cross-or both, reliable data flow.</p>
+<p>You don't need to be an experienced developer to make primary API calls. If you can write a simple script in Python or JavaScript, you can pull useful data from these APIs into your scouting workflow., or even use a tool like Google Sheets with a custom formula This article walks through what each API provides, how to get started making requests, and how to integrate API data meaningfully into a scouting pipeline.</p>
+<!-- ─── Section 2 ─── -->
+<h2 id="tba-api">The Blue Alliance API</h2>
+<p>The Blue Alliance (TBA) has been archiving FRC event data since 2008 and exposes almost all of it through a well-documented REST API. A REST API works over standard HTTP — from command — and even from browser, line tools-meaning you can make requests to it from virtually any programming language, the same protocol your browser uses to load websites-based scripting environments.</p>
+<p>The TBA API is available at https://www.thebluealliance.com/api/v3 . All responses are returned as JSON — a structured text format that is straightforward to parse in any language. To use it, you need a free API key, which you can generate by creating an account on thebluealliance.com and visiting your account settings. That key gets included as a header in every request you make.</p>
+<h3>Getting Your API Key</h3>
+<p>generate or log into your account, and go to Account Settings, Navigate to thebluealliance.com. There is a section for API keys where you can generate a new key and supply it a descriptive name — something like "Team 2062 Scouting App" so you can identify it later. The key itself is a long string of characters. Keep it private: anyone with your key can make requests under your account, and TBA rate-limits by key, so a leaked key could exhaust your request quota.</p>
+<p>
+        Every request to the TBA API must include this header:
+      </p>
+<pre><code>X-TBA-Auth-Key: your_key_here</code></pre>
+<p>
+        Without it, the API will return a <code>401 Unauthorized</code> response and no data.
+      </p>
+<h3>Key Endpoints for Scouting</h3>
+<p>The TBA API has dozens of endpoints, but a handful cover the majority of what a scouting system needs. The most useful are listed below with a brief description of what each returns.</p>
+<p>/event/{event_key}/teams returns the list of all teams attending a particular event. An event key is a short identifier that combines year and event code — for example, 2025miket for the 2025 Kettering District Event in Michigan. You can find event keys on any TBA event page in the URL.</p>
+<p>/event/{event_key}/matches returns all matches at an event, playoff), and, once matches have been played, the teams on each alliance — breakdown by scoring category — including match type (qualification, the official scores, and winning alliance. This is the primary endpoint for pre-loading schedules and cross-referencing your scouted data against official results.</p>
+<p>/event/{event_key}/matches/simple returns a lighter version of the same data without the full scoring breakdown. Use this when you only need alliance partner compositions and scores, not the detailed per-category breakdown — it loads faster and is easier to parse.</p>
+<p>/team/{team_key}/events/{year}/matches returns all matches a precise team played in across all events in a given year. This is useful for pre-event research — pulling a team's full season history before your event to grasp how they have been performing across the season, not just at events you attended.</p>
+<p>/team/{team_key}/media/{year} returns media associated with a team for a given year, including robot reveal videos and photos posted to TBA. This can supplement your pit scouting notes with video evidence of a robot's capabilities from earlier in the season.</p>
+<div class="callout tip">
+<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+<div class="callout-content">
+<div class="callout-title">Use the TBA API Docs Directly</div>
+<p class="callout-text">TBA publishes interactive API documentation at thebluealliance.com/apidocs/v3 where you can browse every endpoint, see the exact JSON structure of each response, and even make live test requests directly in the browser. Before writing any code, spend ten minutes in the docs browser to understand exactly what data is available and how it is structured. It will save significant time when building your integration.</p>
+</div>
+</div>
+<h3>Making Your First Request</h3>
+<p>The simplest possible TBA API call retrieves the team list for an event. it looks like this:, In Python using the requests library</p>
+<pre><code>import requests
+
+API_KEY = "your_key_here"
+EVENT_KEY = "2025miket"
+
+response = requests.get(
+    f"https://www.thebluealliance.com/api/v3/event/{EVENT_KEY}/teams/simple",
+    headers={"X-TBA-Auth-Key": API_KEY}
+)
+
+teams = response.json()
+for team in teams:
+    print(team["team_number"], team["nickname"])</code></pre>
+<p>Running this prints a list of every team attending that event, by number and name. From here, parsing the JSON response — the same pattern, a GET request with your key in the header — applies to every other endpoint in the API.</p>
+<!-- ─── Section 3 ─── -->
+<h2 id="frc-events-api">The FRC Events API</h2>
+<p>The FRC Events API is maintained by FIRST directly and is the authoritative source for official event and match data. Where TBA is community-maintained and covers historical data going back years, the FRC Events API is the primary source during an active season — it receives official data first, before TBA picks it up, and it includes some data points that TBA does not expose.</p>
+<p>The FRC Events API is available at https://frc-api.firstinspires.org/v3.0 and also uses REST with JSON responses. Access requires a username and authorization token from FIRST, which you can request by creating an account at firstinspires.org and requesting API access through your team's account. Authentication uses HTTP Basic Auth rather than a header key — your username and token are combined and sent with every request.</p>
+<h3>What the FRC Events API Adds</h3>
+<p>TBA is the more convenient starting point — its documentation is more approachable, its community support is stronger, and it covers historical data that the FRC Events API does not, For most scouting use cases. However, there are two areas where the FRC Events API provides advantage that TBA cannot always match in real time.</p>
+<p>First, because TBA's data is ingested from FIRST rather than generated independently., official match results appear in the FRC Events API slightly faster than they appear on TBA during a live event If your pipeline is polling for play results and latency matters — for example, you're trying to cross-reference scouted data immediately after each match — the FRC Events API may give you a few minutes' head start.</p>
+<p>Second, the FRC Events API exposes team registration and ranking data in formats that are slightly more authoritative than TBA's equivalents. If your scouting system needs to display official rankings during the event, pulling from the FRC Events API ensures you're working from the same numbers FIRST is displaying at the venue.</p>
+<div class="callout info">
+<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+<div class="callout-content">
+<div class="callout-Title">Which API Should You Start With?</div>
+<p class="callout-text">For most teams building their first API integration, start with TBA. the community has more examples and libraries, event research and testing-and TBA covers historical data you can use for pre, The documentation is more thorough. Add FRC Events API access later if you necessitate faster live data or official rankings. The two APIs are complementary, not competing.</p>
+</div>
+</div>
+<!-- ─── Section 4 ─── -->
+<h2 id="practical-integrations">Practical Integrations for Scouting</h2>
+<p>Understanding the APIs is only half of the work. The more critical question is: what should you in fact build with them? The following integrations represent the highest-value uses of API data in a scouting pipeline, roughly in order of implementation complexity.</p>
+<h3>Schedule Pre-Loading</h3>
+<p>This is the single most valuable API integration for most teams. When the match schedule is published — your scouting app can pull the full schedule from TBA and apply it to pre — typically the evening before or morning of the event-populate every scout's match assignments automatically. Scouts open the app for match 14, 1323, 2910, and the app already knows that robots 1678, and 4414 are on the red alliance, and 254, and 3476 are on the blue. The scout selects their assigned robot from that list rather than typing a number.</p>
+<p>This one integration eliminates the most common class of scout submission errors — wrong robot number, wrong match number — without requiring any additional training or process change. It also enables automatic coverage tracking: if the schedule is loaded and a scout report exists for every robot in every completed match, coverage is 100%. If any match has a missing submission, the gap is immediately visible.</p>
+<h3>Live Score Cross-Referencing</h3>
+<p>After each match, your pipeline can automatically pull the official effect from TBA and compare it against the total implied by your scouted data. If your scouts recorded enough individual actions to account for 90 points, an auto bonus, something was missed — an endgame action, but the official score was 140, a penalty. The cross-reference flags that match for human review without requiring anyone to manually check the scoreboard after every round.</p>
+<p>Implementation requires polling the /event/{event_key}/matches endpoint periodically — and comparing each round result as it appears. — every two to three minutes is a reasonable interval during an active event Store the official score alongside your scouted data from the moment it is available, and surface discrepancies above a configurable threshold to your data steer.</p>
+<h3>Pre-Event Team Research</h3>
+<p>Before attending an event, every round they've played at every event that season — your strategy drive can pull each attending team's full season history from TBA, with official scores. This provides a baseline understanding of each team's performance before you've seen a single match at your event. Teams that have been consistently strong across the season are higher-priority subjects for early pit scouting. Teams that have shown substantial variance — substantial at one event, poor at another — warrant closer observation in early qualification matches to understand whether their performance has stabilized.</p>
+<p>This kind of pre-event analysis was previously only possible by manually browsing TBA team pages one at a time. An API integration that pulls all of this data for every attending team in one batch and organizes it into a pre-event briefing document changes what your strategy team can walk into the event knowing.</p>
+<h3>Automated Pick List Seeding</h3>
+<p>TBA rankings update in real time, As seeding match matches complete. Your pipeline can pull active rankings from the API and use them — combined with your own scouted data — to automatically seed an initial pick list. Teams ranked highly both by official standings and by your internal performance metrics float to the top. Teams that have substantial official rankings but weak scouted performance (or vice versa) secure flagged for manual review. not a final answer, but it accelerates the alliance selection process significantly, The automated seed is a starting point.</p>
+<div class="callout warning">
+<span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Don't Over-Weight API Data</div>
+<p class="callout-text">TBA and FRC Events API data reflects team trio-not individual robot performance., level outcomes A robot on a dominant alliance will have great official stats even if it contributed minimally. A robot on a insufficient alliance may look mediocre despite performing exceptionally well. API data is context — it informs and validates your scouted data, but it doesn't replace it. Your scouts watched the robots; the API watched the scoreboard.</p>
+</div>
+</div>
+<!-- ─── Section 5 ─── -->
+<h2 id="rate-limits-and-caching">Rate Limits and Caching</h2>
+<p>Both the TBA and FRC Events APIs enforce rate limits — caps on how multiple requests you can make within a given time window. Exceeding these limits results in your requests being rejected, sometimes temporarily and sometimes for a longer cooldown period. Rate limits exist to protect the APIs from being overwhelmed and to make sure fair access across all teams. Respecting them is not just courteous — it is necessary for your integration to keep working at the moment you demand it most.</p>
+<h3>TBA Rate Limits</h3>
+<p>TBA enforces a limit of a few thousand requests per hour per API key. For a typical scouting use case — this restrict is comfortable and you are unlikely to approach it. — polling match results every few minutes and making batch requests when a schedule loads Where teams run into trouble is when they write code that makes a fresh API call every time a user loads a page or every time a form refreshes, without any caching layer. A scouting app used by six scouts simultaneously, each triggering API calls on every interaction, can exhaust rate limits quickly.</p>
+<p>TBA also returns a header called Last-Modified, and supports conditional requests using If-Modified with each response-Since . If the data hasn't changed since your last request, the API returns a 304 Not Modified response with no body — saving bandwidth and not counting against your quota in the same way. Implementing conditional requests is one of the most effective ways to reduce your API usage without reducing the freshness of your data.</p>
+<h3>Caching Responses Locally</h3>
+<p>For data that doesn't change frequently — the team list for an event, the match schedule, team information — cache the API response locally the first time you fetch it and serve subsequent requests from the cache. The team list for an event is published once and doesn't change. There is no reason to make a fresh API label for it every time your app starts. Cache it to a local file or database when you first fetch it, check the cache before making any request, and only hit the API again if the cache is stale or explicitly invalidated.</p>
+<p>For data that does change — match results, rankings — cache with a time-to-live. A match result cached for five minutes is fresh enough for most employ cases and dramatically reduces request volume compared to a live request every time a component renders. Set your polling interval to round the practical update frequency: match results are posted once per match, not continuously, so polling faster than once every two minutes during active play provides no benefit and wastes quota.</p>
+<div class="callout tip">
+<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+<div class="callout-content">
+<div class="callout-title">Cache Everything Before the Event Starts</div>
+<p class="callout-text">The night before competition, run a script that pre-fetches and caches the event team list, the match schedule, and each team's season history from TBA. Store it all locally. When competition day starts and the gymnasium WiFi is congested, your app already has everything it needs for the morning. Real-time API calls during the event are then limited to match results that aren't yet in your cache — a much smaller and more manageable specify of requests.</p>
+</div>
+</div>
+<!-- ─── Section 6 ─── -->
+<h2 id="error-handling">Handling API Errors Gracefully</h2>
+<p>An API call can fail for multiple reasons: network connectivity issues, a server-side problem, an invalid request, a rate limit being exceeded, or a response that arrives in an unexpected format. A scouting app that crashes or freezes when an API call fails is worse than one that never made the API designate in the first place. Every API integration needs to handle failures gracefully, showing the user a useful message and falling back to cached or manually entered data rather than breaking the workflow.</p>
+<h3>HTTP Status Codes</h3>
+<p>Every API response includes an HTTP status code that tells you whether the request succeeded and, if not, why it failed. A 200 OK means success and the response body contains the data you requested. A 304 Not Modified means the data hasn't changed and your cached version is still valid. A 401 Unauthorized means your API fundamental is missing or invalid. A 404 Not Found means the resource you requested doesn't exist — an event key that was mistyped, or a match that hasn't been played yet. A 429 Too A wide range of Requests means you've hit the rate limit. A 500 Internal Server Error means something failed on the server side and you should retry after a short delay.</p>
+<p>Check the status code before attempting to parse the response body. Trying to parse a 429 error message as a JSON array of teams will crash your application. A robust API client always checks the status code first, handles each error case explicitly, and merely proceeds to parse the body when the status is 200 .</p>
+<h3>Retry Logic</h3>
+<p>For transient failures — network timeouts, 500 errors, brief connectivity drops — implement retry logic with exponential backoff. Wait one second before the first retry, four before the third, two seconds before the second, and so on up to a maximum delay. This avoids hammering a struggling server with rapid retries while still recovering automatically once connectivity is restored. Most API calls in a scouting context are not so time-sensitive that a thirty-second retry delay is a problem — and that patience ensures your integration recovers cleanly rather than failing hard.</p>
+<h3>Fallback Behavior</h3>
+<p>Every API call in your scouting app should have a defined fallback for when it fails after retries. For schedule loading, the fallback is allowing scouts to manually enter match and robot numbers. For live score cross-the fallback is skipping the cross, referencing-reference for that play and flagging it for manual review. the secondary method is a blank profile that gets filled in from pit scouting, For pre-event team research. Defining fallbacks before you deploy forces you to think about which parts of your system are genuinely dependent on the API and which are merely enhanced by it — a useful distinction to have documented before you're standing in a gymnasium with no internet.</p>
+<!-- ─── Section 7 ─── -->
+<h2 id="statbotics">Beyond TBA — Statbotics and Community Tools</h2>
+<p>TBA and the FRC Events API are the primary data sources, but the FRC community has built additional tools on top of them that may be useful depending on your scouting program's needs.</p>
+<p>Statbotics is a community-maintained analytics platform that computes EPA (Expected Points Added) ratings for FRC teams — a metric that attempts to measure each robot's individual contribution to their alliance's score, controlling for the quality of partner grouping partners and opponents. Statbotics exposes an API of its own that returns EPA ratings at the team, and match level., event Incorporating EPA data into your scouting pipeline gives you a baseline measure of expected performance that is already adjusted for context, which can be a useful complement to your raw scouted intake-to-score loop counts.</p>
+<p>Be thoughtful about how heavily you weight any external rating system. EPA and similar metrics are computed from alliance-which means they inherit the same limitations as TBA data, level outcomes — they can't isolate individual robot performance when the raw data doesn't assist it. Use them as a prior that your scouting data updates, not as a conclusion that your scouting data has to justify.</p>
+<div class="callout info">
+<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+<div class="callout-content">
+<div class="callout-title">The FRC Community Is an Asset</div>
+<p class="callout-text">Both TBA and Statbotics are built and maintained by FRC alumni and community members who volunteer their time because they believe in making data accessible to all teams regardless of resources. If your team benefits from these tools, data corrections — consider contributing back, bug reports, or financial support through TBA's donation page all help keep these resources available for everyone.</p>
+</div>
+</div>
+</article>
+<!-- TOC Panel -->
+<aside aria-label="Table of contents" class="toc-panel">
+<div class="toc-title">On This Page</div>
+<ul class="toc-list">
+<li id="toc-what-is-an-api"><a href="#what-is-an-api">What Is an API?</a></li>
+<li id="toc-tba-api"><a href="#tba-api">The Blue Alliance API</a></li>
+<li id="toc-frc-events-api"><a href="#frc-events-api">The FRC Events API</a></li>
+<li id="toc-practical-integrations"><a href="#practical-integrations">Practical Integrations</a></li>
+<li id="toc-rate-limits-and-caching"><a href="#rate-limits-and-caching">Rate Limits &amp; Caching</a></li>
+<li id="toc-error-handling"><a href="#error-handling">Handling API Errors</a></li>
+<li id="toc-statbotics"><a href="#statbotics">Beyond TBA</a></li>
+</ul>
+<div class="toc-divider"></div>
+<div class="toc-progress-label">Reading progress</div>
+<div class="toc-progress-bar">
+<div class="toc-progress-fill" id="readingProgress"></div>
+</div>
+</aside>
+</div><!-- /article-layout -->
+<div class="section-divider"></div>
+<!-- ─── Contributor Section ─── -->
+<section aria-label="Article contributors" class="contributor-section">
+<div class="contributor-section-title">Provided to you by</div>
+<div class="contributor-cards">
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">AI</div>
+<div class="contributor-info">
+<div class="contributor-name">Claude AI</div>
+<div class="contributor-team">
+<i class="fa fa-robot"></i> AI Author
+          </div>
+<div class="contributor-role">Article Author</div>
+</div>
+</div>
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">AG</div>
+<div class="contributor-info">
+<div class="contributor-name">Adam G.</div>
+<div class="contributor-team">
+<i class="fa fa-wrench"></i> Team 2062 — CORE
+          </div>
+<div class="contributor-role">Technical Reviewer</div>
+</div>
+</div>
+</div>
+</section>
+<div class="section-divider"></div>
+<!-- ─── Next / Previous Navigation ─── -->
+<nav aria-label="Article navigation" class="article-nav">
+<a class="nav-card prev" href="./syncing-and-data-pipelines.html">
+<div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
+<div class="nav-title">Syncing &amp; Data Pipelines</div>
+</a>
+<a class="nav-card next" href="./alliance-selection-strategy.html">
+<div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+<div class="nav-title">Alliance Selection Strategy</div>
+</a>
+</nav>
+<!-- ─── Footer ─── -->
+<footer>
+<div class="footer-stripe">
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+</div>
+<div class="footer-inner">
+<div class="footer-grid">
+<div>
+<div class="footer-brand">FRC<span>source</span></div>
+<p class="footer-desc">
+            A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.
+          </p>
+<p class="footer-powered">
+            Powered by <a href="https://www.w3schools.com/w3css/default.asp" rel="noopener" target="_blank">w3.css</a>
+</p>
+</div>
+<div>
+<div class="footer-heading">Explore</div>
+<ul class="footer-links">
+<li><a href="../../index.html">Home</a></li>
+<li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+<li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+<li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+<li><a href="../../index.html#about">About</a></li>
+</ul>
+</div>
+<div>
+<div class="footer-heading">Tags</div>
+<div class="footer-tags">
+<span class="footer-tag">Index</span>
+<span class="footer-tag">Programming</span>
+<span class="footer-tag">Scouting</span>
+<span class="footer-tag">FRCsource</span>
+<span class="footer-tag">Strategy</span>
+<span class="footer-tag">Data</span>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2025 FRCsource. Made by the FRC community.</span>
+<span>
+<a href="https://github.com/8BitAdam/FRCsource" style="color:#475569; text-decoration:none;">
+<i class="fa fa-github"></i> GitHub
+          </a>
+</span>
+</div>
+</div>
+</footer>
+</div><!-- /main-content -->
+<script src="../../Assets/Coffee/Sidebar.coffee" type="text/coffeescript"></script>
+</body>
+</html>

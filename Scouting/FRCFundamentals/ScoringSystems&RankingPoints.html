@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en-US">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scoring Systems and Ranking Points — FRCsource</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&amp;family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="https://8bitadam.github.io/FRCsource/Assets/CSS/Article.css" rel="stylesheet"/>
+<style>
+    .video-embed {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-md);
+      margin: 1.5rem 0;
+    }
+    .video-embed iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+    .video-caption {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 8px;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+<!-- ─── Sidebar ──────────────────────────────────────────── -->
+<nav aria-label="Main navigation" id="mySidebar" role="navigation">
+<button aria-label="Close menu" class="sidebar-close" onclick="closeSidebar()">
+<i class="fa fa-times"></i>
+</button>
+<div class="sidebar-logo-area">
+<img alt="FRCsource logo" src="../../Assests/logo.jpg"/>
+<div class="sidebar-brand">FRC<span>source</span></div>
+<div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+</div>
+<nav class="sidebar-nav">
+<div class="sidebar-section-label">Navigation</div>
+<a class="sidebar-link" href="../../index.html">
+<i class="fa fa-th-large"></i> Home
+    </a>
+<a class="sidebar-link" href="../../index.html#about">
+<i class="fa fa-user"></i> About
+    </a>
+<div class="sidebar-section-label">Content</div>
+<a class="sidebar-link" href="../../Programming/Programming-Index.html">
+<i class="fa fa-code"></i> Programming Index
+    </a>
+<a class="sidebar-link active" href="../../Scouting/Scouting-Index.html">
+<i class="fa fa-binoculars"></i> Scouting Index
+    </a>
+<a class="sidebar-link" href="../../FRCsource/FRCsource-Index.html">
+<i class="fa fa-envelope"></i> FRCsource Index
+    </a>
+</nav>
+<div class="sidebar-footer">
+<a aria-label="GitHub" class="sidebar-github" href="https://github.com/8BitAdam/FRCsource">
+<i class="fa fa-github"></i>
+</a>
+<button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggleBtn" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+<span id="darkLabel">Dark</span>
+</button>
+</div>
+</nav>
+<!-- Overlay -->
+<div aria-hidden="true" id="myOverlay" onclick="closeSidebar()"></div>
+<!-- ─── Main Content ──────────────────────────────────────── -->
+<div id="main-content">
+<!-- Mobile top bar -->
+<div class="topbar" role="banner">
+<button aria-label="Open menu" class="hamburger-btn" onclick="openSidebar()">
+<i class="fa fa-bars"></i>
+</button>
+<a class="topbar-logo" href="../../index.html">FRC<span>source</span></a>
+<div class="topbar-actions">
+<button aria-label="Toggle dark mode" class="dark-toggle" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+</button>
+</div>
+</div>
+<!-- ─── Article Hero ──────────────────────────────── -->
+<header class="article-hero">
+<div aria-hidden="true" class="hero-geometry">
+<svg preserveaspectratio="xMaxYMid slice" viewbox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="heroGrad1" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"></stop>
+<stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"></stop>
+</lineargradient>
+<lineargradient id="heroGrad2" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"></stop>
+<stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"></stop>
+</lineargradient>
+</defs>
+<polygon fill="url(#heroGrad1)" points="150,0 500,0 500,300 50,300"></polygon>
+<polygon fill="url(#heroGrad2)" opacity="0.6" points="300,0 500,0 500,180"></polygon>
+<line opacity="0.15" stroke="#0d9488" stroke-width="1.5" x1="280" x2="100" y1="0" y2="300"></line>
+<line opacity="0.10" stroke="#1d4ed8" stroke-width="1" x1="350" x2="170" y1="0" y2="300"></line>
+<line opacity="0.08" stroke="#dc2626" stroke-width="0.8" x1="420" x2="240" y1="0" y2="300"></line>
+<rect fill="#0d9488" height="20" opacity="0.2" rx="2" width="20" x="450" y="20"></rect>
+<rect fill="#1d4ed8" height="12" opacity="0.15" rx="2" width="12" x="420" y="50"></rect>
+<rect fill="#dc2626" height="16" opacity="0.12" rx="2" width="16" x="460" y="240"></rect>
+<circle cx="310" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="340" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="370" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="310" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="340" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="370" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="310" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="340" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="370" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+</svg>
+</div>
+<div class="hero-content">
+<div class="fade-in">
+<span class="article-category-badge">
+<i class="fa fa-tag"></i>
+          Scouting Basics
+        </span>
+</div>
+<h1 class="article-title fade-in">
+        Scoring Systems and <span class="title-accent">Ranking Points</span>
+</h1>
+<p class="article-subtitle fade-in">
+        A breakdown of how FRC matches are scored, how ranking points determine qualification seeding, and why both matter for building a scouting strategy.
+      </p>
+<div class="article-meta fade-in">
+<span class="meta-item">
+<i class="fa fa-clock-o"></i> 11 min read
+        </span>
+<span class="meta-item">
+<i class="fa fa-calendar"></i> Updated Apr 2025
+        </span>
+<span class="difficulty-badge difficulty-beginner">
+<i class="fa fa-signal"></i> Beginner
+        </span>
+</div>
+</div>
+<div aria-label="Article tags" class="hero-tags" role="list">
+<span class="tag teal" role="listitem">Scouting</span>
+<span class="tag blue" role="listitem">FRC</span>
+<span class="tag" role="listitem">Scoring</span>
+<span class="tag" role="listitem">Strategy</span>
+<span class="tag red" role="listitem">Beginner Friendly</span>
+</div>
+</header>
+<!-- ─── Article Layout ────────────────────────────────── -->
+<div class="article-layout">
+<article class="article-body" id="article-top">
+<div class="callout info">
+<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Prerequisites</div>
+<div class="prereqs">
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Intro to FRC Match Flow</span>
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Game Manual Analysis</span>
+</div>
+</div>
+</div>
+<!-- ─── Section 1 ─── -->
+<h2 id="how-scoring-works">How FRC Scoring Works</h2>
+<p>Every FRC match produces a final score for each alliance — earning action performed across all three match phases.-a single number that reflects every point The alliance with the higher score wins the match. Simple in principle, but the scoring structure underneath is layered enough that understanding it in detail meaningfully changes how you scout.</p>
+<p>Points are accumulated across three distinct phases: the autonomous period (first 15 seconds), the teleoperated period (the following 1 minute 45 seconds), and the closing sequence (the final 30 seconds of manual period, which triggers higher-advantage objectives). Each phase has its own scoring actions with their own point values — and in most seasons, those values differ significantly across phases.</p>
+<div class="callout tip">
+<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+<div class="callout-content">
+<div class="callout-title">Scores Are Per Alliance, Not Per Robot</div>
+<p class="callout-text">All three robots on an alliance contribute to a single shared score. There is no indevisual socre per robot in a FRC match. This is why alliance compsotion matters. A weak robot can be boosted high amoung ranking or drag two substantial teamates down.</p>
+</div>
+</div>
+<!-- ─── Section 2 ─── -->
+<h2 id="phase-scoring">Scoring by Match Phase</h2>
+<h3>Autonomous Period</h3>
+<p>Auto scoring is typically worth more per action than the equivalent teleop action, as a reward for reliable programming. Standard auto-scored actions feature crossing a starting line, and completing pre, scoring game pieces in specific zones-defined routes. Because pre-programmed phase lasts only 15 seconds, the point totals are smaller in absolute terms — but the bonus multipliers and ranking point implications produce auto performance disproportionately important to track.</p>
+<p>For scouting, the key questions in auto are: did the robot endeavor an auto routine, did it succeed, and what specifically did it accomplish? A team that consistently runs a reliable but modest auto is often more valuable than one that attempts an aggressive autonomous routine and fails half the time.</p>
+<h3>Teleoperated Period</h3>
+<p>Teleop is where the bulk of raw points are scored. It rewards cycle speed — how quickly a robot can accomplish a scoring action, return for another game piece, and repeat. The best teleop performers are not always the ones with the highest peak performance; they are the ones with the most consistent scoring run times and the fewest wasted seconds recovering from mistakes.</p>
+<p>When scouting teleop, count completed scoring actions and estimate game piece run time where possible. As well note interruptions — defensive contact, game piece drops, repositioning delays — since these directly minimize impactful scoring rate.</p>
+<h3>Endgame</h3>
+<p>Endgame objectives are deliberately designed to be high-pressured.-value and time Climbing, docking, balancing, and similar actions often award more points per action than anything in teleop. A single successful endgame can swing a match that was previously close. Track closing sequence separately and note both the outcome and the time at which the robot began its climb phase attempt — a team that starts climbing with 10 seconds left is taking significantly more risk than one that locks in at 25 seconds.</p>
+<!-- ─── Section 3 ─── -->
+<h2 id="penalties">Penalties and Fouls</h2>
+<p>Points are not only added — they can be given away. Fouls and tech fouls are referee-assessed penalties that award points directly to the opposing team trio. A foul is typically worth a small number of points; a tech foul is worth substantially more. In close matches, a single tech foul can decide the outcome.</p>
+<p>From a scouting perspective, tracking which teams accumulate fouls is just as essential as tracking their scoring. A robot that scores 18 points but draws two tech fouls in a match is effectively giving the opponent 12 free points — their net contribution may be negative. Include a foul counter in your scouting form and acknowledge the approximate bring about when you can observe it.</p>
+<div class="callout warning">
+<span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Fouls Are Easy to Miss</div>
+<p class="callout-text">Fouls name happens promptly and refereeas often dont announce them loudly. It you are scouting live, wait until the end of the match for the offical score breakdown for fouls, red and yellow cards</p>
+</div>
+</div>
+<!-- ─── Section 4 ─── -->
+<h2 id="ranking-points">Ranking Points Explained</h2>
+<p>Competition cycle score determines the winner of an individual match, but it does not directly determine where a team seeds after qualifications. That is determined by Ranking Points (RPs) — a separate accumulation system that rewards different behaviors than simply outscoring opponents.</p>
+<p>each alliance partner earns RPs based on the game outcome and whether they met certain bonus thresholds, In a standard preliminary match match. A typical RP structure looks like this: 2 RPs for a win, 1 RP each for a tie, 0 RPs for a loss, plus up to 2 additional bonus RPs that can be earned regardless of the competition cycle result by meeting precise game-defined objectives. This means a team can lose a play but still earn bonus RPs and come out ahead of a team that won with no bonuses.</p>
+<div class="video-embed">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" src="https://www.youtube.com/embed/xr69EMH4BZM" title="FRC Scoring and Alliance Selection">
+</iframe>
+</div>
+<p class="video-caption">FRC Scoring &amp; Alliance Selection — a useful overview of how scoring and qualification seeding connect to playoff positioning.</p>
+<h3>Bonus Ranking Points</h3>
+<p>Bonus RPs shift every season. They are tied to the game's major objectives — in seasons past these have included completing an alliance-wide auto task, reaching a specific combined endgame state, or achieving a score threshold. They are typically designed so that solid alliances can reach them consistently, but weaker alliances must stretch.</p>
+<p>Understanding which bonus RPs exist and how achievable they are is one of the most important outputs of your game manual analysis. Teams that are RP-farming — intentionally prioritizing bonus RP conditions over maximizing round score — will behave differently on the field. Scouts depend on to recognize this.</p>
+<h3>Seeding and Its Consequences</h3>
+<p>At the end of qualifications, the top 8 seeds become Coalition Captains for playoffs. The higher your seed, the more choice you have in alliance selection — and in FRC's snake draft format, seed 1 has the most favorable picks. Teams will sometimes accept a narrow match loss in exchange for securing both bonus RPs, which is a rational trade when the seed position matters more than the win count.</p>
+<p>this means that a team's win-loss record alone is a poor proxy for their performance quality, For scouts. Consistently look at their RP total and their bonus RP rate. A team with a 6-4 record and 8 bonus RPs may be far more valuable than a 7-3 team who never achieved a bonus.</p>
+<!-- ─── Section 5 ─── -->
+<h2 id="scouting-implications">What This Means for Scouting</h2>
+<p>The scoring structure defines what you should be tracking. Every field on your scouting form should correspond to something that either directly contributes to match score, contributes to ranking points, or signals something about alliance reliability. If a data field doesn't connect to those outcomes, it is probably wasting your scouts' attention.</p>
+<h3>Track Phase Contributions Separately</h3>
+<p>A team's contribution in autonomous period, teleop, and endgame should always be recorded separately — never collapsed into a single total. Alliance captains making selection decisions need to know whether a team is strong in auto but limited in climb phase, or vice versa. Aggregated totals hide the role information that makes data operationally useful.</p>
+<h3>Include RP Contribution as a Metric</h3>
+<p>Design your form to capture whether a team contributed to each bonus RP condition in a given match. This creates a simple rate metric — "bonus RP contribution rate" — that is one of the clearest signals of a team's strategic value at an event. Teams that achieve this consistently are teams other high seeds will aim for to partner with.</p>
+<h3>Net Score vs Gross Score</h3>
+<p>Consider calculating a net score for each team: points contributed minus foul points conceded. This gives a more honest picture of a robot's real value in a match than the raw score contribution alone. A team with a high gross score but a significant foul rate will underperform expectations in playoffs, where opponents are better and margins are smaller.</p>
+<div class="callout tip">
+<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+<div class="callout-content">
+<div class="callout-title">Build a Scoring Reference Sheet</div>
+<p class="callout-text">Before any event, make a refernce card or sheet showing every scoring action, its value, whitch hase, and what actions count to bonus RP. Share it with scouts. When everyones working with the same understanding data will be far more consistent match to competition cycle tracker to scout.</p>
+</div>
+</div>
+</article>
+<!-- TOC Panel -->
+<aside aria-label="Table of contents" class="toc-panel">
+<div class="toc-title">On This Page</div>
+<ul class="toc-list">
+<li id="toc-how-scoring-works"><a href="#how-scoring-works">How Scoring Works</a></li>
+<li id="toc-phase-scoring"><a href="#phase-scoring">Scoring by Phase</a></li>
+<li id="toc-penalties"><a href="#penalties">Penalties and Fouls</a></li>
+<li id="toc-ranking-points"><a href="#ranking-points">Ranking Points</a></li>
+<li id="toc-scouting-implications"><a href="#scouting-implications">Scouting Implications</a></li>
+</ul>
+<div class="toc-divider"></div>
+<div class="toc-progress-label">Reading progress</div>
+<div class="toc-progress-bar">
+<div class="toc-progress-fill" id="readingProgress"></div>
+</div>
+</aside>
+</div><!-- /article-layout -->
+<div class="section-divider"></div>
+<!-- ─── Contributor Section ─── -->
+<section aria-label="Article contributors" class="contributor-section">
+<div class="contributor-section-title">Provided to you by</div>
+<div class="contributor-cards">
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">AI</div>
+<div class="contributor-info">
+<div class="contributor-name">Claude AI</div>
+<div class="contributor-team">
+<i class="fa fa-robot"></i> AI Author
+          </div>
+<div class="contributor-role">Article Author</div>
+</div>
+</div>
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">MS</div>
+<div class="contributor-info">
+<div class="contributor-name">Marcus S.</div>
+<div class="contributor-team">
+<i class="fa fa-wrench"></i> Team 5678 — Circuit Breakers
+          </div>
+<div class="contributor-role">Technical Reviewer</div>
+</div>
+</div>
+</div>
+</section>
+<div class="section-divider"></div>
+<!-- ─── Next / Previous Navigation ─── -->
+<nav aria-label="Article navigation" class="article-nav">
+<a class="nav-card prev" href="./game-manual-analysis.html">
+<div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
+<div class="nav-title">Game Manual Analysis</div>
+</a>
+<a class="nav-card next" href="./pit-scouting.html">
+<div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+<div class="nav-title">Pit Scouting Fundamentals</div>
+</a>
+</nav>
+<!-- ─── Footer ─── -->
+<footer>
+<div class="footer-stripe">
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+</div>
+<div class="footer-inner">
+<div class="footer-grid">
+<div>
+<div class="footer-brand">FRC<span>source</span></div>
+<p class="footer-desc">
+            A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.
+          </p>
+<p class="footer-powered">
+            Powered by <a href="https://www.w3schools.com/w3css/default.asp" rel="noopener" target="_blank">w3.css</a>
+</p>
+</div>
+<div>
+<div class="footer-heading">Explore</div>
+<ul class="footer-links">
+<li><a href="../../index.html">Home</a></li>
+<li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+<li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+<li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+<li><a href="../../index.html#about">About</a></li>
+</ul>
+</div>
+<div>
+<div class="footer-heading">Tags</div>
+<div class="footer-tags">
+<span class="footer-tag">Index</span>
+<span class="footer-tag">Programming</span>
+<span class="footer-tag">Scouting</span>
+<span class="footer-tag">FRCsource</span>
+<span class="footer-tag">Strategy</span>
+<span class="footer-tag">Data</span>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2025 FRCsource. Made by the FRC community.</span>
+<span>
+<a href="https://github.com/8BitAdam/FRCsource" style="color:#475569; text-decoration:none;">
+<i class="fa fa-github"></i> GitHub
+          </a>
+</span>
+</div>
+</div>
+</footer>
+</div><!-- /main-content -->
+<script>
+  function openSidebar() {
+    document.getElementById('mySidebar').classList.add('open');
+    document.getElementById('myOverlay').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    document.getElementById('mySidebar').classList.remove('open');
+    document.getElementById('myOverlay').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  const html = document.documentElement;
+  const darkLabel = document.getElementById('darkLabel');
+
+  function applyTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('frc-theme', theme);
+    if (darkLabel) darkLabel.textContent = theme === 'dark' ? 'Light' : 'Dark';
+  }
+
+  function toggleDark() {
+    applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  }
+
+  (function () {
+    const saved = localStorage.getItem('frc-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+  })();
+
+  const progressFill = document.getElementById('readingProgress');
+  const sections = document.querySelectorAll('.article-body h2[id]');
+  const tocItems = document.querySelectorAll('.toc-list li[id]');
+
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+    if (progressFill) progressFill.style.width = progress + '%';
+
+    let activeId = null;
+    sections.forEach(sec => {
+      if (scrollTop >= sec.offsetTop - 120) activeId = sec.id;
+    });
+
+    tocItems.forEach(item => {
+      item.classList.remove('active');
+      if (item.id === 'toc-' + activeId) item.classList.add('active');
+    });
+  }
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+</script>
+</body>
+</html>

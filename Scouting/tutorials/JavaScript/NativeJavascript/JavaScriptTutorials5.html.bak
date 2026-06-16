@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutorial Page Template</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+<style>
+  /* Sidebar styling */
+  .sidebar {
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    width: 180px;
+    background-color: #003366;
+    color: white;
+  }
+  .sidebar h3 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    padding-left: 12px;
+    color: #ff3333;
+    font-size: 14px;
+  }
+  .sidebar a {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+    border-radius: 4px;
+  }
+  .sidebar a:hover {
+    background-color: #ff3333;
+    color: white;
+  }
+
+  /* Main content area */
+  .main-content {
+    margin-left: 190px;
+    padding: 20px;
+    background-color: white;
+    color: #000;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  /* Dark mode class */
+  .darkmode {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+  }
+  .darkmode h1,
+  .darkmode h3 {
+    color: #ff6666;
+  }
+
+  /* Button */
+  .darkmode-btn {
+    background-color: #ff3333;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+  .darkmode-btn:hover {
+    background-color: #cc0000;
+  }
+
+  h1 { color: #003366; }
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar / Navigation -->
+<div class="sidebar w3-card">
+  <h2 class="w3-center w3-padding-12" style="font-size:16px; color:white;">Tutorial Menu</h2>
+  <h3>Getting Started</h3>
+  <a href="#intro">Introduction</a>
+  <a href="#setup">Setup</a>
+  <h3>Core Concepts</h3>
+  <a href="#concept1">Concept 1</a>
+  <a href="#concept2">Concept 2</a>
+  <h3>Advanced</h3>
+  <a href="#advanced1">Advanced 1</a>
+  <a href="#advanced2">Advanced 2</a>
+</div>
+
+<!-- Main Content Area -->
+<div class="main-content" id="mainContent">
+  <button class="darkmode-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+  <h1 id="intro">JavaScript Operators</h1>
+
+    <p>Operators are symbols that perform operations on values and variables. They are used to perform arithmetic, comparison, logical, and assignment operations.</p>
+
+    <h3>JavaScript Arithmetic/Math Operators</h3>
+    <ul>
+      <li>Addition: +</li>
+      <li>Subtraction: -</li>
+      <li>Multiplication: *</li>
+      <li>Division: /</li>
+      <li>Modulus (Remainder): %</li>
+      <li>Exponentiation: **</li>
+      <li>Increment: ++</li>
+      <li>Decrement: --</li>
+    </ul>
+    <p>+ can also be used for concatenation of strings, for more on that look at the String section</p>
+    <p>Example of Arithmetic Operators:</p>
+    <script src="//onlinegdb.com/embed/js/4NyTYLBp2?theme=dark">
+
+    </script>
+    <h3>JavaScript assignment Operators</h3>
+    <p>Assignment operators are used to assign values to variables. The most common assignment operator is the equal sign (=).</p>
+    <ul>
+      <li>Assignment: =</li>
+      <li>Addition assignment: +=</li>
+      <li>Subtraction assignment: -=</li>
+      <li>Multiplication assignment: *=</li>
+      <li>Division assignment: /=</li>
+      <li>Modulus assignment: %=</li>
+      <li>Modulus assignment: %=</li>
+    </ul>
+    <p>Example of Assignment Operators:</p>
+    <script src="//onlinegdb.com/embed/js/Uy-oZ1CpH?theme=dark">
+        
+    </script>
+    <h3>Logical Assignment Operators</h3>
+    <p>Logical assignment operators combine logical operations with assignment. They allow you to assign a value to a variable based on a logical condition.</p>
+    <ul>
+      <li>Logical AND assignment: &&=</li>
+      <li>Logical OR assignment: ||=</li>
+      <li>Logical nullish assignment: ??=</li>
+    </ul>
+    <h3>Comparison Operators</h3>
+    <ul>
+      <li>Equal: ==</li>
+      <li>Not equal: !=</li>
+      <li>Strict equal: ===</li>
+      <li>Strict not equal: !==</li>
+      <li>Greater than: ></li>
+      <li>Less than: <</li>
+      <li>Greater than or equal to: >=</li>
+      <li>Less than or equal to: <=</li>
+    </ul>
+    <p>Example of Comparison Operators:</p>
+    <script src="//onlinegdb.com/embed/js/he4GsFytI?theme=dark">
+
+    </script>
+
+
+<!-- Navigation Buttons at the Bottom -->
+<div style="display:flex; justify-content:space-between; margin-top:40px;">
+  <button class="w3-button w3-blue" onclick="window.location.href='/Scouting/Scouting-Index.html'">>Back to Scouting Index</button>
+  <button class="w3-button w3-red" onclick="window.location.href='/Scouting/tutorials/JavaScript/NativeJavascript/JavaScriptTutorials4.html'">Next Lesson</button>
+</div>
+
+</div>
+
+<script>
+const content = document.getElementById('mainContent');
+
+// Apply saved preference or system preference on load
+function applyPreference() {
+  const saved = localStorage.getItem('darkmode');
+  if (saved === 'true') {
+    content.classList.add('darkmode');
+  } else if (saved === 'false') {
+    content.classList.remove('darkmode');
+  } else {
+    // Follow system preference if no saved value
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      content.classList.add('darkmode');
+    }
+  }
+}
+
+window.onload = applyPreference;
+
+// Toggle dark/light mode and save preference
+function toggleDarkMode() {
+  if (content.classList.contains('darkmode')) {
+    content.classList.remove('darkmode');
+    localStorage.setItem('darkmode', 'false');
+  } else {
+    content.classList.add('darkmode');
+    localStorage.setItem('darkmode', 'true');
+  }
+}
+</script>
+
+</body>
+</html>

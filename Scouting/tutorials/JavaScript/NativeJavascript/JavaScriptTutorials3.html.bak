@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutorial Page Template</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+<style>
+  /* Sidebar styling */
+  .sidebar {
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    width: 180px;
+    background-color: #003366;
+    color: white;
+  }
+  .sidebar h3 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    padding-left: 12px;
+    color: #ff3333;
+    font-size: 14px;
+  }
+  .sidebar a {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+    border-radius: 4px;
+  }
+  .sidebar a:hover {
+    background-color: #ff3333;
+    color: white;
+  }
+
+  /* Main content area */
+  .main-content {
+    margin-left: 190px;
+    padding: 20px;
+    background-color: white;
+    color: #000;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  /* Dark mode class */
+  .darkmode {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+  }
+  .darkmode h1,
+  .darkmode h3 {
+    color: #ff6666;
+  }
+
+  /* Button */
+  .darkmode-btn {
+    background-color: #ff3333;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+  .darkmode-btn:hover {
+    background-color: #cc0000;
+  }
+
+  h1 { color: #003366; }
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar / Navigation -->
+<div class="sidebar w3-card">
+  <h2 class="w3-center w3-padding-12" style="font-size:16px; color:white;">Tutorial Menu</h2>
+  <h3>Getting Started</h3>
+  <a href="#intro">Introduction</a>
+  <a href="#setup">Setup</a>
+  <h3>Core Concepts</h3>
+  <a href="#concept1">Concept 1</a>
+  <a href="#concept2">Concept 2</a>
+  <h3>Advanced</h3>
+  <a href="#advanced1">Advanced 1</a>
+  <a href="#advanced2">Advanced 2</a>
+</div>
+
+<!-- Main Content Area -->
+<div class="main-content" id="mainContent">
+  <button class="darkmode-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+  <h1 id="intro">JS Variables</h1>
+  <p>Javascript variables are containers for Data with variables being declared in four different ways: Modern javascript uses let or const in older javascript var or it being done automatically.</p>
+  <p>Its no longer recomnded to use var or have the system do it automacally</p>
+
+  <h3>JavaScript Identifiers</h3>
+  <p>JavaScript identifiers are names used to identify variables, functions, and objects. They must start with a letter, underscore (_), or dollar sign ($), followed by letters, digits, underscores, or dollar signs; but be warned These are case sensitive, A CAR is different from a car.</p>
+  <p>You may not use identifiers that are Reserved by JavaScript itself, and example of this is let or class</p>
+  <h3>Scopes</h3>
+  <p>JavaScript has different scopes: global, function, and block scope. Global scope means a variable is accessible anywhere in the program, function scope means a variable is only accessible within a function, and block scope means a variable is only accessible within the block it was declared in.</p>
+  <h4 id="setup">blocked scope</h4>
+  <p>blocked scope is a concept in JavaScript where variables declared with `let` or `const` are only accessible within the block they are defined in, and not outside of it.</p>
+  <p>Example:</p>
+  <script src="//onlinegdb.com/embed/js/dhLOj_jN2?theme=dark">
+
+
+  </script>
+  <h4 id="setup">Global scope</h4>
+    <p>Global scope is a concept in JavaScript where variables declared outside of any function or block are accessible from anywhere in the program.</p>
+    <script src="//onlinegdb.com/embed/js/AoSuNJQua?theme=dark">
+
+      
+    </script>
+  <br>
+  <h3>Declaration</h3>
+    <p>Variables declared with `let` or `const` cannot be redeclared within the same scope, which helps prevent accidental overwriting of variable values.</p>
+    <p>Variables declared with `var` can be redeclared within the same scope, which can lead to unexpected behavior and bugs in your code.</p>
+
+  <h3 id="concept1">JavaScript Let variable</h3>
+  <p>let is a keyword used to declare variables with a block scope, variables declared with let must be declared before use and cannot be redeclared within the same scope.</p>
+<h3 id="concept1">JavaScript const variable</h3>
+<p>const is a keyword used to declare block scoped variables that cannot change/reassign different values</p>
+
+<!-- Navigation Buttons at the Bottom -->
+<div style="display:flex; justify-content:space-between; margin-top:40px;">
+  <button class="w3-button w3-blue" onclick="window.location.href='/Scouting/Scouting-Index.html'">>Back to Scouting Index</button>
+  <button class="w3-button w3-red" onclick="window.location.href='/Scouting/tutorials/JavaScript/NativeJavascript/JavaScriptTutorials4.html'">Next Lesson</button>
+</div>
+
+</div>
+
+<script>
+const content = document.getElementById('mainContent');
+
+// Apply saved preference or system preference on load
+function applyPreference() {
+  const saved = localStorage.getItem('darkmode');
+  if (saved === 'true') {
+    content.classList.add('darkmode');
+  } else if (saved === 'false') {
+    content.classList.remove('darkmode');
+  } else {
+    // Follow system preference if no saved value
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      content.classList.add('darkmode');
+    }
+  }
+}
+
+window.onload = applyPreference;
+
+// Toggle dark/light mode and save preference
+function toggleDarkMode() {
+  if (content.classList.contains('darkmode')) {
+    content.classList.remove('darkmode');
+    localStorage.setItem('darkmode', 'false');
+  } else {
+    content.classList.add('darkmode');
+    localStorage.setItem('darkmode', 'true');
+  }
+}
+</script>
+
+</body>
+</html>

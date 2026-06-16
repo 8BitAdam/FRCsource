@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en-US">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Data Cleaning &amp; Validation — FRCsource</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&amp;family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="https://8bitadam.github.io/FRCsource/Assets/CSS/Article.css" rel="stylesheet"/>
+<script src="../../vendor/CoffeeScript/coffeescript.js"></script>
+</head>
+<body>
+<!-- ─── Sidebar ──────────────────────────────────────────── -->
+<nav aria-label="Main navigation" id="mySidebar" role="navigation">
+<button aria-label="Close menu" class="sidebar-close" onclick="closeSidebar()">
+<i class="fa fa-times"></i>
+</button>
+<div class="sidebar-logo-area">
+<img alt="FRCsource logo" src="../../Assests/logo.jpg"/>
+<div class="sidebar-brand">FRC<span>source</span></div>
+<div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+</div>
+<nav class="sidebar-nav">
+<div class="sidebar-section-label">Navigation</div>
+<a class="sidebar-link" href="../../index.html">
+<i class="fa fa-th-large"></i> Home
+    </a>
+<a class="sidebar-link" href="../../index.html#about">
+<i class="fa fa-user"></i> About
+    </a>
+<div class="sidebar-section-label">Content</div>
+<a class="sidebar-link" href="../../Programming/Programming-Index.html">
+<i class="fa fa-code"></i> Programming Index
+    </a>
+<a class="sidebar-link active" href="../../Scouting/Scouting-Index.html">
+<i class="fa fa-binoculars"></i> Scouting Index
+    </a>
+<a class="sidebar-link" href="../../FRCsource/FRCsource-Index.html">
+<i class="fa fa-envelope"></i> FRCsource Index
+    </a>
+</nav>
+<div class="sidebar-footer">
+<a aria-label="GitHub" class="sidebar-github" href="https://github.com/8BitAdam/FRCsource">
+<i class="fa fa-github"></i>
+</a>
+<button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggleBtn" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+<span id="darkLabel">Dark</span>
+</button>
+</div>
+</nav>
+<div aria-hidden="true" id="myOverlay" onclick="closeSidebar()"></div>
+<!-- ─── Main Content ──────────────────────────────────────── -->
+<div id="main-content">
+<div class="topbar" role="banner">
+<button aria-label="Open menu" class="hamburger-btn" onclick="openSidebar()">
+<i class="fa fa-bars"></i>
+</button>
+<a class="topbar-logo" href="../../index.html">FRC<span>source</span></a>
+<div class="topbar-actions">
+<button aria-label="Toggle dark mode" class="dark-toggle" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+</button>
+</div>
+</div>
+<!-- ─── Article Hero ──────────────────────────────── -->
+<header class="article-hero">
+<div aria-hidden="true" class="hero-geometry">
+<svg preserveaspectratio="xMaxYMid slice" viewbox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="heroGrad1" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"></stop>
+<stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"></stop>
+</lineargradient>
+<lineargradient id="heroGrad2" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"></stop>
+<stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"></stop>
+</lineargradient>
+</defs>
+<polygon fill="url(#heroGrad1)" points="150,0 500,0 500,300 50,300"></polygon>
+<polygon fill="url(#heroGrad2)" opacity="0.6" points="300,0 500,0 500,180"></polygon>
+<line opacity="0.15" stroke="#0d9488" stroke-width="1.5" x1="280" x2="100" y1="0" y2="300"></line>
+<line opacity="0.10" stroke="#1d4ed8" stroke-width="1" x1="350" x2="170" y1="0" y2="300"></line>
+<line opacity="0.08" stroke="#dc2626" stroke-width="0.8" x1="420" x2="240" y1="0" y2="300"></line>
+<rect fill="#0d9488" height="20" opacity="0.2" rx="2" width="20" x="450" y="20"></rect>
+<rect fill="#1d4ed8" height="12" opacity="0.15" rx="2" width="12" x="420" y="50"></rect>
+<rect fill="#dc2626" height="16" opacity="0.12" rx="2" width="16" x="460" y="240"></rect>
+<circle cx="310" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="340" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="370" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="310" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="340" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="370" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="310" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="340" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="370" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+</svg>
+</div>
+<div class="hero-content">
+<div class="fade-in">
+<span class="article-category-badge">
+<i class="fa fa-tag"></i>
+          Data Engineering
+        </span>
+</div>
+<h1 class="article-title fade-in">
+        Data Cleaning &amp; <span class="title-accent">Validation</span>
+</h1>
+<p class="article-subtitle fade-in">
+        Raw scouting data is never clean. This is how you find what's wrong, fix what can be fixed, and make deliberate decisions about what to do with the rest — before it reaches your strategist.
+      </p>
+<div class="article-meta fade-in">
+<span class="meta-item">
+<i class="fa fa-clock-o"></i> 14 min read
+        </span>
+<span class="meta-item">
+<i class="fa fa-calendar"></i> Updated Apr 2025
+        </span>
+<span class="difficulty-badge" style="background:rgba(234,179,8,0.15); color:#854d0e; border-color:rgba(234,179,8,0.3);">
+<i class="fa fa-signal"></i> Intermediate
+        </span>
+</div>
+</div>
+<div aria-label="Article tags" class="hero-tags" role="list">
+<span class="tag teal" role="listitem">Data Engineering</span>
+<span class="tag blue" role="listitem">Data Cleaning</span>
+<span class="tag" role="listitem">Validation</span>
+<span class="tag" role="listitem">JSON</span>
+<span class="tag red" role="listitem">Intermediate</span>
+</div>
+</header>
+<!-- ─── Article Layout ────────────────────────────────── -->
+<div class="article-layout">
+<article class="article-body" id="article-top">
+<div class="callout info">
+<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Prerequisites</div>
+<div class="prereqs">
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Data Integrity &amp; Error Handling</span>
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Syncing &amp; Data Pipelines</span>
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Scout Training Protocols</span>
+</div>
+</div>
+</div>
+<!-- ─── Section 1 ─── -->
+<h2 id="what-is-dirty-data">What Makes Data "Dirty"?</h2>
+<p>Dirty data is any data that cannot be trusted to mean what it appears to mean. incomplete, inconsistently formatted, duplicated, or simply ambiguous in a way that prevents reliable aggregation, It might be wrong. In FRC scouting, dirty data is the normal starting condition — not an exceptional failure. Six scouts recording observations simultaneously in a loud gymnasium, on devices of varying quality, using form fields that may be interpreted differently by different people, will produce a data pool that needs attention before it is ready for analysis.</p>
+<p>The distinction between cleaning and validation is worth establishing clearly. Data confirmation is the process of checking whether data meets a defined standard — asking "is this value acceptable?" Cleaning is the process of correcting or transforming data that fails validation — asking "what should this value actually be?" In practice the two steps are interleaved: you validate to find problems, then clean to resolve them, then validate again to confirm the resolution. Neither step is optional. Consistency check without cleaning produces a list of known problems and nothing else. Cleaning without validation is guesswork.</p>
+<p>This article covers the most common categories of dirty data in FRC scouting datasets, the validation checks that surface them, and the cleaning strategies that resolve them. It also covers the mindset question that underpins the whole process: when do you fix a poor value, when do you exclude it, and when do you keep it as-is with a flag?</p>
+<!-- ─── Section 2 ─── -->
+<h2 id="categories">Categories of Dirty Data</h2>
+<p>Most data quality problems in FRC scouting fall into one of five categories. Understanding which category a problem belongs to determines both the right data confirmation check to detect it and the proper cleaning strategy to resolve it.</p>
+<h3>Missing Values</h3>
+<p>A missing value is a field that should contain data but doesn't. In a scout report, a missing cycle count might mean zero cycles were scored, or it might mean the scout didn't record anything for that field — and those two interpretations lead to completely different downstream calculations. A team with genuinely zero cycles is a different robot from a team whose cycle count is simply unknown. If you average across a team's matches and treat missing values as zero, you will artificially depress their average. If you treat them as unknown and exclude them from the average, you may be excluding their worst performances.</p>
+<p>The right handling for a missing value depends on why it's missing. A form field that was accidentally skipped is different from a field that didn't exist in an older version of your form. A robot that genuinely didn't score is different from a match where the observer lost track. Each of these requires a different resolution, which is why "replace all nulls with zero" is not a cleaning strategy — it is a decision that needs to be made field by field with an understanding of what each field represents.</p>
+<h3>Out-of-Range Values</h3>
+<p>An out-of-range value is a number that falls outside the bounds of what is physically possible given the game rules. A cycle count higher than the maximum number of cycles achievable in the match period. An endgame score that doesn't correspond to any valid endgame state. A negative benefit in a field that can only be zero or positive. These are relatively easy to detect because the valid range is knowable from the game manual, and anything outside it is definitionally incorrect.</p>
+<p>Out-of-range values are almost always the result of a scout mistyping a number — entering 12 instead of 2, or accidentally triggering an increment button twice. They are rarely intentional and nearly invariably correctable if you can recover the ground truth from match video.</p>
+<h3>Type Mismatches</h3>
+<p>A type mismatch is when a field contains a value of the wrong data type — a text string where a number is expected, a boolean field containing the string "yes" instead of accurate, a timestamp stored as a freeform date description. Type mismatches are introduced at the collection or aggregation stage, not by the scout directly. They typically appear when data from multiple sources — unlike device types, different app versions, manual entry alongside automated submission — is merged without schema reconciliation.</p>
+<p>Type mismatches are dangerous because they often fail silently. A column that is mostly integers but contains a few string values will compute an average correctly in some tools and return an error or wrong result in others, depending on how the tool handles mixed types. The failure mode is not obvious, and the resulting analysis can seem plausible although being subtly wrong.</p>
+<h3>Duplicates</h3>
+<p>A duplicate is two or more submissions that purport to describe the same robot in the same match. Duplicates can be exact — or partial — identical values in every field, where the same match and robot appear more than once but with different field values. Exact duplicates are easy to detect and remove. Partial duplicates are harder: which logged report is correct? Removing the wrong one loses ground truth. Keeping both inflates your counts when you pooled data. Partial duplicates require human review, not automated resolution.</p>
+<h3>Inconsistent Encoding</h3>
+<p>Inconsistent encoding is when the same real-world value is represented differently across submissions. Team number 254 appearing as "254", "Team 254", "frc254", and "0254" in different rows of the same scouting records. An endgame outcome described as "climbed", "Climbed", "CLIMB", and "yes" across different scouts. These values imply the same thing but will be treated as different values by any grouping or filtering operation, silently breaking your aggregations.</p>
+<p>Inconsistent encoding is endemic in any system where free-text fields are used for values that should be categorical. The fix is usually straightforward once detected — standardize to a canonical form — but the detection requires either a schema that prevents it at recording time or a post-collection audit that catches it before analysis.</p>
+<!-- ─── Section 3 ─── -->
+<h2 id="validation-checks">Validation Checks</h2>
+<p>A validation check is a test applied to a dataset that flags records failing a defined criterion. The goal is not to fix anything — validation is purely diagnostic. The output of a verification pass is a list of records with the specific check they failed, which then drives the cleaning step. Running validation without recording which check each record failed makes the cleaning step substantially harder, because you can't prioritize or batch similar problems.</p>
+<h3>Presence Checks</h3>
+<p>A presence review verifies that required fields are not null or empty. Every tracker report should have a match number, a robot number, and a scout identifier at minimum — without these, the record cannot be associated with the competition cycle it describes and is essentially useless. Run presence checks first, as records that fail them may not be salvageable and should be quarantined before they affect any subsequent checks.</p>
+<h3>Range Checks</h3>
+<p>A range inspect verifies that numeric fields fall within valid bounds. The bounds come directly from the game manual: maximum cycles per period, valid endgame note values, match duration in seconds. Build a bounds table at the initiate of the season — a straightforward reference that maps each numeric field to its minimum and maximum valid value — and run range checks against it automatically after every data collection step. Records flagged by range checks are candidates for video review.</p>
+<h3>Referential Integrity Checks</h3>
+<p>A referential integrity check verifies that foreign key values actually exist in the table they reference. Every team number in a scout report should exist in your teams table. Every event key should exist in your events table. Every match number should be a valid match for the event. Referential integrity violations signal a data entry error — a submission that got associated with the wrong event, a scout who typed the wrong team number — and they can quietly corrupt your aggregations if the referenced record doesn't exist and your analysis silently drops the orphaned row.</p>
+<h3>Consistency Checks</h3>
+<p>A consistency check verifies that related fields within a record agree with each other. If a record says a robot didn't score any cycles but also earned the highest-scoring run bonus, something is off. If a record says a robot climbed but the endgame score is zero, something is wrong. Consistency checks capture logical contradictions within a single record that individual field checks would miss. They require more domain knowledge to outline — you have to comprehend what field combinations are and aren't possible — but they surface a class of error that is otherwise invisible.</p>
+<h3>Cross-Source Checks</h3>
+<p>A cross-source check compares your scouted data against an external ground truth. The most accessible source of ground truth for FRC scouting is The Blue Alliance's official match results. If your scouts collectively recorded data implying an alliance total score that differs substantially from the official score, that match warrants a closer look. Cross-source checks won't tell you exactly which field is wrong, but they reliably identify which matches have data quality problems, letting you prioritize your manual review effort.</p>
+<div class="callout warning">
+<span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Validation Is Only Useful If You Act on It</div>
+<p class="callout-text">Running validation checks and then ignoring the flags is worse than not running them — it creates a false sense of data quality assurance while the same problems persist in your analysis. Every flag produced by verification needs a defined resolution path: will it be reviewed and corrected, excluded from analysis, or retained with a quality flag attached? If you don't have time to act on every flag, prioritize by impact: fix problems in records for teams you are likely to consider in alliance selection before fixing problems in records for teams you already know won't be picked.</p>
+</div>
+</div>
+<!-- ─── Section 4 ─── -->
+<h2 id="cleaning-strategies">Cleaning Strategies</h2>
+<p>Once verification has identified which records have problems and what kind of problems they are, cleaning resolves them. The right cleaning strategy depends on the type of problem and on how much ground truth is available to inform the correction.</p>
+<h3>Correction from Ground Truth</h3>
+<p>The strongest cleaning strategy is to recover the adjust value from a source that isn't the suspect record. For FRC scouting, that means game video. If a scout report has a scoring iteration count that fails a range examine or is flagged as an outlier, and the match video is available on The Blue Team trio, a reviewer can watch the match and record the adjust count. The corrected value replaces the suspect benefit in the dataset, and the correction is logged — who made the change, recording what the original value was, what it was changed to, and why.</p>
+<p>Correction from ground truth is the most accurate approach but also the most time-consuming. It requires someone to watch game video for every flagged record, which is only feasible for a subset of flags — prioritize records for teams under serious consideration for alliance selection, and accept that lower-priority records may remain uncorrected.</p>
+<h3>Imputation</h3>
+<p>Imputation is replacing a missing or suspect value with an estimate derived from other data. The simplest imputation strategy is substituting the team's average from their other matches for the missing value — if a team averaged 6 cycles across five scouted matches and one match is missing a cycle count, imputing 6 is more informative than leaving a gap. More sophisticated imputation might account for opponent quality, match context, or the known reliability of different scouts.</p>
+<p>Imputed values should consistently be flagged as such in your data pool. They are estimates, not observations, and your analysis should treat them differently — particularly for high-stakes decisions like alliance selection picks. A team whose performance estimate rests heavily on imputed values is a team you have genuine uncertainty about, and that uncertainty should be visible to your strategist rather than buried in a clean-looking average.</p>
+<h3>Exclusion</h3>
+<p>Sometimes the right resolution for a bad record is to exclude it from analysis entirely. If a record fails multiple validation checks, if no ground truth is available to inform a correction, and if imputation would introduce more uncertainty than the gap itself, exclusion is the appropriate choice. Excluding a record doesn't mean pretending the match didn't happen — it means acknowledging that you don't have reliable data for that match and adjusting your analysis accordingly.</p>
+<p>Exclusion is preferable to uncorrected bad data remaining in the dataset, but it has its own risks. Systematically excluding records from certain scouts — because those scouts' data consistently fails checks — reduces your effective sample size and may introduce bias if those scouts were assigned to precise robots. Exclusion should be applied to individual records based on their specific problems, not as a blanket policy against a scout or a time period.</p>
+<h3>Standardization</h3>
+<p>Standardization resolves inconsistent encoding problems by transforming all representations of the same value into a single canonical build. Team numbers become integers. Event keys become lowercase strings matching the TBA format. Endgame outcomes become a fixed set of allowed string values. Boolean fields become true/false rather than yes/no or 1/0.</p>
+<p>Standardization is the cleanest of the cleaning strategies because it doesn't expect judgment about whether a advantage is right or wrong — it simply enforces a uniform representation. It should be applied as early in the pipeline as possible, ideally at the point of collection by constraining form inputs to valid options. Applied retroactively to a messy dataset, and "1" all depend on to map to the same canonical value — "Yes", "yes", "YES", "y", standardization is still valuable but requires careful mapping, and the mapping needs to cover every variant that actually appears in the data.</p>
+<div class="callout tip">
+<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+<div class="callout-content">
+<div class="callout-title">FRCsource Data Tools</div>
+<p class="callout-text">At the bottom of the Scouting Index , FRCsource provides a set of JSON and CSV tools specifically for data cleaning and validation — useful for quick standardization passes, spotting structural issues in exports, and simplifying messy files before they enter your pipeline. They're not a replacement for a full cleaning collection method, they're worth a look., but if you're staring at a malformed export and need a fast first pass</p>
+</div>
+</div>
+<!-- ─── Section 5 ─── -->
+<h2 id="the-flag-approach">The Flag Approach — When Not to Discard or Correct</h2>
+<p>Not every data quality obstacle should be resolved by correction or exclusion. A third option — keeps the record in the collected entries but marks it with metadata indicating its quality status. — flagging Flagged records participate in analysis by default, but the flag is visible to anyone inspecting the data or consuming the analysis output. The strategist can see which averages are based on clean data and which include flagged records, and can factor that uncertainty into their decisions.</p>
+<p>The flag approach is appropriate when a value is suspicious but not definitively mistaken. An outlier that failed a statistical check is not the same as a value that violated a hard game-rule constraint — it might be legitimate. A match where a team genuinely performed at twice their typical level should not be excluded or corrected just because it looks anomalous. Flagging it as an outlier preserves the value while surfacing it for human judgment.</p>
+<p>Flags should transport enough information to be actionable. A flag that says "outlier" is less useful than a flag that says "auto_cycles value of 8 is 2.4 standard deviations above this team's mean; cross-reference with match video recommended." The more specific the flag, the easier it is for the strategist to resolve whether to trust the flagged record or not.</p>
+<!-- ─── Section 6 ─── -->
+<h2 id="cleaning-workflow">A Practical Cleaning Workflow</h2>
+<p>The sequence in which you apply cleaning steps matters. Running imputation before exclusion means you may be imputing values that will later be excluded anyway — wasting effort and potentially introducing estimates into records that were going to be dropped. A sensible ordering runs the steps from most to least certain, and from most to least impactful on downstream analysis.</p>
+<p>Start with structural cleaning: standardize data types, and enforce canonical forms for all categorical fields., resolve encoding inconsistencies This step has no ambiguity — every value has a correct representation, and the transformation is deterministic. A match data with consistent types and encodings is much easier to work with in every subsequent step.</p>
+<p>run presence checks and quarantine records that fail them, Next. A record missing a match number or robot number cannot be associated with any meaningful context and should be establish aside before it contaminates aggregations. Attempt recovery from local device logs or scout memory if the match is recent; mark as unrecoverable if not.</p>
+<p>Then run range and referential integrity checks. Produce a prioritized list of flagged records, ordered by the team's likely relevance to alliance selection. Work through the list from top priority down, attempting video correction for each. Employ imputation to records that can't be corrected from video if the team is important enough to warrant an estimate. Apply flags to records that are suspicious but not definitively wrong.</p>
+<p>Finally, run consistency and cross-source checks as a final audit. These checks tend to surface systemic problems — a scout who has been applying definitions inconsistently all day — rather than individual record errors, and they are most useful as a diagnostic for whether your training and calibration processes need adjustment at the next event.</p>
+<div class="callout tip">
+<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+<div class="callout-content">
+<div class="callout-title">Clean Early, Not Just at the End</div>
+<p class="callout-text">Running a lightweight cleaning pass after every ten matches — presence checks and obvious range violations, nothing more — keeps problems modest and recoverable. The worst time to discover that fifteen records have missing robot numbers is one hour before alliance selection when the scout who submitted them has been on a different task for three hours and can't remember which robots they were watching.</p>
+</div>
+</div>
+<!-- ─── Section 7 ─── -->
+<h2 id="documenting-changes">Documenting Changes</h2>
+<p>Every cleaning action taken on a scouting records should be recorded in a change log. The minimum information for each entry is the record identifier, the field that was changed, the original value, the novel value, the reason for the change, and who made it. This log serves several purposes: it lets you audit the cleaning process after the fact, it helps diagnose systematic problems across multiple records, and it ensures that the path from raw data to clean analysis output is traceable and reproducible.</p>
+<p>A change log moreover makes it possible to re-run the cleaning system from scratch on the raw data if something goes wrong. If a batch cleaning operation introduced errors — or standardizing a field to the wrong canonical form, imputing the wrong worth for a field — you can detect exactly which records were affected and reverse the change. Without a log, there is no reliable way to distinguish what the data looked like before a cleaning operation from what it looks like after.</p>
+<p>In practice, the adjust log doesn't need to be elaborate. A dated text file or a locked spreadsheet tab recording each change is sufficient. The habit of writing to it is more important than the format. Teams that keep a change log enter alliance selection knowing exactly how much of their dataset is raw, how much has been corrected from video, and how much is flagged, how substantially is imputed — and that knowledge directly informs how much confidence to place in the numbers their strategist is working from.</p>
+<div class="callout info">
+<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Never Modify Raw Data In-Place</div>
+<p class="callout-text">Raw data — the original exports from scouts' devices, the unmodified submissions from your logging backend — should be preserved exactly as received and never overwritten. All cleaning should happen on a working copy. If your cleaned dataset turns out to have a systematic problem, the ability to restart from the original raw files is the difference between a recoverable situation and a total data loss. write-protected location that no automated system or cleaning script can touch, Store raw files in a clearly labeled.</p>
+</div>
+</div>
+</article>
+<!-- TOC Panel -->
+<aside aria-label="Table of contents" class="toc-panel">
+<div class="toc-title">On This Page</div>
+<ul class="toc-list">
+<li id="toc-what-is-dirty-data"><a href="#what-is-dirty-data">What Makes Data Dirty?</a></li>
+<li id="toc-categories"><a href="#categories">Categories of Dirty Data</a></li>
+<li id="toc-validation-checks"><a href="#validation-checks">Validation Checks</a></li>
+<li id="toc-cleaning-strategies"><a href="#cleaning-strategies">Cleaning Strategies</a></li>
+<li id="toc-the-flag-approach"><a href="#the-flag-approach">The Flag Approach</a></li>
+<li id="toc-cleaning-workflow"><a href="#cleaning-workflow">Cleaning Workflow</a></li>
+<li id="toc-documenting-changes"><a href="#documenting-changes">Documenting Changes</a></li>
+</ul>
+<div class="toc-divider"></div>
+<div class="toc-progress-label">Reading progress</div>
+<div class="toc-progress-bar">
+<div class="toc-progress-fill" id="readingProgress"></div>
+</div>
+</aside>
+</div><!-- /article-layout -->
+<div class="section-divider"></div>
+<!-- ─── Contributor Section ─── -->
+<section aria-label="Article contributors" class="contributor-section">
+<div class="contributor-section-title">Provided to you by</div>
+<div class="contributor-cards">
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">AI</div>
+<div class="contributor-info">
+<div class="contributor-name">Claude AI</div>
+<div class="contributor-team">
+<i class="fa fa-robot"></i> AI Author
+          </div>
+<div class="contributor-role">Article Author</div>
+</div>
+</div>
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">AG</div>
+<div class="contributor-info">
+<div class="contributor-name">Adam G.</div>
+<div class="contributor-team">
+<i class="fa fa-wrench"></i> Team 2062 — CORE
+          </div>
+<div class="contributor-role">Technical Reviewer</div>
+</div>
+</div>
+</div>
+</section>
+<div class="section-divider"></div>
+<!-- ─── Next / Previous Navigation ─── -->
+<nav aria-label="Article navigation" class="article-nav">
+<a class="nav-card prev" href="./api-integration.html">
+<div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
+<div class="nav-title">API Integration</div>
+</a>
+<a class="nav-card next" href="./querying-and-analysis.html">
+<div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+<div class="nav-title">Querying &amp; Analysis</div>
+</a>
+</nav>
+<!-- ─── Footer ─── -->
+<footer>
+<div class="footer-stripe">
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+</div>
+<div class="footer-inner">
+<div class="footer-grid">
+<div>
+<div class="footer-brand">FRC<span>source</span></div>
+<p class="footer-desc">
+            A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.
+          </p>
+<p class="footer-powered">
+            Powered by <a href="https://www.w3schools.com/w3css/default.asp" rel="noopener" target="_blank">w3.css</a>
+</p>
+</div>
+<div>
+<div class="footer-heading">Explore</div>
+<ul class="footer-links">
+<li><a href="../../index.html">Home</a></li>
+<li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+<li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+<li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+<li><a href="../../index.html#about">About</a></li>
+</ul>
+</div>
+<div>
+<div class="footer-heading">Tags</div>
+<div class="footer-tags">
+<span class="footer-tag">Index</span>
+<span class="footer-tag">Programming</span>
+<span class="footer-tag">Scouting</span>
+<span class="footer-tag">FRCsource</span>
+<span class="footer-tag">Strategy</span>
+<span class="footer-tag">Data</span>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2025 FRCsource. Made by the FRC community.</span>
+<span>
+<a href="https://github.com/8BitAdam/FRCsource" style="color:#475569; text-decoration:none;">
+<i class="fa fa-github"></i> GitHub
+          </a>
+</span>
+</div>
+</div>
+</footer>
+</div><!-- /main-content -->
+<script src="../../Assets/Coffee/Sidebar.coffee" type="text/coffeescript"></script>
+</body>
+</html>

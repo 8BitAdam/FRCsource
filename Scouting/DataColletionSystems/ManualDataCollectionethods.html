@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en-US">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manual Data Collection Methods — FRCsource</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&amp;family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<script src="../../vendor/CoffeeScript/coffeescript.js"></script>
+<link href="https://8bitadam.github.io/FRCsource/Assets/CSS/Article.css" rel="stylesheet"/>
+</head>
+<body>
+<!-- ─── Sidebar ──────────────────────────────────────────── -->
+<nav aria-label="Main navigation" id="mySidebar" role="navigation">
+<button aria-label="Close menu" class="sidebar-close" onclick="closeSidebar()">
+<i class="fa fa-times"></i>
+</button>
+<div class="sidebar-logo-area">
+<img alt="FRCsource logo" src="../../Assests/logo.jpg"/>
+<div class="sidebar-brand">FRC<span>source</span></div>
+<div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+</div>
+<nav class="sidebar-nav">
+<div class="sidebar-section-label">Navigation</div>
+<a class="sidebar-link" href="../../index.html">
+<i class="fa fa-th-large"></i> Home
+    </a>
+<a class="sidebar-link" href="../../index.html#about">
+<i class="fa fa-user"></i> About
+    </a>
+<div class="sidebar-section-label">Content</div>
+<a class="sidebar-link" href="../../Programming/Programming-Index.html">
+<i class="fa fa-code"></i> Programming Index
+    </a>
+<a class="sidebar-link active" href="../../Scouting/Scouting-Index.html">
+<i class="fa fa-binoculars"></i> Scouting Index
+    </a>
+<a class="sidebar-link" href="../../FRCsource/FRCsource-Index.html">
+<i class="fa fa-envelope"></i> FRCsource Index
+    </a>
+</nav>
+<div class="sidebar-footer">
+<a aria-label="GitHub" class="sidebar-github" href="https://github.com/8BitAdam/FRCsource">
+<i class="fa fa-github"></i>
+</a>
+<button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggleBtn" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+<span id="darkLabel">Dark</span>
+</button>
+</div>
+</nav>
+<div aria-hidden="true" id="myOverlay" onclick="closeSidebar()"></div>
+<!-- ─── Main Content ──────────────────────────────────────── -->
+<div id="main-content">
+<div class="topbar" role="banner">
+<button aria-label="Open menu" class="hamburger-btn" onclick="openSidebar()">
+<i class="fa fa-bars"></i>
+</button>
+<a class="topbar-logo" href="../../index.html">FRC<span>source</span></a>
+<div class="topbar-actions">
+<button aria-label="Toggle dark mode" class="dark-toggle" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+</button>
+</div>
+</div>
+<!-- ─── Article Hero ──────────────────────────────── -->
+<header class="article-hero">
+<div aria-hidden="true" class="hero-geometry">
+<svg preserveaspectratio="xMaxYMid slice" viewbox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="heroGrad1" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"></stop>
+<stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"></stop>
+</lineargradient>
+<lineargradient id="heroGrad2" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"></stop>
+<stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"></stop>
+</lineargradient>
+</defs>
+<polygon fill="url(#heroGrad1)" points="150,0 500,0 500,300 50,300"></polygon>
+<polygon fill="url(#heroGrad2)" opacity="0.6" points="300,0 500,0 500,180"></polygon>
+<line opacity="0.15" stroke="#0d9488" stroke-width="1.5" x1="280" x2="100" y1="0" y2="300"></line>
+<line opacity="0.10" stroke="#1d4ed8" stroke-width="1" x1="350" x2="170" y1="0" y2="300"></line>
+<line opacity="0.08" stroke="#dc2626" stroke-width="0.8" x1="420" x2="240" y1="0" y2="300"></line>
+<rect fill="#0d9488" height="20" opacity="0.2" rx="2" width="20" x="450" y="20"></rect>
+<rect fill="#1d4ed8" height="12" opacity="0.15" rx="2" width="12" x="420" y="50"></rect>
+<rect fill="#dc2626" height="16" opacity="0.12" rx="2" width="16" x="460" y="240"></rect>
+<circle cx="310" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="340" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="370" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="310" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="340" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="370" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="310" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="340" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="370" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+</svg>
+</div>
+<div class="hero-content">
+<div class="fade-in">
+<span class="article-category-badge">
+<i class="fa fa-tag"></i>
+          Scouting Systems
+        </span>
+</div>
+<h1 class="article-title fade-in">
+        Manual Data <span class="title-accent">Collection Methods</span>
+</h1>
+<p class="article-subtitle fade-in">
+        Paper, pencil, and tally sheets aren't legacy technology — they're a deliberate choice. Understanding when and how to use manual collection keeps your program running when devices fail and produces data that digital-only teams can't match in certain situations.
+      </p>
+<div class="article-meta fade-in">
+<span class="meta-item">
+<i class="fa fa-clock-o"></i> 12 min read
+        </span>
+<span class="meta-item">
+<i class="fa fa-calendar"></i> Updated Apr 2025
+        </span>
+<span class="difficulty-badge difficulty-beginner">
+<i class="fa fa-signal"></i> Beginner
+        </span>
+</div>
+</div>
+<div aria-label="Article tags" class="hero-tags" role="list">
+<span class="tag teal" role="listitem">Scouting</span>
+<span class="tag blue" role="listitem">Data Collection</span>
+<span class="tag" role="listitem">Paper Scouting</span>
+<span class="tag" role="listitem">Workflow</span>
+<span class="tag" role="listitem">Beginner</span>
+</div>
+</header>
+<!-- ─── Article Layout ────────────────────────────────── -->
+<div class="article-layout">
+<article class="article-body" id="article-top">
+<div class="callout info">
+<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Prerequisites</div>
+<div class="prereqs">
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Pit Scouting vs Match Scouting</span>
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Scout Training Protocols</span>
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Real-Time vs Post-Match Workflows</span>
+</div>
+</div>
+</div>
+<!-- ─── Section 1 ─── -->
+<h2 id="why-manual">Why Manual Collection Still Matters</h2>
+<p>It is tempting to treat manual data collection — paper forms, tally sheets, printed round schedules covered in pencil marks — as something a team graduates away from once they have a working digital system. That framing misses what manual collection actually is: a define of techniques with distinct advantages that no app can fully replicate, and a resilience layer that protects your program when technology fails at the worst possible moment.</p>
+<p>The reality at most competition venues is that devices die, WiFi is congested, apps crash, and scouts who were issued a working tablet on Thursday morning may be staring at a black screen by Friday afternoon. A program with no manual fallback loses its data collection capability entirely when that happens. A program that knows how to run on paper loses nothing — it produces a slightly different format of data that can be digitized before analysis, and it keeps scouting through whatever the venue throws at it.</p>
+<p>Beyond resilience, manual collection has genuine accuracy advantages for specific data types and data collector live through levels. Understanding those advantages — is the foundation for deciding where manual methods belong in your program — and the corresponding disadvantages, whether as a primary system, a backup, or a targeted supplement.</p>
+<!-- ─── Section 2 ─── -->
+<h2 id="paper-match-forms">Paper Match Forms</h2>
+<p>A paper match form is a printed sheet — typically one per match per scout — that contains every field the scout needs to fill out during or after a match. The scout writes directly on the sheet and hands it to a data entry operator at the conclude of the match or the end of the round, who transcribes the values into the digital dataset.</p>
+<h3>Designing a Paper Form</h3>
+<p>A paper develop that works well in a competition environment looks different from a form designed for a desktop screen. Space is limited, lighting in gymnasiums is frequently poor, and scouts are filling out the form quickly under noise and distraction. Every design choice should serve speed and legibility.</p>
+<p>clearly labeled boxes for written values, Use extensive. For categorical fields — endgame outcome, auto starting position, zone defense rating — print the options directly on the sheet with a checkbox or circle next to each one rather than leaving a blank line for the scout to write in. A data collector who circles "Docked" from a list of three options is faster and more consistent than a scout who writes the word from memory. For numeric count fields, print a row of small boxes that the scout can cross off one at a time, tally-style, rather than asking them to write a final number at the end.</p>
+<p>Keep the form to one side of one sheet of paper. A form that requires flipping over the page or consulting a second sheet will lose fields regularly. If your data requirements exceed what fits on one side comfortably, that is a signal to cut fields, not to expand the form. The fields that don't fit are almost certainly lower-priority than the ones that do.</p>
+<h3>Pre-Printing and Batch Management</h3>
+<p>Print more forms than you think you call for — at least one and a half times the expected number of matches, across all scouts. Forms gain lost, spilled on, torn, or filled out incorrectly and discarded. Running out of paper forms during quals is an entirely avoidable crisis. Organize printed forms in labeled packets by bout round so scouts can grab the right sheet quickly without searching. A small clipboard per scout keeps forms flat and writable in cramped bleacher conditions.</p>
+<div class="callout tip">
+<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+<div class="callout-content">
+<div class="callout-title">Color-Code by Alliance</div>
+<p class="callout-text">Print red alliance forms on red-tinted or blue-bordered paper and blue alliance forms on blue-tinted or red-bordered paper. When a stack of completed forms is collected at the end of a round, the color coding lets you sort by alliance partner instantly and makes it immediately obvious if a scout submitted to the off stack. This single design choice eliminates one of the most common paper form processing errors at essentially zero cost.</p>
+</div>
+</div>
+<!-- ─── Section 3 ─── -->
+<h2 id="tally-sheets">Tally Sheets</h2>
+<p>A tally sheet is a stripped-almost always a count — down tool designed to capture a single type of data — with minimum friction during a live game. Where a full paper form asks a scout to track everything about a robot, a tally sheet asks them to track one thing perfectly. The two tools serve different purposes and are often used together.</p>
+<h3>When to Use a Tally Sheet</h3>
+<p>Tally sheets are most valuable for high-frequency events that are difficult to count accurately from memory. Cycle counts in a game with fast-ten, minute teleop period, paced scoring are the canonical example: a robot might complete eight-or twelve cycles in a two, and reconstructing that count after the buzzer from memory is unreliable. A tally sheet — a printed row of boxes the data collector marks with a pencil stroke as each cycle completes — produces a count the scout can read directly off the sheet without reconstruction.</p>
+<p>Tally sheets also work well as a hybrid bridge in programs that primarily use digital collection. A scout using a phone-based scouting app can keep a physical tally card in their non-then transfer the total to the app during the post, dominant hand and mark cycles on it without looking down-match window. This is often more accurate than either trying to tap a numeric field on the app in real time or trusting memory for the total.</p>
+<h3>Tally Sheet Design</h3>
+<p>A tally sheet should fit on an index card or a quarter-sheet of paper. It needs the match number, the robot number, and however many count rows are necessary — typically one to three. Each count row is a sequence of small boxes or dots the scout marks as events occur. Using groups of five separated by a gap makes the final count easier to read: four marks and a diagonal cross through them is instantly recognizable as five, and groups of five are speedy to add up. Print several tally sheets per observer per session and keep them clipped to the top of the main form clipboard.</p>
+<!-- ─── Section 4 ─── -->
+<h2 id="data-entry-and-transcription">Data Entry and Transcription</h2>
+<p>Paper forms and tally sheets produce data on paper. That data has to get into your digital system before it can be analyzed. The transcription step — someone reading values off a paper form and entering them into a spreadsheet or database — is where manual collection programs most often lose time and introduce new errors.</p>
+<h3>Staffing the Transcription Role</h3>
+<p>Transcription should be a dedicated role, not a task that gets handed to whoever is available between matches. The person transcribing needs to be speedy, exact, and familiar enough with the form layout to recognize when a merit looks wrong. Assigning transcription to a data collector who also has a live match assignment in the same time window is a common mistake — something will be sacrificed, and it is as a rule data quality.</p>
+<p>transcription runs continuously during the event: completed forms are collected after each match, and the transcription operator works through them in order whereas the next bout is running, In a effectively-staffed program. all data from that block is already in the system, By the time a match block ends. In a smaller program, acceptable — transcription may happen in batches at the end of each round, but it means your analysis is always a round behind rather than a round behind.</p>
+<h3>Transcription Error Prevention</h3>
+<p>The most common transcription errors are misread handwriting, transposed digits, and skipped fields. All three are reduced by the same design decisions: large print boxes on the form, consistent field ordering that the transcription operator has memorized, and a two-pass system where the operator enters all values once and then checks them against the form before moving to the next form completion.</p>
+<p>For numeric fields, require scouts to write in block capital digits rather than cursive. The digits most commonly misread in handwriting are 1 and 7, 4 and 9, and 3 and 8. If your form has fields where these confusions would be particularly damaging — cycle counts, for example — consider adding a redundancy check: the recorder writes the number once in a box and then circles the same value from a printed range of 0 through 15. Two representations of the same value that agree deliver the transcription operator confidence; two that disagree flag an error immediately.</p>
+<div class="callout warning">
+<span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Transcription Lag Creates a Blind Spot</div>
+<p class="callout-text">If your transcription process runs a full round behind the live matches, your strategy lead is making decisions based on data that doesn't include the most recent performance. For most between-match decisions this lag is acceptable. For scouting a robot you are considering picking in the next few matches, it is not — the most relevant data about that robot is sitting in a stack of unprocessed paper. Assemble a fast-priority forms get transcribed immediately-out of sequence, path into your workflow: high, when the strategist flags a robot as a live interest.</p>
+</div>
+</div>
+<!-- ─── Section 5 ─── -->
+<h2 id="observation-notebooks">Observation Notebooks</h2>
+<p>Not everything in scouting fits a checkbox or a number. Contextual observation — whether the robot has a mechanical issue that affects reliability, is best captured in free, what a robot's strengths and weaknesses review like in practice — how the drive team handles pressure-form notes. For this type of data, an observation notebook is often the right tool.</p>
+<h3>Structure Within Freeform</h3>
+<p>A fully unstructured notebook produces notes that are hard to search and hard to transfer to a summarized format under time pressure. Give your observation notebooks a light structure: a header section for match number, followed by three labeled sections, one for performance observations, robot number — and date, one for mechanical or reliability notes, and one for drive team and strategy observations. Within those sections, scouts write freely. The headers don't constrain content; they make the notes navigable when a strategist needs to pull everything written about a specific robot in thirty seconds.</p>
+<h3>Observation Notebooks as a Pit Scouting Tool</h3>
+<p>Observation notebooks are particularly well suited to pit scouting, where the data being collected is largely qualitative and the pace is relaxed enough that a recorder can write full sentences. A pit scout with a notebook and a printed list of questions to work through will collect more nuanced and complete information than one trying to tap through a digital form while holding a conversation with a team's build captain. The notebook answers go into the digital system later, where they can be summarized properly., during a quieter period</p>
+<div class="callout tip">
+<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+<div class="callout-content">
+<div class="callout-title">Star System for Quick Flagging</div>
+<p class="callout-text">Train scouts to use a simple star system in their notebooks: one star next to an observation means notable, two stars means the alliance planner should see this before alliance selection, three stars means flag it immediately. This gives the lead analyst a triage mechanism — during a sweep of the notebooks before coalition selection, three-star entries get read first. The system only works if scouts apply it consistently, so introduce it explicitly in training and reinforce it with a few examples of what each tier looks like in practice.</p>
+</div>
+</div>
+<!-- ─── Section 6 ─── -->
+<h2 id="printed-schedules-and-tracking-sheets">Printed Schedules and Tracking Sheets</h2>
+<p>Beyond the forms used for individual game submissions, several printed reference documents improve the operational efficiency of a manual scouting program. These are not data collection tools in the strict sense — but they reduce the coordination overhead that otherwise consumes lead scout attention during the event. — they don't produce values that enter the dataset</p>
+<h3>The Match Schedule</h3>
+<p>Print the full match schedule before the event using data from The Blue Team trio or the FRC Event website, and laminate one copy for the lead scout. match time, and all six robot numbers per match, The schedule should present match number. During the event, the lead scout marks completed matches, and assigns back, notes coverage gaps-fill scouts directly on the schedule. A laminated schedule with a dry-erase marker is far faster to update than a digital spreadsheet when you are also managing six scouts and a strategist simultaneously.</p>
+<h3>The Coverage Grid</h3>
+<p>A coverage grid is a simple table — robots across the top, match numbers down the side — that the lead scout fills in as submissions arrive. Each cell gets a checkmark when a valid submission for that robot in that competition cycle has been received and transcribed. At a glance, the steer scout can see exactly which robots are fully covered, which have gaps, and which matches need back-filling. This is the paper equivalent of the real-time coverage dashboard described in the Data Integrity article, and for programs running a primarily manual workflow it is routinely more reliable than the digital version because it doesn't depend on any software being functional.</p>
+<h3>The Pick List Workbook</h3>
+<p>the guide analyst builds a working pick list — an ordered ranking of robots by overall scouted performance, As qualification matches progress. In a manual collection method, this is often maintained as a printed table with handwritten updates after each analysis pass. The pick list workbook should have space for a numerical rank, a robot number, a summary score or rating, and a short note capturing the reason for the ranking. Keeping it on paper rather than solely in a digital tool means it remains accessible to the lead analyst even if every device in the scouting station is dead. Print a fresh copy after each major analysis update and retire the old one.</p>
+<!-- ─── Section 7 ─── -->
+<h2 id="manual-as-backup">Running Manual as a Backup System</h2>
+<p>For most programs that primarily use digital capture, something that activates when technology fails and deactivates when it recovers. — manual methods function as a backup system A backup system only works if it is prepared in advance, tested before the event, and practiced enough that scouts can switch to it without confusion.</p>
+<h3>Preparing the Backup</h3>
+<p>Print a full set of paper forms before the event even if you don't expect to use them. Store them in a labeled folder in the scouting kit alongside pencils and clipboards. Every data collector should know where the paper forms are and how to fill them out — not from a vague memory of training, but from having done it at least once in a practice session. A backup that has never been tested is not a backup; it is a stack of paper that will create confusion at the moment you need it most.</p>
+<h3>The Handoff Protocol</h3>
+<p>When digital recording fails mid-event, the transition to paper needs to be brisk and complete. Define the handoff protocol in advance: who makes the label to switch, how scouts are notified, where they secure their paper forms, and when they stop using the digital system. Partial transitions — some scouts on paper, some still on the app — produce a scouting records that is demanding to merge cleanly. Either the whole program switches or nobody does, and the decision should apply less than two minutes from the moment the failure is recognized.</p>
+<div class="callout warning">
+<span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Don't Lose Partial Digital Data When Switching</div>
+<p class="callout-text">When a device failure triggers a switch to paper, the digital submissions already recorded on that device may still be recoverable — they may be cached locally even if the app can't sync. Before wiping, restarting, or handing off a failed device, attempt to export or screenshot whatever data is stored locally. Even a partial match submission with a few fields completed is worth recovering. Recovering three matches of data from a crashed device takes five minutes; losing those matches and re-scouting from video takes an hour.</p>
+</div>
+</div>
+<!-- ─── Section 8 ─── -->
+<h2 id="digitizing-paper-data">Digitizing Paper Data Efficiently</h2>
+<p>Manual collection methods ultimately produce data that needs to enter your digital system. How efficiently that happens determines whether manual collection is a manageable workflow or a bottleneck that delays your analysis at the worst possible times.</p>
+<h3>Batch Entry vs. Continuous Entry</h3>
+<p>Batch entry — processing all forms from a completed round at once — is simpler to organize but introduces a lag. Continuous entry — processing each form as it is submitted — keeps the dataset current but requires a dedicated transcription operator who is available between every match. Which approach is right depends on your staffing. If you have the personnel to run continuous entry, do it. If you don't, batch entry is acceptable as prolonged as your strategist understands that the data is always one round behind and plans around that gap.</p>
+<h3>Spreadsheet Templates for Fast Entry</h3>
+<p>Build a spreadsheet entry template that matches the layout of your paper form exactly — same field order, same categorical options, same column names. A transcription operator who has memorized both the paper build and the spreadsheet layout can move through entries without looking up to read column headers or cross-reference option lists. The closer the digital entry interface mirrors the paper form, the faster and less error-prone transcription becomes. If your scouting app supports manual data import via CSV, develop the spreadsheet to match the app's expected import format so that transcribed data can be imported in bulk rather than re-entered field by field.</p>
+<h3>Photographing Forms as an Archive</h3>
+<p>Before transcribing a batch of paper forms, photograph each form with a phone camera and store the images in a labeled folder. The photographs serve as the original record — if a transcription error is discovered later, the photograph lets you verify what the scout actually wrote without hunting for the physical paper. coffee-stained, and accidentally discarded; photographs do not, Forms get lost. This takes about thirty seconds per batch and has saved more than one program from an unresolvable data dispute during alliance selection.</p>
+<div class="callout info">
+<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+<div class="callout-content">
+<div class="callout-title">FRCsource Data Tools</div>
+<p class="callout-text">If your manual logging workflow produces CSVs or spreadsheet exports that need to be cleaned, or normalized before analysis, merged with digital submissions, the FRCsource data tools at the bottom of the Scouting Index handle all three operations. The merge tool is particularly useful when combining paper-transcribed data with app-exported data, where column name mismatches and format inconsistencies are common.</p>
+</div>
+</div>
+</article>
+<!-- TOC Panel -->
+<aside aria-label="Table of contents" class="toc-panel">
+<div class="toc-title">On This Page</div>
+<ul class="toc-list">
+<li id="toc-why-manual"><a href="#why-manual">Why Manual Still Matters</a></li>
+<li id="toc-paper-match-forms"><a href="#paper-match-forms">Paper Match Forms</a></li>
+<li id="toc-tally-sheets"><a href="#tally-sheets">Tally Sheets</a></li>
+<li id="toc-data-entry-and-transcription"><a href="#data-entry-and-transcription">Data Entry &amp; Transcription</a></li>
+<li id="toc-observation-notebooks"><a href="#observation-notebooks">Observation Notebooks</a></li>
+<li id="toc-printed-schedules-and-tracking-sheets"><a href="#printed-schedules-and-tracking-sheets">Schedules &amp; Tracking Sheets</a></li>
+<li id="toc-manual-as-backup"><a href="#manual-as-backup">Manual as a Backup System</a></li>
+<li id="toc-digitizing-paper-data"><a href="#digitizing-paper-data">Digitizing Paper Data</a></li>
+</ul>
+<div class="toc-divider"></div>
+<div class="toc-progress-label">Reading progress</div>
+<div class="toc-progress-bar">
+<div class="toc-progress-fill" id="readingProgress"></div>
+</div>
+</aside>
+</div><!-- /article-layout -->
+<div class="section-divider"></div>
+<!-- ─── Contributor Section ─── -->
+<section aria-label="Article contributors" class="contributor-section">
+<div class="contributor-section-title">Provided to you by</div>
+<div class="contributor-cards">
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">AI</div>
+<div class="contributor-info">
+<div class="contributor-name">Claude AI</div>
+<div class="contributor-team">
+<i class="fa fa-robot"></i> AI Author
+          </div>
+<div class="contributor-role">Article Author</div>
+</div>
+</div>
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">AG</div>
+<div class="contributor-info">
+<div class="contributor-name">Adam G.</div>
+<div class="contributor-team">
+<i class="fa fa-wrench"></i> Team 2062 — CORE
+          </div>
+<div class="contributor-role">Technical Reviewer</div>
+</div>
+</div>
+</div>
+</section>
+<div class="section-divider"></div>
+<!-- ─── Next / Previous Navigation ─── -->
+<nav aria-label="Article navigation" class="article-nav">
+<a class="nav-card prev" href="./realtime-vs-postmatch-scouting.html">
+<div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
+<div class="nav-title">Real-Time vs Post-Match Scouting Workflows</div>
+</a>
+<a class="nav-card next" href="./alliance-selection-strategy.html">
+<div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+<div class="nav-title">Alliance Selection Strategy</div>
+</a>
+</nav>
+<!-- ─── Footer ─── -->
+<footer>
+<div class="footer-stripe">
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+</div>
+<div class="footer-inner">
+<div class="footer-grid">
+<div>
+<div class="footer-brand">FRC<span>source</span></div>
+<p class="footer-desc">
+            A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.
+          </p>
+<p class="footer-powered">
+            Powered by <a href="https://www.w3schools.com/w3css/default.asp" rel="noopener" target="_blank">w3.css</a>
+</p>
+</div>
+<div>
+<div class="footer-heading">Explore</div>
+<ul class="footer-links">
+<li><a href="../../index.html">Home</a></li>
+<li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+<li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+<li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+<li><a href="../../index.html#about">About</a></li>
+</ul>
+</div>
+<div>
+<div class="footer-heading">Tags</div>
+<div class="footer-tags">
+<span class="footer-tag">Index</span>
+<span class="footer-tag">Programming</span>
+<span class="footer-tag">Scouting</span>
+<span class="footer-tag">FRCsource</span>
+<span class="footer-tag">Strategy</span>
+<span class="footer-tag">Data</span>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2025 FRCsource. Made by the FRC community.</span>
+<span>
+<a href="https://github.com/8BitAdam/FRCsource" style="color:#475569; text-decoration:none;">
+<i class="fa fa-github"></i> GitHub
+          </a>
+</span>
+</div>
+</div>
+</footer>
+</div><!-- /main-content -->
+<script src="../../Assets/Coffee/Sidebar.coffee" type="text/coffeescript"></script>
+</body>
+</html>

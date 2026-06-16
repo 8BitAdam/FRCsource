@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en-US" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Picklist Generation Methods — FRCsource</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://8bitadam.github.io/FRCsource/Assets/CSS/Article.css">
+</head>
+<body>
+
+<!-- ─── Sidebar ──────────────────────────────────────────── -->
+<nav id="mySidebar" role="navigation" aria-label="Main navigation">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">
+    <i class="fa fa-times"></i>
+  </button>
+
+  <div class="sidebar-logo-area">
+    <img src="../../Assests/logo.jpg" alt="FRCsource logo">
+    <div class="sidebar-brand">FRC<span>source</span></div>
+    <div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Navigation</div>
+    <a href="../../index.html" class="sidebar-link">
+      <i class="fa fa-th-large"></i> Home
+    </a>
+    <a href="../../index.html#about" class="sidebar-link">
+      <i class="fa fa-user"></i> About
+    </a>
+
+    <div class="sidebar-section-label">Content</div>
+    <a href="../../Programming/Programming-Index.html" class="sidebar-link">
+      <i class="fa fa-code"></i> Programming Index
+    </a>
+    <a href="../../Scouting/Scouting-Index.html" class="sidebar-link active">
+      <i class="fa fa-binoculars"></i> Scouting Index
+    </a>
+    <a href="../../FRCsource/FRCsource-Index.html" class="sidebar-link">
+      <i class="fa fa-envelope"></i> FRCsource Index
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a href="https://github.com/8BitAdam/FRCsource" class="sidebar-github" aria-label="GitHub">
+      <i class="fa fa-github"></i>
+    </a>
+    <button class="dark-toggle" onclick="toggleDark()" id="darkToggleBtn" aria-label="Toggle dark mode">
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      <span id="darkLabel">Dark</span>
+    </button>
+  </div>
+</nav>
+
+<div id="myOverlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+<!-- ─── Main Content ──────────────────────────────────────── -->
+<div id="main-content">
+
+  <div class="topbar" role="banner">
+    <button class="hamburger-btn" onclick="openSidebar()" aria-label="Open menu">
+      <i class="fa fa-bars"></i>
+    </button>
+    <a href="../../index.html" class="topbar-logo">FRC<span>source</span></a>
+    <div class="topbar-actions">
+      <button class="dark-toggle" onclick="toggleDark()" aria-label="Toggle dark mode">
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ─── Article Hero ──────────────────────────────── -->
+  <header class="article-hero">
+    <div class="hero-geometry" aria-hidden="true">
+      <svg viewBox="0 0 500 300" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="heroGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"/>
+          </linearGradient>
+          <linearGradient id="heroGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"/>
+            <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"/>
+          </linearGradient>
+        </defs>
+        <polygon points="150,0 500,0 500,300 50,300" fill="url(#heroGrad1)"/>
+        <polygon points="300,0 500,0 500,180" fill="url(#heroGrad2)" opacity="0.6"/>
+        <line x1="280" y1="0" x2="100" y2="300" stroke="#0d9488" stroke-width="1.5" opacity="0.15"/>
+        <line x1="350" y1="0" x2="170" y2="300" stroke="#1d4ed8" stroke-width="1" opacity="0.10"/>
+        <line x1="420" y1="0" x2="240" y2="300" stroke="#dc2626" stroke-width="0.8" opacity="0.08"/>
+        <rect x="450" y="20" width="20" height="20" fill="#0d9488" opacity="0.2" rx="2"/>
+        <rect x="420" y="50" width="12" height="12" fill="#1d4ed8" opacity="0.15" rx="2"/>
+        <rect x="460" y="240" width="16" height="16" fill="#dc2626" opacity="0.12" rx="2"/>
+        <circle cx="310" cy="60"  r="2" fill="#0d9488" opacity="0.25"/>
+        <circle cx="340" cy="60"  r="2" fill="#0d9488" opacity="0.25"/>
+        <circle cx="370" cy="60"  r="2" fill="#0d9488" opacity="0.25"/>
+        <circle cx="310" cy="90"  r="2" fill="#0d9488" opacity="0.2"/>
+        <circle cx="340" cy="90"  r="2" fill="#0d9488" opacity="0.2"/>
+        <circle cx="370" cy="90"  r="2" fill="#0d9488" opacity="0.2"/>
+        <circle cx="310" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
+        <circle cx="340" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
+        <circle cx="370" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
+      </svg>
+    </div>
+
+    <div class="hero-content">
+      <div class="fade-in">
+        <span class="article-category-badge">
+          <i class="fa fa-tag"></i>
+          Alliance Selection
+        </span>
+      </div>
+
+      <h1 class="article-title fade-in">
+        Picklist <span class="title-accent">Generation Methods</span>
+      </h1>
+
+      <p class="article-subtitle fade-in">
+        How to turn a dataset of match observations into an ordered list of teams worth picking — the approaches, the tradeoffs, and where each one breaks down under real competition pressure.
+      </p>
+
+      <div class="article-meta fade-in">
+        <span class="meta-item">
+          <i class="fa fa-clock-o"></i> 15 min read
+        </span>
+        <span class="meta-item">
+          <i class="fa fa-calendar"></i> Updated Apr 2025
+        </span>
+        <span class="difficulty-badge" style="background:rgba(234,179,8,0.15); color:#854d0e; border-color:rgba(234,179,8,0.3);">
+          <i class="fa fa-signal"></i> Intermediate
+        </span>
+      </div>
+    </div>
+
+    <div class="hero-tags" role="list" aria-label="Article tags">
+      <span class="tag teal"  role="listitem">Alliance Selection</span>
+      <span class="tag blue"  role="listitem">Strategy</span>
+      <span class="tag"       role="listitem">Picklist</span>
+      <span class="tag"       role="listitem">Data Analysis</span>
+      <span class="tag red"   role="listitem">Intermediate</span>
+    </div>
+  </header>
+
+  <!-- ─── Article Layout ────────────────────────────────── -->
+  <div class="article-layout">
+
+    <article class="article-body" id="article-top">
+
+      <div class="callout info">
+        <span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Prerequisites</div>
+          <div class="prereqs">
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Pit Scouting vs Match Scouting</span>
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Data Integrity &amp; Error Handling</span>
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Data Cleaning &amp; Validation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Section 1 ─── -->
+      <h2 id="what-is-a-picklist">What a Picklist Actually Is</h2>
+      <p>
+        A picklist is a ranked ordering of every team at an event from most desirable alliance partner to least desirable, produced before alliance selection begins and used by your captain or strategist to guide pick decisions in real time. It sounds simple. In practice it is one of the hardest outputs a scouting program produces, because it requires collapsing a multi-dimensional dataset — cycle counts, auto reliability, endgame performance, driver skill, alliance role fit, consistency — into a single ranked list that has to be acted on under time pressure in front of the entire field.
+      </p>
+      <p>
+        The picklist is not the same as the pick. Your strategist will deviate from it — because a team you wanted was just picked by someone else, because new information emerged during alliance selection itself, because the captain read the room and saw an opportunity your model didn't anticipate. The picklist is a pre-computed starting point that reduces the cognitive load of live decision-making, not a script that gets followed mechanically. A good picklist makes the right call obvious when everything goes according to plan, and gives your strategist enough structure to improvise confidently when it doesn't.
+      </p>
+      <p>
+        This article covers the main approaches to generating a picklist — from simple weighted scoring to simulation-based methods — along with the failure modes of each and the considerations that cut across all of them. No single method is universally correct. The right approach for a given team depends on their data quality, their analytical capacity, and the specific game mechanics that season.
+      </p>
+
+      <!-- ─── Section 2 ─── -->
+      <h2 id="weighted-scoring">Weighted Scoring Models</h2>
+      <p>
+        The most common picklist generation method is weighted scoring: assign each team a composite score by multiplying each performance metric by a predefined weight and summing the results. Teams are then ranked by their composite score. The weights encode your team's strategic judgment about which metrics matter most — a game where endgame points are worth a large fraction of the total score warrants a higher endgame weight than a game where they are secondary.
+      </p>
+
+      <h3>Defining Metrics and Weights</h3>
+      <p>
+        The first step is deciding which metrics to include. Each metric should correspond to a specific, well-defined field in your scouting data — not a vague concept like "overall skill," but a concrete number like average teleop cycles, auto success rate, or climb success percentage. Metrics that cannot be computed reliably from your data should not appear in the model, no matter how strategically important they seem. A metric with bad data is worse than no metric.
+      </p>
+      <p>
+        Weights are set based on point value and strategic importance. A reasonable starting point is to make the weights proportional to the fraction of total match score each category represents in a typical match. If auto is worth roughly 20% of a typical score, auto metrics should collectively account for roughly 20% of the composite. Adjust from there based on game-specific strategy — in years where auto provides a large ranking point opportunity, auto weight goes up. In years where endgame is consistently achievable by most robots and therefore not differentiating, its weight may go down.
+      </p>
+      <p>
+        Weights should be set before the event begins and before you have seen any data. Setting weights after seeing the data introduces confirmation bias — the weights will drift toward whatever makes teams you already like rank higher, which defeats the purpose of having a model at all. Lock the weights, run the model, and then make deliberate human overrides where the model output doesn't match what you know from observation.
+      </p>
+
+      <h3>Normalizing Before Weighting</h3>
+      <p>
+        Before applying weights, normalize each metric so that all metrics are on a comparable scale. If one metric ranges from 0 to 20 and another from 0 to 1, the first will dominate the composite regardless of its weight simply because its raw values are larger. Normalization converts each metric to a common scale — typically 0 to 1, where 0 is the worst value observed at the event and 1 is the best — before weights are applied. This ensures that a weight of 0.3 on endgame actually means endgame accounts for 30% of the composite, not 3% because the raw values happen to be small.
+      </p>
+
+      <div class="callout warning">
+        <span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Weights Feel Objective But Aren't</div>
+          <p class="callout-text">
+            A weighted scoring model produces a number, and numbers feel authoritative. But the model's output is entirely determined by the weights you chose, which were themselves a judgment call. Two strategists using the same data but different weights will produce different picklists, and neither is objectively correct. Be explicit with your team about what assumptions are baked into your weights, and build in a review step where your strategist can inspect and override the model's output before it becomes the working picklist.
+          </p>
+        </div>
+      </div>
+
+      <h3>Handling Consistency vs. Peak Performance</h3>
+      <p>
+        A weighted average treats every match equally, which means it blends a team's best and worst performances into a single number. Two teams with the same average cycle count can have very different distributions: one team is consistent at six cycles every match, the other scores two cycles in some matches and ten in others. In a single elimination bracket, the high-variance team is riskier — you might get the two-cycle version at the worst moment. But in a game where certain bonuses only unlock above a threshold, the high-peak team might be more valuable.
+      </p>
+      <p>
+        Consider including a consistency metric explicitly — standard deviation of cycle counts, for example, where lower is better — and weighting it alongside the average. Alternatively, use a more conservative aggregate than the mean, such as the median or the 25th percentile, which are less sensitive to outlier performances and give a more pessimistic but often more realistic picture of what a robot reliably delivers.
+      </p>
+
+      <!-- ─── Section 3 ─── -->
+      <h2 id="role-based-ranking">Role-Based Ranking</h2>
+      <p>
+        A single composite score assumes that every team is competing for the same "ideal robot" slot. In practice, alliance composition involves roles: a primary scorer, a secondary scorer who can also defend, a specialist that provides a specific capability the captain lacks. These roles have different requirements, and a robot that would rank fifteenth on a pure scoring composite might rank second as a defensive specialist. Role-based ranking generates separate picklists for each role your team might need to fill.
+      </p>
+
+      <h3>Identifying Your Roles</h3>
+      <p>
+        Roles are game-specific. In years with a significant defense meta, a dedicated defender role matters. In years where autonomous routines generate a ranking point that requires specific starting positions, auto-route specialization is a role. In games with two high-value scoring targets, the distinction between a robot optimized for one versus the other might define your second and third alliance partner needs.
+      </p>
+      <p>
+        Your team's own robot defines which roles you need to fill. If you are a strong primary scorer, your second pick should ideally be a reliable secondary scorer with good defense capability. Your third pick might be whoever ranks highest on a pure scoring composite from whoever is left. If you are a strong auto robot but weak in teleop, your picks prioritize teleop output. The role structure starts from an honest assessment of what your own robot does well and what it needs to succeed in a playoff bracket.
+      </p>
+
+      <h3>Building Role-Specific Composites</h3>
+      <p>
+        Each role gets its own set of weights. A defender role composite weights driver skill proxies — speed of movement, aggressiveness in crossing the field, time spent in the opponent's scoring zone — heavily, and weights scoring output lightly. A scoring specialist composite does the opposite. A climber specialist might weight endgame reliability at 60% or higher, because that's the primary thing you need from that robot.
+      </p>
+      <p>
+        The output is not one picklist but two or three. Before alliance selection, your strategist decides which role list to consult based on what's happened in earlier picks. If your first pick was a strong scorer, you move to the secondary-role list for your second pick. If that list's top two teams were already selected, you shift to your scoring composite for the third pick and take the best remaining scorer. The role lists give structure without rigidity.
+      </p>
+
+      <!-- ─── Section 4 ─── -->
+      <h2 id="simulation-based">Simulation-Based Methods</h2>
+      <p>
+        Weighted composites rank teams individually — each robot is evaluated in isolation, independent of who they're paired with. Simulation-based methods instead model the alliance as a unit: given this robot paired with your robot, what score does the alliance produce? Teams are ranked not by their individual composite but by how much they improve your expected score when added to your alliance.
+      </p>
+
+      <h3>Alliance Score Projection</h3>
+      <p>
+        The simplest simulation approach projects the combined score of your robot plus a candidate robot based on both teams' average contributions. Your robot contributes its average auto output and teleop output. The candidate contributes theirs. The projected alliance score is the sum, adjusted for any bonuses or thresholds that the combination unlocks or misses.
+      </p>
+      <p>
+        This approach naturally surfaces complementarity. A candidate whose contributions overlap heavily with yours — both of you score at the same target, both of you have strong auto — adds less marginal value than a candidate who fills a gap. A robot with mediocre total output but excellent performance in exactly the area your robot is weakest can rank higher in an alliance projection model than it would in any individual composite.
+      </p>
+
+      <h3>Monte Carlo Simulation</h3>
+      <p>
+        A more sophisticated version samples from each robot's observed performance distribution rather than using averages. Instead of assuming your robot always scores its average six cycles, the simulation draws a random performance from your observed match distribution for each simulated match — sometimes two cycles, sometimes nine. The same for the candidate. Running thousands of simulated matches produces a distribution of projected alliance scores, which is more informative than a single projected value because it shows not just the expected outcome but the variance around it.
+      </p>
+      <p>
+        Monte Carlo methods require more historical data per robot to produce meaningful distributions — at least four to five matches — and more computational setup than a weighted composite. But they produce richer output: you can see not just which robot is projected to give your alliance the highest average score, but which one minimizes your chance of a catastrophically low score in a single elimination match. In a bracket where one bad match ends your run, minimizing downside variance can be as important as maximizing expected value.
+      </p>
+
+      <div class="callout tip">
+        <span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Simulation Is Only as Good as Your Input Data</div>
+          <p class="callout-text">
+            A Monte Carlo simulation with six clean data points per robot produces more reliable output than one with twelve noisy, inconsistent data points. Data quality matters more than simulation sophistication. If your scouted data has significant missing values or inconsistency across scouts, a well-calibrated weighted composite with clean data will outperform a simulation built on dirty inputs. Fix the data before building a more complex model.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── Section 5 ─── -->
+      <h2 id="qualitative-factors">Qualitative Factors That Models Miss</h2>
+      <p>
+        Every quantitative model is built from what your scouts could observe and record — cycle counts, binary outcomes, timestamps. The model has no knowledge of anything that didn't fit into a form field. Several of the most important factors in alliance selection fall into that category, and a picklist that doesn't account for them is incomplete regardless of how sophisticated the underlying model is.
+      </p>
+
+      <h3>Driver Skill and Composure</h3>
+      <p>
+        A robot operated by a skilled, composed driver in qualifications will be operated by the same driver in playoffs. Driver quality is real and consequential, and it is almost impossible to isolate in scouted data — a robot's cycle count is a product of both mechanism capability and driver execution, and you usually can't separate the two from match data alone. Pit scouting conversations sometimes surface this: teams that talk confidently and specifically about their driver's strategy and experience are a signal worth noting. Scouts who watched specific matches can provide qualitative assessments. These assessments should be captured in notes fields and surfaced during picklist review, not buried in averages.
+      </p>
+
+      <h3>Mechanical Reliability and Pit Observations</h3>
+      <p>
+        A robot with strong average performance but a history of mid-match breakdowns is a different risk profile from one with slightly lower average performance that has never stopped moving. Your pit scouting notes should flag teams that mentioned mechanical concerns, teams you observed being worked on extensively between matches, or teams whose performance dropped sharply in later qualification matches in a way that suggests fatigue or failure. A robot that scores eight cycles in matches one through four and two cycles in matches five through eight is not a six-cycle robot — it's a robot with a developing problem.
+      </p>
+
+      <h3>Willingness and Communication</h3>
+      <p>
+        An alliance partner who communicates clearly, accepts strategic direction from the captain, and shows up to pre-match strategy meetings is more valuable than one who is technically equivalent but unreliable in communication. This is almost entirely unobservable from match data and only partially observable from pit conversations. Teams that have a reputation for good alliance communication — known from previous events, from other teams' word of mouth, or from direct interaction during the event — deserve a small but real bump in human-reviewed picklist rankings.
+      </p>
+
+      <div class="callout tip">
+        <span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">The Strategist's Override Is Part of the Process</div>
+          <p class="callout-text">
+            Build explicit space in your picklist process for your strategist or drive coach to review the model output and apply overrides before the list is finalized. Overrides should be documented — record which team was moved, where they were moved from and to, and why. This isn't a failure of the model; it's the model doing its job by handling the quantitative analysis so the human can focus on the qualitative judgment that the model can't make.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── Section 6 ─── -->
+      <h2 id="do-not-pick">The Do-Not-Pick List</h2>
+      <p>
+        As important as ranking who you want is knowing who you will not pick under any circumstances — robots that pose an unacceptable risk regardless of their statistical profile. The do-not-pick list is a short, separately maintained list that the strategist checks before making any pick. If the model's top-ranked team is on the do-not-pick list, you move to the next one without debate.
+      </p>
+      <p>
+        Teams end up on the do-not-pick list for a variety of reasons. A robot that disabled mid-match in multiple qualifications and hasn't been repaired is a liability in a single-elimination bracket. A team that was observed driving aggressively into alliance partners during qualifications introduces an unacceptable collision risk. A team that told you in the pit that their primary mechanism is broken and they're playing the rest of the day defense-only is no longer the robot your model evaluated. The do-not-pick list captures information that postdates or overrides the model's inputs.
+      </p>
+      <p>
+        Keep the do-not-pick list short and well-reasoned. Every team on it should be there for a documented, specific reason. A do-not-pick list that grows to twenty teams because the strategist has vague concerns about too many robots is a list that will cause you to pass on good partners unnecessarily. The bar for inclusion is "we would rather pick a lower-ranked robot than this one, regardless of the score difference."
+      </p>
+
+      <!-- ─── Section 7 ─── -->
+      <h2 id="dynamic-updates">Keeping the Picklist Dynamic</h2>
+      <p>
+        A picklist generated from match data as of noon on competition day is already stale by the time alliance selection begins at 4pm. Robots break. Robots get repaired and recover performance. A team that had a string of poor matches due to a software bug they fixed at lunch is a different team than they were this morning. The picklist needs to be a living document that reflects the best available information at the moment alliance selection starts, not a static output frozen from the last time someone ran the model.
+      </p>
+
+      <h3>Continuous Data Integration</h3>
+      <p>
+        If your pipeline allows it, re-run the model after every few matches during the afternoon session and flag any teams whose ranking has moved significantly since the last run. A robot that was ranked fifth this morning but whose last three matches produced significantly lower output than their early average — possibly indicating a mechanical issue — should move down. A robot that was ranked twelfth but has been dominant in their most recent matches should move up.
+      </p>
+
+      <h3>Final Review Before Selection</h3>
+      <p>
+        Schedule a dedicated picklist review thirty to forty-five minutes before alliance selection begins. Bring together your strategist, your drive coach, your data lead, and at least one scout who was watching robots during the afternoon session. Walk through the top fifteen teams on the list. For each one, confirm: do we still believe this ranking? Has anything happened this afternoon that changes our view? Are there any mechanical, strategic, or communication concerns that should move a team up or down? This review is where qualitative intelligence and quantitative analysis meet — and the result is the final picklist your strategist carries into the selection room.
+      </p>
+
+      <div class="callout warning">
+        <span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Alliance Selection Moves Fast</div>
+          <p class="callout-text">
+            FRC alliance selection runs at a pace that does not allow for mid-selection analysis. Once picks begin, your strategist needs to be able to look at the current state of the board and make a decision in seconds — not minutes. Everything that can be done in advance should be done in advance. The model runs before selection. The qualitative review happens before selection. The do-not-pick list is finalized before selection. By the time picks start, your strategist's only job is executing a plan that your whole program spent the day building.
+          </p>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- TOC Panel -->
+    <aside class="toc-panel" aria-label="Table of contents">
+      <div class="toc-title">On This Page</div>
+      <ul class="toc-list">
+        <li id="toc-what-is-a-picklist"><a href="#what-is-a-picklist">What a Picklist Is</a></li>
+        <li id="toc-weighted-scoring"><a href="#weighted-scoring">Weighted Scoring Models</a></li>
+        <li id="toc-role-based-ranking"><a href="#role-based-ranking">Role-Based Ranking</a></li>
+        <li id="toc-simulation-based"><a href="#simulation-based">Simulation-Based Methods</a></li>
+        <li id="toc-qualitative-factors"><a href="#qualitative-factors">Qualitative Factors</a></li>
+        <li id="toc-do-not-pick"><a href="#do-not-pick">The Do-Not-Pick List</a></li>
+        <li id="toc-dynamic-updates"><a href="#dynamic-updates">Keeping It Dynamic</a></li>
+      </ul>
+
+      <div class="toc-divider"></div>
+      <div class="toc-progress-label">Reading progress</div>
+      <div class="toc-progress-bar">
+        <div class="toc-progress-fill" id="readingProgress"></div>
+      </div>
+    </aside>
+
+  </div><!-- /article-layout -->
+
+  <div class="section-divider"></div>
+
+  <!-- ─── Contributor Section ─── -->
+  <section class="contributor-section" aria-label="Article contributors">
+    <div class="contributor-section-title">Provided to you by</div>
+    <div class="contributor-cards">
+
+      <div class="contributor-card">
+        <div class="contributor-avatar-placeholder" aria-hidden="true">AI</div>
+        <div class="contributor-info">
+          <div class="contributor-name">Claude AI</div>
+          <div class="contributor-team">
+            <i class="fa fa-robot"></i> AI Author
+          </div>
+          <div class="contributor-role">Article Author</div>
+        </div>
+      </div>
+
+      <div class="contributor-card">
+        <div class="contributor-avatar-placeholder" aria-hidden="true">AG</div>
+        <div class="contributor-info">
+          <div class="contributor-name">Adam G.</div>
+          <div class="contributor-team">
+            <i class="fa fa-wrench"></i> Team 2062 — CORE
+          </div>
+          <div class="contributor-role">Technical Reviewer</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── Next / Previous Navigation ─── -->
+  <nav class="article-nav" aria-label="Article navigation">
+    <a href="./data-cleaning-and-validation.html" class="nav-card prev">
+      <div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
+      <div class="nav-title">Data Cleaning &amp; Validation</div>
+    </a>
+    <a href="./alliance-selection-strategy.html" class="nav-card next">
+      <div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+      <div class="nav-title">Alliance Selection Strategy</div>
+    </a>
+  </nav>
+
+  <!-- ─── Footer ─── -->
+  <footer>
+    <div class="footer-stripe">
+      <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+      <div class="footer-stripe-seg" style="background:#dc2626;"></div>
+      <div class="footer-stripe-seg" style="background:#0d9488;"></div>
+      <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+      <div class="footer-stripe-seg" style="background:#dc2626;"></div>
+      <div class="footer-stripe-seg" style="background:#0d9488;"></div>
+    </div>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">FRC<span>source</span></div>
+          <p class="footer-desc">
+            A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.
+          </p>
+          <p class="footer-powered">
+            Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" rel="noopener">w3.css</a>
+          </p>
+        </div>
+        <div>
+          <div class="footer-heading">Explore</div>
+          <ul class="footer-links">
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+            <li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+            <li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+            <li><a href="../../index.html#about">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Tags</div>
+          <div class="footer-tags">
+            <span class="footer-tag">Index</span>
+            <span class="footer-tag">Programming</span>
+            <span class="footer-tag">Scouting</span>
+            <span class="footer-tag">FRCsource</span>
+            <span class="footer-tag">Strategy</span>
+            <span class="footer-tag">Data</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2025 FRCsource. Made by the FRC community.</span>
+        <span>
+          <a href="https://github.com/8BitAdam/FRCsource" style="color:#475569; text-decoration:none;">
+            <i class="fa fa-github"></i> GitHub
+          </a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /main-content -->
+
+<script>
+  function openSidebar() {
+    document.getElementById('mySidebar').classList.add('open');
+    document.getElementById('myOverlay').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    document.getElementById('mySidebar').classList.remove('open');
+    document.getElementById('myOverlay').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  const html = document.documentElement;
+  const darkLabel = document.getElementById('darkLabel');
+
+  function applyTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('frc-theme', theme);
+    if (darkLabel) darkLabel.textContent = theme === 'dark' ? 'Light' : 'Dark';
+  }
+
+  function toggleDark() {
+    applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  }
+
+  (function () {
+    const saved = localStorage.getItem('frc-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+  })();
+
+  const progressFill = document.getElementById('readingProgress');
+  const sections = document.querySelectorAll('.article-body h2[id]');
+  const tocItems = document.querySelectorAll('.toc-list li[id]');
+
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+    if (progressFill) progressFill.style.width = progress + '%';
+
+    let activeId = null;
+    sections.forEach(sec => {
+      if (scrollTop >= sec.offsetTop - 120) activeId = sec.id;
+    });
+
+    tocItems.forEach(item => {
+      item.classList.remove('active');
+      if (item.id === 'toc-' + activeId) item.classList.add('active');
+    });
+  }
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+</script>
+
+</body>
+</html>

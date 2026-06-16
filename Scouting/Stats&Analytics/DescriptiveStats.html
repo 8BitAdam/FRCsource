@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en-US">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Descriptive Statistics — FRCsource</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="https://8bitadam.github.io/FRCsource/Assets/CSS/Article.css" rel="stylesheet"/>
+<style>
+  /* ── Descriptive Stats Explorer Widget ── */
+  .stats-widget {
+    margin: 2.5rem 0;
+    border: 2px solid var(--border, #e2e8f0);
+    border-radius: 14px;
+    overflow: hidden;
+    font-family: 'Barlow', sans-serif;
+  }
+  [data-theme="dark"] .stats-widget { border-color: #1e2d42; }
+
+  .stats-header {
+    background: linear-gradient(135deg, #0d9488 0%, #1d4ed8 100%);
+    padding: 1.1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .stats-header-left { display: flex; align-items: center; gap: 0.75rem; }
+  .stats-icon {
+    width: 38px; height: 38px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    color: #a7f3d0; font-size: 1.1rem;
+  }
+  .stats-title-block .stats-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(167,243,208,0.75);
+  }
+  .stats-title-block .stats-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.15rem; font-weight: 800; color: #fff; line-height: 1.1;
+  }
+
+  /* Stat cards row */
+  .stat-cards-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--surface, #f8fafc);
+    border-bottom: 1px solid var(--border, #e2e8f0);
+  }
+  [data-theme="dark"] .stat-cards-row { background: #111827; border-color: #1e2d42; }
+
+  .stat-card {
+    background: #fff;
+    border: 1.5px solid var(--border, #e2e8f0);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  [data-theme="dark"] .stat-card { background: #0f1729; border-color: #1e2d42; }
+  .stat-card:hover { border-color: #0d9488; box-shadow: 0 2px 12px rgba(13,148,136,0.1); }
+
+  .stat-card-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-secondary, #94a3b8);
+    margin-bottom: 0.35rem;
+  }
+  .stat-card-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.3rem; font-weight: 700;
+    color: #0d9488;
+    transition: color 0.3s;
+  }
+  [data-theme="dark"] .stat-card-value { color: #34d399; }
+  .stat-card-sub {
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.7rem;
+    color: var(--text-secondary, #94a3b8);
+    margin-top: 0.15rem;
+  }
+
+  /* Histogram area */
+  .stats-chart-area {
+    background: var(--surface, #f8fafc);
+    padding: 1.25rem 1.5rem 0.75rem;
+  }
+  [data-theme="dark"] .stats-chart-area { background: #111827; }
+
+  .hist-container {
+    position: relative;
+    height: 200px;
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    border-left: 2px solid var(--border, #e2e8f0);
+    border-bottom: 2px solid var(--border, #e2e8f0);
+    padding: 0 0.5rem;
+  }
+  [data-theme="dark"] .hist-container { border-color: #1e2d42; }
+
+  .hist-bar {
+    flex: 1;
+    border-radius: 3px 3px 0 0;
+    min-height: 3px;
+    transition: height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+    position: relative;
+    cursor: pointer;
+  }
+  .hist-bar:hover { filter: brightness(1.15); }
+  .hist-bar-count {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-secondary, #94a3b8);
+    white-space: nowrap;
+  }
+
+  .hist-x-labels {
+    display: flex;
+    gap: 3px;
+    padding: 0 0.5rem;
+    margin-top: 4px;
+  }
+  .hist-x-label {
+    flex: 1;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--text-secondary, #94a3b8);
+  }
+
+  /* Distribution markers */
+  .dist-marker {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 2px;
+    pointer-events: none;
+    transition: left 0.4s ease;
+  }
+  .dist-marker-label {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem; font-weight: 700;
+    white-space: nowrap;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+
+  /* Dataset selector */
+  .stats-mode-toggle {
+    display: flex;
+    background: rgba(0,0,0,0.25);
+    border-radius: 8px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .mode-btn {
+    padding: 0.35rem 0.9rem;
+    border-radius: 6px;
+    border: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.82rem; font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    background: transparent; color: rgba(255,255,255,0.55);
+  }
+  .mode-btn.active { background: rgba(255,255,255,0.2); color: #fff; }
+
+  /* Insight */
+  .stats-insight {
+    padding: 0.85rem 1.5rem;
+    border-top: 1px solid var(--border, #e2e8f0);
+    background: var(--surface-2, #f1f5f9);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    min-height: 54px;
+  }
+  [data-theme="dark"] .stats-insight { background: #0f1729; border-color: #1e2d42; }
+  .insight-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+  .insight-text { font-size: 0.875rem; line-height: 1.6; color: var(--text-secondary, #475569); }
+  [data-theme="dark"] .insight-text { color: #64748b; }
+  .insight-text strong { color: var(--text-primary, #1e293b); font-weight: 600; }
+  [data-theme="dark"] .insight-text strong { color: #cbd5e1; }
+
+  /* Controls */
+  .stats-controls {
+    padding: 0.85rem 1.5rem;
+    border-top: 1px solid var(--border, #e2e8f0);
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    background: var(--surface, #f8fafc);
+  }
+  [data-theme="dark"] .stats-controls { background: #111827; border-color: #1e2d42; }
+
+  .stats-btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.45rem 1rem;
+    border-radius: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.88rem; font-weight: 700;
+    cursor: pointer;
+    border: 1.5px solid;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  }
+  .stats-btn:hover { transform: translateY(-1px); }
+  .stats-btn:active { transform: none; }
+  .stats-btn-active { background: #0d9488; border-color: #0d9488; color: #fff; }
+  .stats-btn-active:hover { background: #0f766e; border-color: #0f766e; }
+  .stats-btn-ghost {
+    background: transparent;
+    border-color: var(--border, #e2e8f0);
+    color: var(--text-secondary, #64748b);
+  }
+  [data-theme="dark"] .stats-btn-ghost { border-color: #1e2d42; color: #475569; }
+  .stats-btn-ghost:hover {
+    background: var(--surface-2, #f1f5f9);
+    border-color: #0d9488;
+    color: #0d9488;
+  }
+  [data-theme="dark"] .stats-btn-ghost:hover { background: #1e2d42; }
+
+  .stats-meta {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-secondary, #94a3b8);
+  }
+
+  /* ── Shared inline helpers (carried from template) ── */
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82em;
+    background: var(--surface-2, #f1f5f9);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    color: var(--text-primary, #1e293b);
+  }
+  [data-theme="dark"] .mono { background: #1e2d42; color: #cbd5e1; }
+
+  .formula-block {
+    background: var(--surface-2, #f1f5f9);
+    border: 1.5px solid var(--border, #e2e8f0);
+    border-left: 4px solid #0d9488;
+    border-radius: 0 10px 10px 0;
+    padding: 0.9rem 1.2rem;
+    margin: 1.25rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    line-height: 1.8;
+    color: var(--text-primary, #1e293b);
+    overflow-x: auto;
+  }
+  [data-theme="dark"] .formula-block {
+    background: #0f1729;
+    border-color: #1e2d42;
+    border-left-color: #0d9488;
+    color: #cbd5e1;
+  }
+  .formula-block .f-comment { color: var(--text-secondary, #94a3b8); font-style: italic; }
+  .formula-block .f-val { color: #0d9488; font-weight: 600; }
+  [data-theme="dark"] .formula-block .f-val { color: #34d399; }
+  .formula-block .f-key { color: #1d4ed8; font-weight: 600; }
+  [data-theme="dark"] .formula-block .f-key { color: #60a5fa; }
+
+  .step-list {
+    counter-reset: steps;
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0;
+  }
+  .step-list li {
+    counter-increment: steps;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+  }
+  .step-list li::before {
+    content: counter(steps);
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    background: #0d9488;
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem; font-weight: 800;
+    margin-top: 1px;
+  }
+  .step-list li p { margin: 0; font-size: 0.95rem; line-height: 1.65; color: var(--text-primary, #1e293b); }
+  [data-theme="dark"] .step-list li p { color: #cbd5e1; }
+  .step-list li strong { color: #0d9488; }
+  [data-theme="dark"] .step-list li strong { color: #34d399; }
+
+  .context-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0.75rem 0; }
+  .ctx-pill {
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.8rem; font-weight: 600;
+    border: 1.5px solid;
+    display: flex; align-items: center; gap: 0.35rem;
+  }
+  .ctx-pill.good  { background: rgba(13,148,136,0.08); border-color: #0d9488; color: #0d9488; }
+  .ctx-pill.warn  { background: rgba(245,158,11,0.08);  border-color: #f59e0b; color: #b45309; }
+  .ctx-pill.bad   { background: rgba(220,38,38,0.08);   border-color: #dc2626; color: #dc2626; }
+  .ctx-pill.info  { background: rgba(29,78,216,0.08);   border-color: #1d4ed8; color: #1d4ed8; }
+  [data-theme="dark"] .ctx-pill.good { color: #34d399; }
+  [data-theme="dark"] .ctx-pill.warn { color: #fbbf24; }
+  [data-theme="dark"] .ctx-pill.bad  { color: #f87171; }
+  [data-theme="dark"] .ctx-pill.info { color: #60a5fa; }
+
+  /* Five-number summary table */
+  .fivenum-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    font-size: 0.9rem;
+  }
+  .fivenum-table th {
+    background: var(--surface-2, #f1f5f9);
+    border: 1px solid var(--border, #e2e8f0);
+    padding: 0.6rem 0.9rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-secondary, #64748b);
+    text-align: left;
+  }
+  [data-theme="dark"] .fivenum-table th { background: #0f1729; border-color: #1e2d42; color: #475569; }
+  .fivenum-table td {
+    border: 1px solid var(--border, #e2e8f0);
+    padding: 0.6rem 0.9rem;
+    color: var(--text-primary, #1e293b);
+    vertical-align: middle;
+  }
+  [data-theme="dark"] .fivenum-table td { border-color: #1e2d42; color: #cbd5e1; }
+  .fivenum-table tr:hover td { background: var(--surface-2, #f1f5f9); }
+  [data-theme="dark"] .fivenum-table tr:hover td { background: #0f1729; }
+  .fivenum-table td .mono { font-size: 0.85em; }
+  .fivenum-mark {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+<!-- ─── Sidebar ──────────────────────────────────────────── -->
+<nav aria-label="Main navigation" id="mySidebar" role="navigation">
+  <button aria-label="Close menu" class="sidebar-close" onclick="closeSidebar()">
+    <i class="fa fa-times"></i>
+  </button>
+  <div class="sidebar-logo-area">
+    <img alt="FRCsource logo" src="../../Assets/logo.jpg"/>
+    <div class="sidebar-brand">FRC<span>source</span></div>
+    <div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Navigation</div>
+    <a class="sidebar-link" href="../../index.html"><i class="fa fa-th-large"></i> Home</a>
+    <a class="sidebar-link" href="../../index.html#about"><i class="fa fa-user"></i> About</a>
+    <div class="sidebar-section-label">Content</div>
+    <a class="sidebar-link" href="../../Programming/Programming-Index.html"><i class="fa fa-code"></i> Programming Index</a>
+    <a class="sidebar-link active" href="../../Scouting/Scouting-Index.html"><i class="fa fa-binoculars"></i> Scouting Index</a>
+    <a class="sidebar-link" href="../../FRCsource/FRCsource-Index.html"><i class="fa fa-envelope"></i> FRCsource Index</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a aria-label="GitHub" class="sidebar-github" href="https://github.com/8BitAdam/FRCsource"><i class="fa fa-github"></i></a>
+    <button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggleBtn" onclick="toggleDark()">
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      <span id="darkLabel">Dark</span>
+    </button>
+  </div>
+</nav>
+<div aria-hidden="true" id="myOverlay" onclick="closeSidebar()"></div>
+
+<!-- ─── Main Content ──────────────────────────────────────── -->
+<div id="main-content">
+  <div class="topbar" role="banner">
+    <button aria-label="Open menu" class="hamburger-btn" onclick="openSidebar()"><i class="fa fa-bars"></i></button>
+    <a class="topbar-logo" href="../../index.html">FRC<span>source</span></a>
+    <div class="topbar-actions">
+      <button aria-label="Toggle dark mode" class="dark-toggle" onclick="toggleDark()">
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ─── Article Hero ──────────────────────────────── -->
+  <header class="article-hero">
+    <div aria-hidden="true" class="hero-geometry">
+      <svg preserveaspectratio="xMaxYMid slice" viewbox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <lineargradient id="heroGrad1" x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#0d9488" stop-opacity="0.08"></stop>
+            <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.12"></stop>
+          </lineargradient>
+          <lineargradient id="heroGrad2" x1="0%" x2="100%" y1="100%" y2="0%">
+            <stop offset="0%" stop-color="#0d9488" stop-opacity="0.06"></stop>
+            <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"></stop>
+          </lineargradient>
+        </defs>
+        <polygon fill="url(#heroGrad1)" points="150,0 500,0 500,300 50,300"></polygon>
+        <polygon fill="url(#heroGrad2)" opacity="0.6" points="300,0 500,0 500,180"></polygon>
+        <line opacity="0.15" stroke="#0d9488" stroke-width="1.5" x1="280" x2="100" y1="0" y2="300"></line>
+        <line opacity="0.10" stroke="#1d4ed8" stroke-width="1" x1="350" x2="170" y1="0" y2="300"></line>
+        <line opacity="0.08" stroke="#0d9488" stroke-width="0.8" x1="420" x2="240" y1="0" y2="300"></line>
+        <rect fill="#0d9488" height="20" opacity="0.2" rx="2" width="20" x="450" y="20"></rect>
+        <rect fill="#1d4ed8" height="12" opacity="0.15" rx="2" width="12" x="420" y="50"></rect>
+        <rect fill="#0d9488" height="16" opacity="0.12" rx="2" width="16" x="460" y="240"></rect>
+        <!-- Bell-curve dot grid -->
+        <circle cx="310" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+        <circle cx="340" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+        <circle cx="370" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+        <circle cx="310" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+        <circle cx="340" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+        <circle cx="370" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+        <circle cx="310" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+        <circle cx="340" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+        <circle cx="370" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <div class="fade-in">
+        <span class="article-category-badge">
+          <i class="fa fa-tag"></i> Database &amp; Analysis
+        </span>
+      </div>
+      <h1 class="article-title fade-in">
+        Descriptive <span class="title-accent">Statistics</span>
+      </h1>
+      <p class="article-subtitle fade-in">
+        Before you normalize, weight, or model anything, you need to understand the shape of your data. Mean, median, spread, and distribution are the four questions every scouting dataset has to answer first.
+      </p>
+      <div class="article-meta fade-in">
+        <span class="meta-item"><i class="fa fa-clock-o"></i> 16 min read</span>
+        <span class="meta-item"><i class="fa fa-calendar"></i> Updated Apr 2025</span>
+        <span class="difficulty-badge difficulty-beginner">
+          <i class="fa fa-signal"></i> Beginner
+        </span>
+      </div>
+    </div>
+    <div aria-label="Article tags" class="hero-tags" role="list">
+      <span class="tag teal" role="listitem">Database</span>
+      <span class="tag blue" role="listitem">Analysis</span>
+      <span class="tag" role="listitem">Statistics</span>
+      <span class="tag" role="listitem">Mean &amp; Median</span>
+      <span class="tag red" role="listitem">Beginner</span>
+    </div>
+  </header>
+
+  <!-- ─── Article Layout ────────────────────────────────── -->
+  <div class="article-layout">
+    <article class="article-body" id="article-top">
+
+      <div class="callout info">
+        <span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Prerequisites</div>
+          <div class="prereqs">
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Data Standardization</span>
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Data Integrity &amp; Error Handling</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Section 1 ─── -->
+      <h2 id="what-is">What Descriptive Statistics Actually Does</h2>
+      <p>After a qualification day ends, your scouting database holds hundreds of raw match submissions — cycle counts, auto scores, endgame outcomes, defense flags, foul tallies. Before any of that data can answer the question "who should we pick?", you need to answer a prior question: what does this data actually look like?</p>
+      <p>Descriptive statistics is the branch of mathematics that summarizes and characterizes a dataset without making predictions or drawing inferences beyond it. It does not tell you what a robot will do in eliminations. It tells you what a robot has done across qualification matches, expressed in terms that expose the central tendency, the variability, and the shape of that performance distribution. Those three things — center, spread, shape — are the foundation everything else is built on. Normalization, composite scoring, and alliance selection analysis are all downstream of understanding your distribution first.</p>
+      <p>The practical value in an FRC context is this: a robot that averaged 9.2 cycles and a robot that averaged 9.1 cycles are not meaningfully different — but a robot that averaged 9.2 with a standard deviation of 0.8 and a robot that averaged 9.2 with a standard deviation of 4.1 are radically different. The first is consistent and predictable. The second is a coin flip. Raw averages hide that difference. Descriptive statistics exposes it.</p>
+
+      <!-- ─── Section 2 ─── -->
+      <h2 id="central-tendency">Measures of Central Tendency</h2>
+      <p>Central tendency is the single number that best represents "typical" performance for a team on a given metric. There are three standard measures, and choosing the wrong one for the wrong data distribution leads to systematically misleading rankings.</p>
+
+      <h3>Mean (Arithmetic Average)</h3>
+      <p>The mean is the sum of all values divided by the count of values. It is the most common summary statistic used in FRC scouting and the one most likely to be misapplied. The mean is the correct measure of central tendency when your distribution is roughly symmetric and contains no significant outliers — conditions that FRC scouting data often violates.</p>
+
+      <div class="formula-block">
+        <span class="f-comment">// Arithmetic Mean</span><br/>
+        <span class="f-key">mean</span> = (x₁ + x₂ + ... + xₙ) / <span class="f-val">n</span><br/><br/>
+        <span class="f-comment">// Example: match cycle counts = [8, 9, 10, 7, 9, 11, 9]</span><br/>
+        <span class="f-comment">// mean = (8+9+10+7+9+11+9) / 7 = 63 / 7 = 9.0</span>
+      </div>
+
+      <p>The mean is sensitive to outliers. A single catastrophic match where a robot scores 0 due to a mechanical failure pulls the mean downward even if the robot is reliably excellent otherwise. Before trusting a mean, always check whether any single match observation is pulling it away from the bulk of the distribution.</p>
+
+      <h3>Median</h3>
+      <p>The median is the middle value when all observations are sorted in order. For an odd number of observations, it is the literal middle value. For an even number, it is the mean of the two middle values. The median is robust to outliers — a single 0 in a list of otherwise strong performances barely moves the median, while it can dramatically lower the mean.</p>
+
+      <div class="formula-block">
+        <span class="f-comment">// Median — sort values, find the middle</span><br/>
+        <span class="f-comment">// Sorted: [0, 8, 9, 9, 9, 10, 11]  →  n=7, middle index = 3</span><br/>
+        <span class="f-key">median</span> = <span class="f-val">9</span><br/><br/>
+        <span class="f-comment">// Same data, mean = (0+8+9+9+9+10+11) / 7 = 8.0</span><br/>
+        <span class="f-comment">// The 0 pulls mean down by 1.0 full cycle — median is unmoved</span>
+      </div>
+
+      <p>In FRC scouting, median is typically the better measure of "what can I expect from this robot in a normal match." Mean is better when you want to account for total expected output across many matches — for example, when estimating alliance total score potential, because a 0 match genuinely does hurt your alliance even if it is an outlier. Use the right tool for the question being asked.</p>
+
+      <h3>Mode</h3>
+      <p>The mode is the most frequently occurring value in a dataset. For continuous metrics like cycle count or score, mode is rarely useful on its own — a robot that scored exactly 9 cycles in three of seven matches has a mode of 9, but that tells you less than the mean or median. Where mode becomes genuinely informative in FRC data is with categorical or discrete metrics: endgame outcomes (climbed / parked / none), auto routines attempted, or foul categories. If a robot's most frequent endgame outcome is "none" despite an average endgame score of 5.0 — because they occasionally climb for 15 points — the mode tells you a truth the mean obscures.</p>
+
+      <div class="context-pills">
+        <span class="ctx-pill good"><i class="fa fa-check"></i> Mean: best for symmetric, outlier-free distributions</span>
+        <span class="ctx-pill good"><i class="fa fa-check"></i> Median: best when outliers or skew are present</span>
+        <span class="ctx-pill info"><i class="fa fa-info-circle"></i> Mode: best for categorical or discrete outcomes</span>
+      </div>
+
+      <!-- ─── Section 3 ─── -->
+      <h2 id="spread">Measures of Spread</h2>
+      <p>Spread quantifies how much variation exists in a dataset around the central value. Two robots with identical means can have wildly different spread characteristics — one is consistent and reliable, the other is volatile and unpredictable. For alliance selection, spread is often more important than center: you need to know not just what a robot typically does, but how much you can count on it.</p>
+
+      <h3>Range</h3>
+      <p>Range is the simplest spread measure: the difference between the maximum and minimum observed values. It is fast to compute and immediately legible, but it is wholly determined by just two data points — the extremes — and is therefore highly sensitive to a single outlier in either direction.</p>
+
+      <div class="formula-block">
+        <span class="f-comment">// Range</span><br/>
+        <span class="f-key">range</span> = <span class="f-val">max</span> − <span class="f-val">min</span><br/><br/>
+        <span class="f-comment">// Cycle counts: [6, 8, 9, 10, 11, 9, 14]</span><br/>
+        <span class="f-comment">// range = 14 − 6 = 8   (broad, but dominated by the 14)</span>
+      </div>
+
+      <h3>Variance and Standard Deviation</h3>
+      <p>Standard deviation is the most widely used and informative spread measure for FRC scouting data. It measures the average distance of each observation from the mean, expressed in the same units as the original data. A cycle count standard deviation of 1.2 means most observations fall within roughly 1.2 cycles of the mean — tight, consistent play. A standard deviation of 4.8 means observations are scattered 4–5 cycles away from the mean in both directions — volatile play.</p>
+
+      <div class="formula-block">
+        <span class="f-comment">// Variance (average squared deviation from mean)</span><br/>
+        <span class="f-key">variance</span> = Σ(xᵢ − <span class="f-val">mean</span>)² / n<br/><br/>
+        <span class="f-comment">// Standard Deviation (square root of variance)</span><br/>
+        <span class="f-key">std_dev</span> = √variance<br/><br/>
+        <span class="f-comment">// Dataset A: [9, 9, 9, 9, 9]  →  std_dev = 0.0  (perfectly consistent)</span><br/>
+        <span class="f-comment">// Dataset B: [3, 6, 9, 12, 15] →  std_dev = 4.24 (highly variable)</span><br/>
+        <span class="f-comment">// Both have mean = 9. Only std_dev reveals the difference.</span>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Sample vs. Population Standard Deviation</div>
+          <p class="callout-text">When computing standard deviation from scouting data, use the <strong>sample standard deviation</strong> (divide by n−1, not n) if you're treating your observations as a sample of a robot's possible performances. Population standard deviation (divide by n) is correct only if you have observed every possible performance — which you never have. Most spreadsheet tools use sample std dev (STDEV) by default. Make sure yours does too.</p>
+        </div>
+      </div>
+
+      <h3>Interquartile Range (IQR)</h3>
+      <p>The interquartile range is the distance between the 25th percentile (Q1) and the 75th percentile (Q3) of the dataset. It measures the spread of the middle 50% of observations, ignoring the extremes entirely. This makes it highly resistant to outliers — a single catastrophic 0 or a single standout 20-cycle performance does not affect the IQR at all. For FRC data where outlier matches are common (mechanical failures, fouls, unusually easy opponents), IQR is often the most honest spread measure for day-to-day reliability.</p>
+
+      <div class="formula-block">
+        <span class="f-comment">// Interquartile Range</span><br/>
+        <span class="f-key">IQR</span> = <span class="f-val">Q3</span> − <span class="f-val">Q1</span><br/><br/>
+        <span class="f-comment">// Sorted: [0, 7, 8, 9, 9, 10, 11, 14]</span><br/>
+        <span class="f-comment">// Q1 = 7.5  (median of lower half)</span><br/>
+        <span class="f-comment">// Q3 = 10.5 (median of upper half)</span><br/>
+        <span class="f-comment">// IQR = 10.5 − 7.5 = 3.0   (ignores the 0 and 14 entirely)</span>
+      </div>
+
+      <!-- ─── Section 4 ─── -->
+      <h2 id="five-number">The Five-Number Summary</h2>
+      <p>The five-number summary packages the most important descriptive statistics into a single compact profile: minimum, Q1, median, Q3, and maximum. Together these five values tell you the full story of a distribution's center, spread, and rough shape. They are the foundation of the box plot — the standard visual format for comparing distributions across teams.</p>
+
+      <table class="fivenum-table">
+        <thead>
+          <tr>
+            <th>Statistic</th>
+            <th>What It Tells You</th>
+            <th>FRC Application</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="fivenum-mark" style="background:#dc2626;"></span><strong>Minimum</strong></td>
+            <td>Worst observed performance</td>
+            <td>Floor risk — how bad does it get on a bad day?</td>
+          </tr>
+          <tr>
+            <td><span class="fivenum-mark" style="background:#f59e0b;"></span><strong>Q1 (25th pct)</strong></td>
+            <td>Lower quartile boundary</td>
+            <td>Pessimistic expectation — 75% of matches are above this</td>
+          </tr>
+          <tr>
+            <td><span class="fivenum-mark" style="background:#0d9488;"></span><strong>Median</strong></td>
+            <td>Typical performance</td>
+            <td>Best single estimate of what to expect</td>
+          </tr>
+          <tr>
+            <td><span class="fivenum-mark" style="background:#1d4ed8;"></span><strong>Q3 (75th pct)</strong></td>
+            <td>Upper quartile boundary</td>
+            <td>Optimistic expectation — only 25% of matches exceed this</td>
+          </tr>
+          <tr>
+            <td><span class="fivenum-mark" style="background:#7c3aed;"></span><strong>Maximum</strong></td>
+            <td>Best observed performance</td>
+            <td>Ceiling potential — what's the best case?</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>For alliance selection, the five-number summary lets you ask precise questions: "Is a team's Q1 high enough that even on a bad day they remain useful?" A robot with a median of 11 cycles but a Q1 of 3 is not a safe pick for a tight elimination match — their floor is too dangerous. A robot with a median of 9 and a Q1 of 7 is far more reliable even though their headline number is lower.</p>
+
+      <!-- ─── Section 5 ─── -->
+      <h2 id="distribution-shape">Distribution Shape</h2>
+      <p>The shape of a distribution tells you how performances are arranged around the center. Two datasets can share the same mean, median, and standard deviation while having completely different shapes — and those shapes have different strategic implications. Visualizing your data as a histogram is the only way to see shape reliably.</p>
+
+      <h3>Symmetric (Normal) Distribution</h3>
+      <p>A symmetric distribution clusters evenly around the mean, with observations tapering off equally in both directions. In FRC, this shape typically describes a consistent robot playing against varied opponents — their performance fluctuates around a true capability level due to normal match-to-match variation. Mean and median are approximately equal. Standard deviation is a reliable description of spread.</p>
+
+      <h3>Right-Skewed Distribution</h3>
+      <p>A right-skewed distribution has most observations clustered at lower values, with a tail extending toward higher values. This pattern often appears in endgame data — most robots score zero or low endgame points, with a small number scoring highly. In this shape, the mean is pulled rightward by the high-value tail and overstates the typical performance. Median is more representative. The right tail represents rare but high-value outcomes.</p>
+
+      <h3>Left-Skewed Distribution</h3>
+      <p>A left-skewed distribution has most observations at higher values, with a tail extending toward lower values. This pattern appears in cycle data for a strong robot that occasionally has a bad match — most performance is excellent, but occasional failures drag some observations down. The mean is pulled leftward by the low-value tail and understates the robot's typical capability. Median is again the better estimate.</p>
+
+      <h3>Bimodal Distribution</h3>
+      <p>A bimodal distribution has two distinct peaks rather than one. In FRC data, this is often a diagnostic signal rather than a genuine distribution shape — it frequently means you have two different populations mixed together. A robot with a bimodal cycle count distribution may be running two different auto routines depending on starting position, or playing very differently when defended versus undefended. Before reporting a bimodal summary statistic, investigate whether the data should be segmented into two separate groups.</p>
+
+      <div class="callout tip">
+        <span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Always Plot Before You Summarize</div>
+          <p class="callout-text">A single number — even a well-chosen one — hides distribution shape. Before presenting any summary statistic to a strategist, plot a histogram of the underlying data. You will catch bimodal distributions that should be segmented, outliers that are distorting your mean, and ceiling effects where half the field clusters at the maximum. Twenty seconds of visual inspection prevents a mis-informed ranking decision.</p>
+        </div>
+      </div>
+
+      <!-- ─── Section 6 ─── -->
+      <h2 id="explorer">Distribution Explorer</h2>
+      <p>Select a dataset below to see how the same teams look across different statistical profiles. The histogram shows the distribution shape; the stat cards show mean, median, standard deviation, and IQR. Notice how the relationship between mean and median shifts as the distribution changes shape.</p>
+
+      <!-- ══════════ STATS WIDGET ══════════ -->
+      <div class="stats-widget">
+        <div class="stats-header">
+          <div class="stats-header-left">
+            <div class="stats-icon"><i class="fa fa-area-chart"></i></div>
+            <div class="stats-title-block">
+              <div class="stats-label">Interactive Explorer</div>
+              <div class="stats-name">Distribution Profiles</div>
+            </div>
+          </div>
+          <div class="stats-mode-toggle">
+            <button class="mode-btn active" id="dsCycles"   onclick="setDataset('cycles')">Cycles</button>
+            <button class="mode-btn"         id="dsAuto"    onclick="setDataset('auto')">Auto</button>
+            <button class="mode-btn"         id="dsEndgame" onclick="setDataset('endgame')">Endgame</button>
+            <button class="mode-btn"         id="dsConsistency" onclick="setDataset('consistency')">Consistency</button>
+          </div>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="stat-cards-row" id="statCardsRow">
+          <!-- injected by JS -->
+        </div>
+
+        <!-- Histogram -->
+        <div class="stats-chart-area">
+          <div class="hist-container" id="histContainer">
+            <!-- injected by JS -->
+          </div>
+          <div class="hist-x-labels" id="histXLabels"></div>
+        </div>
+
+        <!-- Insight -->
+        <div class="stats-insight">
+          <div class="insight-icon">💡</div>
+          <div class="insight-text" id="statsInsightText">
+            <strong>Teleop Cycles:</strong> A roughly symmetric distribution centered around 8–9 cycles. Mean and median are close together — a sign that no extreme outliers are distorting the summary. Standard deviation of ~2.5 means most teams fall within a 5-cycle range of each other.
+          </div>
+        </div>
+
+        <!-- Controls: show/hide markers -->
+        <div class="stats-controls">
+          <button class="stats-btn stats-btn-active"  id="btnMean"   onclick="toggleMarker('mean')">&#x2715; Mean</button>
+          <button class="stats-btn stats-btn-active"  id="btnMedian" onclick="toggleMarker('median')">&#x2715; Median</button>
+          <button class="stats-btn stats-btn-ghost"   id="btnQ1Q3"   onclick="toggleMarker('iqr')">Show Q1 / Q3</button>
+          <div class="stats-meta" id="statsMeta">dataset: teleop cycles · n=24 teams</div>
+        </div>
+      </div>
+      <!-- ══════════ END WIDGET ══════════ -->
+
+      <!-- ─── Section 7 ─── -->
+      <h2 id="outliers">Identifying and Handling Outliers</h2>
+      <p>An outlier is an observation that falls far from the bulk of the distribution. In FRC scouting data, outliers are common and carry information — they are rarely random noise. Before deciding how to handle an outlier, determine what caused it.</p>
+
+      <ol class="step-list">
+        <li><p><strong>Identify</strong> outlier candidates using the 1.5×IQR rule: any value below Q1 − 1.5×IQR or above Q3 + 1.5×IQR is a formal outlier candidate. Flag these observations for review rather than removing them automatically.</p></li>
+        <li><p><strong>Investigate</strong> the match context. Was the robot defended for the entire match? Did they have a known mechanical failure? Was it a garbage-time match where they were already comfortably ahead and stopped cycling? Each explanation changes how the outlier should be treated.</p></li>
+        <li><p><strong>Tag, don't delete.</strong> The correct response to a legitimate outlier is to tag it with a reason code in your database (mechanical_failure, heavily_defended, garbage_time, scouting_error) and exclude it from specific calculations while keeping the raw record intact. Deletion destroys information. Tagging preserves it.</p></li>
+        <li><p><strong>Report transparently.</strong> If a team's median is calculated after excluding two flagged matches, that calculation note should appear alongside the number. A strategist deserves to know that the 9.4-cycle median is built on five observations with two excluded, not seven clean observations.</p></li>
+      </ol>
+
+      <div class="callout warning">
+        <span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Outliers Can Be the Most Important Data Points</div>
+          <p class="callout-text">Resist the instinct to remove outlier matches that make a strong team look bad. A robot that scores 14 cycles in six matches and 0 in one match has a real 0 on its record — that was a match where your alliance lost 14 expected cycles. The question is not whether to remove it, but why it happened and how likely it is to recur. If the 0 was a battery issue that recurred twice, that pattern belongs in your alliance selection analysis, not in a footnote.</p>
+        </div>
+      </div>
+
+      <!-- ─── Section 8 ─── -->
+      <h2 id="frc-application">Applying Descriptive Statistics to Scouting Data</h2>
+      <p>In practice, a scouting program's descriptive statistics layer should produce three outputs per team per metric: a central tendency estimate (median for reliability, mean for expected total output), a spread estimate (IQR for outlier resistance, std dev for full distribution characterization), and a flag for any data quality concerns (too few observations, outlier tags, scouting coverage gaps).</p>
+
+      <h3>Minimum Observation Threshold</h3>
+      <p>Descriptive statistics become unreliable with too few data points. A mean and standard deviation calculated from two observations are nearly meaningless — the "mean" is just the average of two random samples, and the "standard deviation" has an enormous confidence interval around it. As a practical minimum, require at least four scouted match observations before reporting a team's statistics as actionable. Flag any team below this threshold so strategists know to treat their numbers with additional skepticism.</p>
+
+      <div class="formula-block">
+        <span class="f-comment">// Minimum sample rule — flag teams with insufficient observations</span><br/>
+        <span class="f-key">if</span> (team.matchCount &lt; <span class="f-val">4</span>) {<br/>
+        &nbsp;&nbsp;team.statsFlag = <span class="f-val">"low_n"</span>;<br/>
+        &nbsp;&nbsp;team.statsConfidence = <span class="f-val">"insufficient"</span>;<br/>
+        }<br/><br/>
+        <span class="f-comment">// 4–6 observations: report with caution note</span><br/>
+        <span class="f-comment">// 7+ observations: full descriptive statistics are reliable</span>
+      </div>
+
+      <h3>Metric-Specific Considerations</h3>
+      <p>Not every metric in your scouting form should be treated the same way statistically. Continuous metrics like cycle count and score are well-suited to mean, median, and standard deviation. Discrete outcomes like endgame result (0/5/10/15 points) often show multimodal distributions that require separate reporting by outcome tier rather than a single average. Boolean flags like defended and auto_attempted are proportions — report them as percentages (e.g., "was defended in 40% of matches") rather than means of 0/1 values, even though the math is the same.</p>
+
+      <h3>Rolling vs. Full-Event Statistics</h3>
+      <p>In a long event, a robot's performance may change meaningfully between early qualification rounds and later ones — due to mechanical improvements, driver adjustment, or strategic shifts after seeing other robots. A full-event mean or median averages over all of those stages and may not represent the robot as they currently are. Consider computing both a full-event summary and a rolling last-three-matches summary, and flag teams where the two diverge significantly. A team whose last three matches average is 3 cycles higher than their full-event average is on an improving trend that your static summary undersells.</p>
+
+      <div class="callout tip">
+        <span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Std Dev as a Reliability Score</div>
+          <p class="callout-text">Standard deviation is one of the most underused statistics in FRC scouting. In alliance selection, reliability often matters more than peak performance — an alliance that reliably scores 36 points beats one that scores 45 points two matches and 24 points one match. Build a reliability score as a simple function of standard deviation relative to mean (coefficient of variation = std_dev / mean × 100%). A team with CV below 20% is highly consistent. Above 40% is volatile. This single number immediately segments reliable picks from risky ones.</p>
+        </div>
+      </div>
+
+      <!-- ─── Section 9 ─── -->
+      <h2 id="communicating">Presenting Statistics to Your Strategy Team</h2>
+      <p>A well-computed set of descriptive statistics is only useful if the people acting on it understand what they are reading. Drive coaches and strategy leads making real-time decisions during alliance selection do not have time to interpret a raw data table of means, medians, and standard deviations. Your job as data lead is to translate those numbers into formats that are immediately legible under pressure.</p>
+      <p>For central tendency, present median alongside mean rather than mean alone, with a brief note if they diverge significantly — "median of 9 cycles, mean of 7.2 — one 0-cycle match pulling the mean down." For spread, express standard deviation in plain language: "typically 8–11 cycles, occasionally as low as 5." The IQR middle-50% range ("this robot scores between 8 and 11 cycles in three out of four matches") is more actionable than a standard deviation number for a non-technical audience. For distribution shape, a small inline histogram on a pick-list sheet communicates more about a robot's risk profile than any combination of summary numbers.</p>
+      <p>The final output of your descriptive statistics layer should be a one-page team profile per shortlisted candidate: five-number summary, a small histogram, a reliability flag (consistent / moderate / volatile), observation count, and any outlier tags. This document, handed to the drive coach with two minutes before alliance selection starts, is the product all of this statistical work is building toward.</p>
+
+      <div class="callout info">
+        <span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Connecting to Normalization</div>
+          <p class="callout-text">Descriptive statistics produces the inputs that normalization techniques consume. You cannot compute a z-score without a mean and standard deviation. You cannot apply percentile rank without sorting the distribution. You cannot identify outliers to exclude from context-adjusted normalization without computing IQR first. Understanding your distribution is not a preliminary step to be skipped — it is the foundation every downstream analysis is built on. The Data Normalization article covers how to use these summary statistics as inputs to cross-team comparison methods.</p>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- TOC Panel -->
+    <aside aria-label="Table of contents" class="toc-panel">
+      <div class="toc-title">On This Page</div>
+      <ul class="toc-list">
+        <li id="toc-what-is"><a href="#what-is">What Descriptive Statistics Does</a></li>
+        <li id="toc-central-tendency"><a href="#central-tendency">Central Tendency</a></li>
+        <li id="toc-spread"><a href="#spread">Measures of Spread</a></li>
+        <li id="toc-five-number"><a href="#five-number">Five-Number Summary</a></li>
+        <li id="toc-distribution-shape"><a href="#distribution-shape">Distribution Shape</a></li>
+        <li id="toc-explorer"><a href="#explorer">Distribution Explorer 📊</a></li>
+        <li id="toc-outliers"><a href="#outliers">Outliers</a></li>
+        <li id="toc-frc-application"><a href="#frc-application">FRC Application</a></li>
+        <li id="toc-communicating"><a href="#communicating">Communicating to Strategists</a></li>
+      </ul>
+      <div class="toc-divider"></div>
+      <div class="toc-progress-label">Reading progress</div>
+      <div class="toc-progress-bar">
+        <div class="toc-progress-fill" id="readingProgress"></div>
+      </div>
+    </aside>
+  </div><!-- /article-layout -->
+
+  <div class="section-divider"></div>
+
+  <!-- ─── Contributor Section ─── -->
+  <section aria-label="Article contributors" class="contributor-section">
+    <div class="contributor-section-title">Provided to you by</div>
+    <div class="contributor-cards">
+      <div class="contributor-card">
+        <div aria-hidden="true" class="contributor-avatar-placeholder">AI</div>
+        <div class="contributor-info">
+          <div class="contributor-name">Claude AI</div>
+          <div class="contributor-team"><i class="fa fa-robot"></i> AI Author</div>
+          <div class="contributor-role">Article Author</div>
+        </div>
+      </div>
+      <div class="contributor-card">
+        <div aria-hidden="true" class="contributor-avatar-placeholder">AG</div>
+        <div class="contributor-info">
+          <div class="contributor-name">Adam G.</div>
+          <div class="contributor-team"><i class="fa fa-wrench"></i> Team 2062 — CORE</div>
+          <div class="contributor-role">Technical Reviewer</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── Next / Previous Navigation ─── -->
+  <nav aria-label="Article navigation" class="article-nav">
+    <a class="nav-card prev" href="./data-integrity-and-error-handling.html">
+      <div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
+      <div class="nav-title">Data Integrity &amp; Error Handling</div>
+    </a>
+    <a class="nav-card next" href="./data-normalization.html">
+      <div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+      <div class="nav-title">Data Normalization</div>
+    </a>
+  </nav>
+
+  <!-- ─── Footer ─── -->
+  <footer>
+    <div class="footer-stripe">
+      <div class="footer-stripe-seg" style="background:#0d9488;"></div>
+      <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+      <div class="footer-stripe-seg" style="background:#dc2626;"></div>
+      <div class="footer-stripe-seg" style="background:#0d9488;"></div>
+      <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+      <div class="footer-stripe-seg" style="background:#dc2626;"></div>
+    </div>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">FRC<span>source</span></div>
+          <p class="footer-desc">A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.</p>
+          <p class="footer-powered">Powered by <a href="https://www.w3schools.com/w3css/default.asp" rel="noopener" target="_blank">w3.css</a></p>
+        </div>
+        <div>
+          <div class="footer-heading">Explore</div>
+          <ul class="footer-links">
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+            <li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+            <li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+            <li><a href="../../index.html#about">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Tags</div>
+          <div class="footer-tags">
+            <span class="footer-tag">Index</span>
+            <span class="footer-tag">Programming</span>
+            <span class="footer-tag">Scouting</span>
+            <span class="footer-tag">FRCsource</span>
+            <span class="footer-tag">Strategy</span>
+            <span class="footer-tag">Data</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 FRCsource. Made by the FRC community.</span>
+        <span><a href="https://github.com/8BitAdam/FRCsource" style="color:#475569; text-decoration:none;"><i class="fa fa-github"></i> GitHub</a></span>
+      </div>
+    </div>
+  </footer>
+</div><!-- /main-content -->
+
+<script>
+/* ── Sidebar & Theme ─────────────────────────────────────── */
+function openSidebar() {
+  document.getElementById('mySidebar').classList.add('open');
+  document.getElementById('myOverlay').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+  document.getElementById('mySidebar').classList.remove('open');
+  document.getElementById('myOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+const html = document.documentElement;
+const darkLabel = document.getElementById('darkLabel');
+function applyTheme(theme) {
+  html.setAttribute('data-theme', theme);
+  localStorage.setItem('frc-theme', theme);
+  if (darkLabel) darkLabel.textContent = theme === 'dark' ? 'Light' : 'Dark';
+}
+function toggleDark() { applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+(function () {
+  const saved = localStorage.getItem('frc-theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+})();
+
+/* ── Reading Progress ──────────────────────────────────── */
+const progressFill = document.getElementById('readingProgress');
+const sections = document.querySelectorAll('.article-body h2[id]');
+const tocItems  = document.querySelectorAll('.toc-list li[id]');
+function updateProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress  = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+  if (progressFill) progressFill.style.width = progress + '%';
+  let activeId = null;
+  sections.forEach(sec => { if (scrollTop >= sec.offsetTop - 120) activeId = sec.id; });
+  tocItems.forEach(item => {
+    item.classList.remove('active');
+    if (item.id === 'toc-' + activeId) item.classList.add('active');
+  });
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
+
+/* ══════════════════════════════════════════════
+   DISTRIBUTION EXPLORER WIDGET
+══════════════════════════════════════════════ */
+(function () {
+
+  /* ── Raw match-level data (simulated, 24 teams) ── */
+  const DATASETS = {
+    cycles: {
+      label: 'Teleop Cycle Counts',
+      unit: 'cycles',
+      // Values distributed roughly symmetrically around 8-9
+      values: [14, 13, 12, 11, 11, 10, 10, 9, 9, 9, 9, 8, 8, 8, 8, 7, 7, 7, 6, 6, 5, 5, 3, 1],
+      insight: '<strong>Teleop Cycles:</strong> A near-symmetric distribution centered around 8–9 cycles. Mean and median are very close (8.5 vs 8.5), confirming low skew. Standard deviation of ~2.5 means most teams cluster within a 5-cycle window. The lone outlier at 1 cycle is worth investigating — mechanical failure or scouting error.',
+      shape: 'symmetric',
+    },
+    auto: {
+      label: 'Auto Point Scores',
+      unit: 'pts',
+      // Right-skewed — most teams score low, a few score high
+      values: [18, 15, 12, 10, 8, 8, 6, 6, 6, 4, 4, 4, 4, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0],
+      insight: '<strong>Auto Scores:</strong> A strongly right-skewed distribution. Most teams score 0–4 points in auto; a few elite teams score 10+. Mean (4.5 pts) is higher than median (3 pts), a classic sign of right skew. Don\'t use mean as your typical estimate here — it overstates what most teams actually deliver.',
+      shape: 'right-skew',
+    },
+    endgame: {
+      label: 'Endgame Points',
+      unit: 'pts',
+      // Bimodal — climbers vs non-climbers
+      values: [15, 15, 15, 15, 15, 15, 15, 10, 10, 10, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      insight: '<strong>Endgame Points:</strong> A classic bimodal distribution — teams either climb (10–15 pts) or don\'t (0 pts), with little in between. A single mean of 5.6 pts is nearly meaningless here; it describes almost nobody. The correct analysis splits teams into two groups: climbers and non-climbers, each described separately.',
+      shape: 'bimodal',
+    },
+    consistency: {
+      label: 'Cycle Consistency (Low Std Dev Teams)',
+      unit: 'cycles',
+      // Left-skewed — strong consistent field with a few bad matches
+      values: [12, 11, 11, 11, 10, 10, 10, 10, 9, 9, 9, 9, 9, 9, 8, 8, 8, 8, 8, 7, 7, 6, 4, 2],
+      insight: '<strong>Consistency Profile:</strong> A slightly left-skewed distribution — the bulk of this team\'s matches cluster between 8–11 cycles, but a tail of two poor matches (4 and 2 cycles) pulls the mean (8.7) below the median (9). IQR of just 3 cycles confirms high consistency. This is a reliable pick — the low-end outliers are the exception, not the pattern.',
+      shape: 'left-skew',
+    },
+  };
+
+  let currentDataset = 'cycles';
+  let showMean   = true;
+  let showMedian = true;
+  let showIQR    = false;
+
+  /* ── Stats computation ── */
+  function computeStats(vals) {
+    const n    = vals.length;
+    const sum  = vals.reduce((a, b) => a + b, 0);
+    const mean = sum / n;
+    const sorted = [...vals].sort((a, b) => a - b);
+    const med  = n % 2 === 0
+      ? (sorted[n/2 - 1] + sorted[n/2]) / 2
+      : sorted[Math.floor(n/2)];
+    const variance = vals.reduce((s, v) => s + (v - mean) ** 2, 0) / (n - 1);
+    const std  = Math.sqrt(variance);
+    const q1   = sorted[Math.floor(n * 0.25)];
+    const q3   = sorted[Math.floor(n * 0.75)];
+    const iqr  = q3 - q1;
+    const mn   = sorted[0];
+    const mx   = sorted[n - 1];
+    return { mean, med, std, q1, q3, iqr, min: mn, max: mx, n };
+  }
+
+  /* ── Histogram binning ── */
+  function buildBins(vals, binCount) {
+    const mn  = Math.min(...vals);
+    const mx  = Math.max(...vals);
+    const w   = (mx - mn) / binCount || 1;
+    const bins = Array.from({ length: binCount }, (_, i) => ({
+      lo: mn + i * w,
+      hi: mn + (i + 1) * w,
+      count: 0,
+    }));
+    vals.forEach(v => {
+      let idx = Math.floor((v - mn) / w);
+      if (idx >= binCount) idx = binCount - 1;
+      bins[idx].count++;
+    });
+    return bins;
+  }
+
+  /* ── Render stat cards ── */
+  function renderCards(stats, unit) {
+    const row = document.getElementById('statCardsRow');
+    const cards = [
+      { label: 'Mean',    value: stats.mean.toFixed(1), sub: unit },
+      { label: 'Median',  value: stats.med.toFixed(1),  sub: unit },
+      { label: 'Std Dev', value: stats.std.toFixed(2),  sub: '± ' + unit },
+      { label: 'IQR',     value: stats.iqr.toFixed(1),  sub: 'middle 50%' },
+      { label: 'Min',     value: stats.min,              sub: unit },
+      { label: 'Max',     value: stats.max,              sub: unit },
+    ];
+    row.innerHTML = cards.map(c => `
+      <div class="stat-card">
+        <div class="stat-card-label">${c.label}</div>
+        <div class="stat-card-value">${c.value}</div>
+        <div class="stat-card-sub">${c.sub}</div>
+      </div>
+    `).join('');
+  }
+
+  /* ── Render histogram ── */
+  function renderHistogram(vals, stats) {
+    const container = document.getElementById('histContainer');
+    const xLabels   = document.getElementById('histXLabels');
+    const CHART_H   = 180;
+    const BIN_COUNT = 8;
+
+    container.innerHTML = '';
+    xLabels.innerHTML   = '';
+
+    const bins   = buildBins(vals, BIN_COUNT);
+    const maxCnt = Math.max(...bins.map(b => b.count));
+    const colColors = [
+      '#0d9488cc', '#1d4ed8cc', '#0d9488bb', '#38bdf8bb',
+      '#0d9488aa', '#1d4ed8aa', '#0d9488aa', '#38bdf8aa',
+    ];
+
+    bins.forEach((bin, i) => {
+      const heightFrac = maxCnt > 0 ? bin.count / maxCnt : 0;
+      const heightPx   = Math.max(bin.count > 0 ? 6 : 0, heightFrac * CHART_H);
+
+      const bar = document.createElement('div');
+      bar.className    = 'hist-bar';
+      bar.style.height = '0px';
+      bar.style.background = colColors[i % colColors.length];
+      bar.title = `${bin.lo.toFixed(1)}–${bin.hi.toFixed(1)}: ${bin.count} teams`;
+
+      if (bin.count > 0) {
+        const cnt = document.createElement('div');
+        cnt.className   = 'hist-bar-count';
+        cnt.textContent = bin.count;
+        bar.appendChild(cnt);
+      }
+
+      container.appendChild(bar);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => { bar.style.height = heightPx + 'px'; });
+      });
+
+      // x label
+      const lbl = document.createElement('div');
+      lbl.className   = 'hist-x-label';
+      lbl.textContent = bin.lo.toFixed(0);
+      xLabels.appendChild(lbl);
+    });
+
+    // Overlay markers
+    renderMarkers(vals, stats, maxCnt, BIN_COUNT);
+  }
+
+  /* ── Overlay mean / median / Q1Q3 markers ── */
+  function renderMarkers(vals, stats, maxCnt, binCount) {
+    const container = document.getElementById('histContainer');
+    const mn  = Math.min(...vals);
+    const mx  = Math.max(...vals);
+    const rng = mx - mn || 1;
+
+    function makeMarker(value, color, label) {
+      const pct = (value - mn) / rng * 100;
+      const marker = document.createElement('div');
+      marker.className = 'dist-marker';
+      marker.style.left       = `calc(${pct}% + 0.5rem)`;
+      marker.style.background = color;
+      const lbl = document.createElement('div');
+      lbl.className           = 'dist-marker-label';
+      lbl.style.background    = color + '22';
+      lbl.style.color         = color;
+      lbl.style.border        = `1px solid ${color}55`;
+      lbl.textContent         = label;
+      marker.appendChild(lbl);
+      container.appendChild(marker);
+    }
+
+    if (showMean)   makeMarker(stats.mean, '#dc2626', 'x̄');
+    if (showMedian) makeMarker(stats.med,  '#1d4ed8', 'Md');
+    if (showIQR) {
+      makeMarker(stats.q1, '#f59e0b', 'Q1');
+      makeMarker(stats.q3, '#7c3aed', 'Q3');
+    }
+  }
+
+  /* ── Full render cycle ── */
+  function render() {
+    const ds    = DATASETS[currentDataset];
+    const stats = computeStats(ds.values);
+    renderCards(stats, ds.unit);
+    renderHistogram(ds.values, stats);
+    document.getElementById('statsInsightText').innerHTML = ds.insight;
+    document.getElementById('statsMeta').textContent =
+      `dataset: ${ds.label.toLowerCase()} · n=${ds.values.length} teams`;
+  }
+
+  /* ── Controls ── */
+  window.setDataset = function (key) {
+    currentDataset = key;
+    ['cycles','auto','endgame','consistency'].forEach(k => {
+      document.getElementById('ds' + k.charAt(0).toUpperCase() + k.slice(1))
+        .classList.toggle('active', k === key);
+    });
+    render();
+  };
+
+  window.toggleMarker = function (which) {
+    if (which === 'mean') {
+      showMean = !showMean;
+      const btn = document.getElementById('btnMean');
+      btn.className = 'stats-btn ' + (showMean ? 'stats-btn-active' : 'stats-btn-ghost');
+      btn.textContent = (showMean ? '✕ ' : '+ ') + 'Mean';
+    } else if (which === 'median') {
+      showMedian = !showMedian;
+      const btn = document.getElementById('btnMedian');
+      btn.className = 'stats-btn ' + (showMedian ? 'stats-btn-active' : 'stats-btn-ghost');
+      btn.textContent = (showMedian ? '✕ ' : '+ ') + 'Median';
+    } else if (which === 'iqr') {
+      showIQR = !showIQR;
+      const btn = document.getElementById('btnQ1Q3');
+      btn.className = 'stats-btn ' + (showIQR ? 'stats-btn-active' : 'stats-btn-ghost');
+      btn.textContent = (showIQR ? '✕ ' : '') + 'Q1 / Q3';
+    }
+    render();
+  };
+
+  render();
+})();
+</script>
+</body>
+</html>

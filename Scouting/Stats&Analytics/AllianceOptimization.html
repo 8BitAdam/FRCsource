@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en-US" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alliance Optimization — FRCsource</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://8bitadam.github.io/FRCsource/Assets/CSS/Article.css">
+
+  <style>
+    /* ══════════════════════════════════════
+       ALLIANCE BUILDER WIDGET
+    ══════════════════════════════════════ */
+    .builder-widget {
+      margin: 2.5rem 0;
+      border: 2px solid var(--border, #e2e8f0);
+      border-radius: 14px;
+      overflow: hidden;
+      font-family: 'Barlow', sans-serif;
+    }
+
+    [data-theme="dark"] .builder-widget { border-color: #1e2d42; }
+
+    /* Header */
+    .builder-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #14532d 100%);
+      padding: 1.1rem 1.5rem;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+
+    .builder-header-left { display: flex; align-items: center; gap: 0.75rem; }
+
+    .builder-icon {
+      width: 38px; height: 38px;
+      background: rgba(255,255,255,0.12); border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      color: #86efac; font-size: 1.1rem;
+    }
+
+    .builder-title-block .builder-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(134,239,172,0.7);
+    }
+
+    .builder-title-block .builder-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.15rem; font-weight: 800; color: #fff; line-height: 1.1;
+    }
+
+    .builder-score-display {
+      text-align: right;
+    }
+
+    .builder-score-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem; font-weight: 800; color: #86efac;
+      line-height: 1; transition: all 0.3s;
+    }
+
+    .builder-score-label {
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* Main body: two-panel layout */
+    .builder-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 420px;
+    }
+
+    @media (max-width: 680px) {
+      .builder-body { grid-template-columns: 1fr; }
+    }
+
+    /* Left: robot pool */
+    .robot-pool {
+      border-right: 1px solid var(--border, #e2e8f0);
+      background: var(--surface, #f8fafc);
+      display: flex; flex-direction: column;
+    }
+
+    [data-theme="dark"] .robot-pool {
+      background: #0f1729; border-color: #1e2d42;
+    }
+
+    .pool-header {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border, #e2e8f0);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-secondary, #64748b);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    [data-theme="dark"] .pool-header {
+      border-color: #1e2d42; color: #475569;
+    }
+
+    .pool-filter {
+      display: flex; gap: 0.3rem;
+    }
+
+    .filter-btn {
+      padding: 0.2rem 0.55rem;
+      border-radius: 5px; border: 1.5px solid transparent;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      cursor: pointer; background: transparent;
+      color: var(--text-secondary, #64748b);
+      transition: all 0.15s;
+    }
+
+    [data-theme="dark"] .filter-btn { color: #475569; }
+
+    .filter-btn.active {
+      background: #1d4ed8; color: #fff; border-color: #1d4ed8;
+    }
+
+    .robot-list {
+      flex: 1; overflow-y: auto;
+      padding: 0.5rem;
+      display: flex; flex-direction: column; gap: 0.4rem;
+    }
+
+    .robot-card {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 9px;
+      border: 1.5px solid var(--border, #e2e8f0);
+      background: var(--surface, #fff);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, transform 0.1s, opacity 0.2s;
+      position: relative;
+      user-select: none;
+    }
+
+    [data-theme="dark"] .robot-card {
+      background: #131c2b; border-color: #1e2d42;
+    }
+
+    .robot-card:hover:not(.in-alliance):not(.disabled) {
+      border-color: #1d4ed8;
+      transform: translateX(2px);
+    }
+
+    .robot-card.in-alliance {
+      opacity: 0.38;
+      cursor: default;
+    }
+
+    .robot-card.disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+
+    .robot-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.05rem; font-weight: 800;
+      color: var(--text-primary, #0f172a); min-width: 38px;
+    }
+
+    [data-theme="dark"] .robot-num { color: #e2e8f0; }
+
+    .robot-bars {
+      flex: 1; display: flex; flex-direction: column; gap: 3px;
+    }
+
+    .robot-bar-row {
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+
+    .robot-bar-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem; color: var(--text-secondary, #94a3b8);
+      width: 18px; flex-shrink: 0;
+    }
+
+    [data-theme="dark"] .robot-bar-label { color: #334155; }
+
+    .robot-bar-track {
+      flex: 1; height: 5px; border-radius: 3px;
+      background: var(--border, #e2e8f0); overflow: hidden;
+    }
+
+    [data-theme="dark"] .robot-bar-track { background: #1e2d42; }
+
+    .robot-bar-fill {
+      height: 100%; border-radius: 3px;
+      transition: width 0.3s;
+    }
+
+    .role-badge {
+      flex-shrink: 0;
+      padding: 0.15rem 0.45rem;
+      border-radius: 5px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+
+    .role-scorer  { background: rgba(29,78,216,0.12); color: #1d4ed8; }
+    .role-climber { background: rgba(13,148,136,0.12); color: #0d9488; }
+    .role-defense { background: rgba(220,38,38,0.12);  color: #dc2626; }
+    .role-flex    { background: rgba(245,158,11,0.12); color: #b45309; }
+    .role-auto    { background: rgba(124,58,237,0.12); color: #7c3aed; }
+
+    [data-theme="dark"] .role-scorer  { background: rgba(29,78,216,0.2);  color: #60a5fa; }
+    [data-theme="dark"] .role-climber { background: rgba(13,148,136,0.2); color: #34d399; }
+    [data-theme="dark"] .role-defense { background: rgba(220,38,38,0.2);  color: #f87171; }
+    [data-theme="dark"] .role-flex    { background: rgba(245,158,11,0.2); color: #fbbf24; }
+    [data-theme="dark"] .role-auto    { background: rgba(124,58,237,0.2); color: #a78bfa; }
+
+    /* Right: alliance slots + analysis */
+    .alliance-panel {
+      background: var(--surface-2, #f1f5f9);
+      display: flex; flex-direction: column;
+    }
+
+    [data-theme="dark"] .alliance-panel { background: #0a1219; }
+
+    .alliance-slots {
+      padding: 1rem;
+      display: flex; flex-direction: column; gap: 0.65rem;
+    }
+
+    .slot-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-secondary, #64748b); margin-bottom: 0.1rem;
+    }
+
+    [data-theme="dark"] .slot-label { color: #334155; }
+
+    .alliance-slot {
+      border: 2px dashed var(--border, #cbd5e1);
+      border-radius: 10px;
+      padding: 0.65rem 0.9rem;
+      min-height: 60px;
+      display: flex; align-items: center; gap: 0.75rem;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+      background: var(--surface, #fff);
+      cursor: pointer;
+    }
+
+    [data-theme="dark"] .alliance-slot {
+      background: #111827; border-color: #1e2d42;
+    }
+
+    .alliance-slot.empty {
+      justify-content: center;
+      color: var(--text-secondary, #94a3b8);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    [data-theme="dark"] .alliance-slot.empty { color: #334155; }
+
+    .alliance-slot.filled { border-style: solid; border-color: transparent; }
+    .alliance-slot.slot-1.filled { border-color: #1d4ed8; background: rgba(29,78,216,0.05); }
+    .alliance-slot.slot-2.filled { border-color: #0d9488; background: rgba(13,148,136,0.05); }
+    .alliance-slot.slot-3.filled { border-color: #dc2626; background: rgba(220,38,38,0.05); }
+
+    [data-theme="dark"] .alliance-slot.slot-1.filled { background: rgba(29,78,216,0.1); }
+    [data-theme="dark"] .alliance-slot.slot-2.filled { background: rgba(13,148,136,0.1); }
+    [data-theme="dark"] .alliance-slot.slot-3.filled { background: rgba(220,38,38,0.1); }
+
+    .slot-robot-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.3rem; font-weight: 800;
+      color: var(--text-primary, #0f172a);
+    }
+
+    [data-theme="dark"] .slot-robot-num { color: #e2e8f0; }
+
+    .slot-robot-info { flex: 1; }
+
+    .slot-robot-role { font-size: 0.8rem; color: var(--text-secondary, #64748b); font-weight: 500; }
+    [data-theme="dark"] .slot-robot-role { color: #475569; }
+
+    .slot-remove {
+      width: 22px; height: 22px;
+      background: rgba(220,38,38,0.1); border-radius: 50%;
+      border: none; cursor: pointer;
+      color: #dc2626; font-size: 0.75rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+
+    .slot-remove:hover { background: rgba(220,38,38,0.2); }
+
+    /* Score breakdown */
+    .score-breakdown {
+      padding: 0.85rem 1rem;
+      border-top: 1px solid var(--border, #e2e8f0);
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+
+    [data-theme="dark"] .score-breakdown { border-color: #1e2d42; }
+
+    .breakdown-header {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-secondary, #64748b);
+    }
+
+    [data-theme="dark"] .breakdown-header { color: #334155; }
+
+    .breakdown-row {
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+
+    .breakdown-name {
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--text-secondary, #475569);
+      width: 72px; flex-shrink: 0;
+    }
+
+    [data-theme="dark"] .breakdown-name { color: #334155; }
+
+    .breakdown-track {
+      flex: 1; height: 8px; border-radius: 4px;
+      background: var(--border, #e2e8f0); overflow: hidden;
+    }
+
+    [data-theme="dark"] .breakdown-track { background: #1e2d42; }
+
+    .breakdown-fill {
+      height: 100%; border-radius: 4px;
+      transition: width 0.45s cubic-bezier(0.34,1.2,0.64,1);
+    }
+
+    .breakdown-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--text-primary, #1e293b);
+      width: 30px; text-align: right;
+    }
+
+    [data-theme="dark"] .breakdown-val { color: #94a3b8; }
+
+    /* Analysis warning panel */
+    .alliance-analysis {
+      padding: 0.85rem 1rem;
+      border-top: 1px solid var(--border, #e2e8f0);
+      display: flex; flex-direction: column; gap: 0.4rem;
+      min-height: 70px;
+    }
+
+    [data-theme="dark"] .alliance-analysis { border-color: #1e2d42; }
+
+    .analysis-chip {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 7px;
+      font-size: 0.8rem; line-height: 1.4;
+      animation: chipIn 0.2s ease;
+    }
+
+    @keyframes chipIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .chip-warn  { background: rgba(245,158,11,0.1);  color: #b45309; }
+    .chip-good  { background: rgba(13,148,136,0.1);  color: #0d9488; }
+    .chip-info  { background: rgba(29,78,216,0.1);   color: #1d4ed8; }
+    .chip-empty { color: var(--text-secondary, #94a3b8); font-style: italic; font-size: 0.8rem; }
+
+    [data-theme="dark"] .chip-warn  { background: rgba(245,158,11,0.12);  color: #fbbf24; }
+    [data-theme="dark"] .chip-good  { background: rgba(13,148,136,0.12);  color: #34d399; }
+    [data-theme="dark"] .chip-info  { background: rgba(29,78,216,0.12);   color: #60a5fa; }
+    [data-theme="dark"] .chip-empty { color: #334155; }
+
+    /* Projected score ring */
+    .projected-wrap {
+      padding: 0.75rem 1rem 0;
+      display: flex; align-items: center; gap: 0.75rem;
+      border-top: 1px solid var(--border, #e2e8f0);
+    }
+
+    [data-theme="dark"] .projected-wrap { border-color: #1e2d42; }
+
+    .projected-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      color: var(--text-secondary, #64748b);
+    }
+
+    [data-theme="dark"] .projected-label { color: #334155; }
+
+    .projected-bar-wrap { flex: 1; }
+
+    .projected-bar-track {
+      height: 10px; border-radius: 5px;
+      background: var(--border, #e2e8f0); overflow: hidden; margin-bottom: 2px;
+    }
+
+    [data-theme="dark"] .projected-bar-track { background: #1e2d42; }
+
+    .projected-bar-fill {
+      height: 100%; border-radius: 5px;
+      background: linear-gradient(90deg, #1d4ed8, #0d9488);
+      transition: width 0.5s cubic-bezier(0.34,1.2,0.64,1);
+    }
+
+    .projected-bar-labels {
+      display: flex; justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem; color: var(--text-secondary, #94a3b8);
+    }
+
+    [data-theme="dark"] .projected-bar-labels { color: #334155; }
+
+    .projected-pts {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem; font-weight: 800;
+      color: var(--text-primary, #0f172a);
+      transition: all 0.3s;
+    }
+
+    [data-theme="dark"] .projected-pts { color: #e2e8f0; }
+
+    /* Hint footer */
+    .builder-hint {
+      padding: 0.6rem 1rem;
+      font-size: 0.75rem;
+      color: var(--text-secondary, #94a3b8);
+      border-top: 1px solid var(--border, #e2e8f0);
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--surface, #f8fafc);
+    }
+
+    [data-theme="dark"] .builder-hint { background: #0f1729; border-color: #1e2d42; color: #334155; }
+
+    /* ── Inline helpers ─────────────────────── */
+    .mono {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.82em;
+      background: var(--surface-2, #f1f5f9);
+      padding: 0.1em 0.4em; border-radius: 4px;
+      color: var(--text-primary, #1e293b);
+    }
+
+    [data-theme="dark"] .mono { background: #1e2d42; color: #cbd5e1; }
+
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+
+    .role-card {
+      border: 1.5px solid var(--border, #e2e8f0);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      background: var(--surface, #fff);
+    }
+
+    [data-theme="dark"] .role-card { background: #0f1729; border-color: #1e2d42; }
+
+    .role-card-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.95rem; font-weight: 800;
+      margin-bottom: 0.3rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    .role-card-desc {
+      font-size: 0.82rem; line-height: 1.55;
+      color: var(--text-secondary, #64748b);
+    }
+
+    [data-theme="dark"] .role-card-desc { color: #475569; }
+
+    .rc-scorer  .role-card-title { color: #1d4ed8; }
+    .rc-climber .role-card-title { color: #0d9488; }
+    .rc-defense .role-card-title { color: #dc2626; }
+    .rc-flex    .role-card-title { color: #b45309; }
+    .rc-auto    .role-card-title { color: #7c3aed; }
+
+    [data-theme="dark"] .rc-scorer  .role-card-title { color: #60a5fa; }
+    [data-theme="dark"] .rc-climber .role-card-title { color: #34d399; }
+    [data-theme="dark"] .rc-defense .role-card-title { color: #f87171; }
+    [data-theme="dark"] .rc-flex    .role-card-title { color: #fbbf24; }
+    [data-theme="dark"] .rc-auto    .role-card-title { color: #a78bfa; }
+
+    .draft-step {
+      display: flex; gap: 0.9rem; align-items: flex-start;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border, #e2e8f0);
+    }
+
+    [data-theme="dark"] .draft-step { border-color: #1e2d42; }
+    .draft-step:last-child { border-bottom: none; }
+
+    .draft-pick-num {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem; font-weight: 800;
+    }
+
+    .draft-pick-num.first  { background: rgba(29,78,216,0.12); color: #1d4ed8; }
+    .draft-pick-num.second { background: rgba(13,148,136,0.12); color: #0d9488; }
+    .draft-pick-num.third  { background: rgba(220,38,38,0.12);  color: #dc2626; }
+
+    [data-theme="dark"] .draft-pick-num.first  { background: rgba(29,78,216,0.2);  color: #60a5fa; }
+    [data-theme="dark"] .draft-pick-num.second { background: rgba(13,148,136,0.2); color: #34d399; }
+    [data-theme="dark"] .draft-pick-num.third  { background: rgba(220,38,38,0.2);  color: #f87171; }
+
+    .draft-pick-body { flex: 1; }
+
+    .draft-pick-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.98rem; font-weight: 800;
+      color: var(--text-primary, #0f172a); margin-bottom: 0.2rem;
+    }
+
+    [data-theme="dark"] .draft-pick-title { color: #e2e8f0; }
+
+    .draft-pick-desc {
+      font-size: 0.84rem; line-height: 1.55;
+      color: var(--text-secondary, #64748b);
+    }
+
+    [data-theme="dark"] .draft-pick-desc { color: #475569; }
+  </style>
+</head>
+<body>
+
+<!-- ─── Sidebar ──────────────────────────────────────────── -->
+<nav id="mySidebar" role="navigation" aria-label="Main navigation">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">
+    <i class="fa fa-times"></i>
+  </button>
+  <div class="sidebar-logo-area">
+    <img src="../../Assets/logo.jpg" alt="FRCsource logo">
+    <div class="sidebar-brand">FRC<span>source</span></div>
+    <div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Navigation</div>
+    <a href="../../index.html" class="sidebar-link"><i class="fa fa-th-large"></i> Home</a>
+    <a href="../../index.html#about" class="sidebar-link"><i class="fa fa-user"></i> About</a>
+    <div class="sidebar-section-label">Content</div>
+    <a href="../../Programming/Programming-Index.html" class="sidebar-link"><i class="fa fa-code"></i> Programming Index</a>
+    <a href="../../Scouting/Scouting-Index.html" class="sidebar-link active"><i class="fa fa-binoculars"></i> Scouting Index</a>
+    <a href="../../FRCsource/FRCsource-Index.html" class="sidebar-link"><i class="fa fa-envelope"></i> FRCsource Index</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="https://github.com/8BitAdam/FRCsource" class="sidebar-github" aria-label="GitHub"><i class="fa fa-github"></i></a>
+    <button class="dark-toggle" onclick="toggleDark()" id="darkToggleBtn" aria-label="Toggle dark mode">
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      <span id="darkLabel">Dark</span>
+    </button>
+  </div>
+</nav>
+
+<div id="myOverlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+<!-- ─── Main Content ──────────────────────────────────────── -->
+<div id="main-content">
+
+  <div class="topbar" role="banner">
+    <button class="hamburger-btn" onclick="openSidebar()" aria-label="Open menu"><i class="fa fa-bars"></i></button>
+    <a href="../../index.html" class="topbar-logo">FRC<span>source</span></a>
+    <div class="topbar-actions">
+      <button class="dark-toggle" onclick="toggleDark()" aria-label="Toggle dark mode">
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ─── Article Hero ──────────────────────────────── -->
+  <header class="article-hero">
+    <div class="hero-geometry" aria-hidden="true">
+      <svg viewBox="0 0 500 300" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="heroGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"/>
+          </linearGradient>
+          <linearGradient id="heroGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"/>
+            <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"/>
+          </linearGradient>
+        </defs>
+        <polygon points="150,0 500,0 500,300 50,300" fill="url(#heroGrad1)"/>
+        <polygon points="300,0 500,0 500,180" fill="url(#heroGrad2)" opacity="0.6"/>
+        <line x1="280" y1="0" x2="100" y2="300" stroke="#0d9488" stroke-width="1.5" opacity="0.15"/>
+        <line x1="350" y1="0" x2="170" y2="300" stroke="#1d4ed8" stroke-width="1" opacity="0.10"/>
+        <line x1="420" y1="0" x2="240" y2="300" stroke="#dc2626" stroke-width="0.8" opacity="0.08"/>
+        <rect x="450" y="20" width="20" height="20" fill="#0d9488" opacity="0.2" rx="2"/>
+        <rect x="420" y="50" width="12" height="12" fill="#1d4ed8" opacity="0.15" rx="2"/>
+        <rect x="460" y="240" width="16" height="16" fill="#dc2626" opacity="0.12" rx="2"/>
+        <circle cx="310" cy="60"  r="2" fill="#0d9488" opacity="0.25"/>
+        <circle cx="340" cy="60"  r="2" fill="#0d9488" opacity="0.25"/>
+        <circle cx="370" cy="60"  r="2" fill="#0d9488" opacity="0.25"/>
+        <circle cx="310" cy="90"  r="2" fill="#0d9488" opacity="0.2"/>
+        <circle cx="340" cy="90"  r="2" fill="#0d9488" opacity="0.2"/>
+        <circle cx="370" cy="90"  r="2" fill="#0d9488" opacity="0.2"/>
+        <circle cx="310" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
+        <circle cx="340" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
+        <circle cx="370" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <div class="fade-in">
+        <span class="article-category-badge">
+          <i class="fa fa-tag"></i> Database &amp; Analysis
+        </span>
+      </div>
+      <h1 class="article-title fade-in">
+        Alliance <span class="title-accent">Optimization</span>
+      </h1>
+      <p class="article-subtitle fade-in">
+        Picking the three highest-rated robots on your list is almost never the right answer. Alliance optimization is about assembling robots whose strengths compound — not duplicate — and whose weaknesses are covered rather than shared.
+      </p>
+      <div class="article-meta fade-in">
+        <span class="meta-item"><i class="fa fa-clock-o"></i> 15 min read</span>
+        <span class="meta-item"><i class="fa fa-calendar"></i> Updated Apr 2025</span>
+        <span class="difficulty-badge difficulty-beginner">
+          <i class="fa fa-signal"></i> Advanced
+        </span>
+      </div>
+    </div>
+    <div class="hero-tags" role="list" aria-label="Article tags">
+      <span class="tag teal"  role="listitem">Database</span>
+      <span class="tag blue"  role="listitem">Strategy</span>
+      <span class="tag"       role="listitem">Alliance Selection</span>
+      <span class="tag"       role="listitem">Optimization</span>
+      <span class="tag red"   role="listitem">Advanced</span>
+    </div>
+  </header>
+
+  <!-- ─── Article Layout ────────────────────────────────── -->
+  <div class="article-layout">
+    <article class="article-body" id="article-top">
+
+      <div class="callout info">
+        <span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Prerequisites</div>
+          <div class="prereqs">
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Data Normalization</span>
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Data Integrity &amp; Error Handling</span>
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Game Manual Analysis</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Section 1 ─── -->
+      <h2 id="beyond-rankings">Beyond the Pick List Rank</h2>
+      <p>
+        After qualification matches end, every alliance captain has a sorted pick list in front of them — robots ranked by composite score, OPR, or some weighted combination of scouted metrics. It is tempting to treat that list as the answer: pick the highest available robot, then the next highest, then the next. This approach is simple, it is defensible, and it frequently produces suboptimal alliances.
+      </p>
+      <p>
+        The reason is that a composite score measures individual robot capability in isolation. It tells you how much a robot contributes when playing a standard match. It does not tell you how much that robot contributes when playing alongside two specific other robots — where some of its strengths become redundant, some of its weaknesses are covered, and some of its capabilities interact with the field structure in ways that create or destroy value. Alliance optimization is the discipline of modeling those interactions explicitly rather than assuming the best individual robots will automatically form the best alliance.
+      </p>
+      <p>
+        This matters most in the middle of the alliance selection bracket — for captains ranked 3rd through 6th, who have access to strong robots but not the singular superstars available to the top seeds. In this range, two robots that are each individually ranked 8th but cover completely different roles can outperform two robots both ranked 4th who are doing the same thing. Understanding how to find and construct those complementary combinations is the difference between a deep playoff run and an early exit.
+      </p>
+
+      <!-- ─── Section 2 ─── -->
+      <h2 id="role-framework">The Role Framework</h2>
+      <p>
+        Before you can talk about complementary roles, you need a taxonomy of what roles exist. These vary by game, but most FRC seasons produce a recognizable set of strategic archetypes that appear across different robot designs. Naming them clearly lets you reason about alliance composition systematically rather than intuitively.
+      </p>
+
+      <div class="role-grid">
+        <div class="role-card rc-scorer">
+          <div class="role-card-title"><i class="fa fa-fire"></i> Primary Scorer</div>
+          <div class="role-card-desc">High teleop cycle volume. The engine of alliance point output. Usually the highest OPR robot. Should never be duplicated — two primary scorers of equal strength rarely outperform one primary scorer plus a role specialist.</div>
+        </div>
+        <div class="role-card rc-climber">
+          <div class="role-card-title"><i class="fa fa-arrow-up"></i> Endgame Specialist</div>
+          <div class="role-card-desc">Reliable high-value climb. In games with 15+ point endgame, a robot that climbs every match is worth more than one that cycles well but never climbs. Consistency here matters more than ceiling.</div>
+        </div>
+        <div class="role-card rc-auto">
+          <div class="role-card-title"><i class="fa fa-bolt"></i> Auto Anchor</div>
+          <div class="role-card-desc">Consistent high-value autonomous routine, ideally one that doesn't conflict with alliance partners' starting positions. Ranking point auto tasks often require coordinated multi-robot auto — this role owns that coordination.</div>
+        </div>
+        <div class="role-card rc-defense">
+          <div class="role-card-title"><i class="fa fa-shield"></i> Defender</div>
+          <div class="role-card-desc">Disrupts opposing primary scorer. High value when opponents have a robot that would otherwise dominate — the effective cycle reduction from neutralizing that robot often exceeds what a third scorer would contribute.</div>
+        </div>
+        <div class="role-card rc-flex">
+          <div class="role-card-title"><i class="fa fa-random"></i> Flex</div>
+          <div class="role-card-desc">Competent at multiple roles without specializing. Often the safest third pick — covers gaps, doesn't create redundancy, adapts to playoff match strategy. Usually lower raw OPR than specialists, but higher net alliance contribution.</div>
+        </div>
+      </div>
+
+      <p>
+        No robot is purely one role — a primary scorer that also climbs reliably is more valuable than one that doesn't, even if the climb adds nothing to the composite score that wasn't already captured. The role framework is a tool for categorizing which contribution dominates for each robot, not a rigid classification system.
+      </p>
+
+      <!-- ─── Section 3 ─── -->
+      <h2 id="complementarity">Complementarity vs Redundancy</h2>
+      <p>
+        The central optimization problem in alliance selection is the difference between complementarity and redundancy. Two robots are complementary if their combined output exceeds what either could produce alone. They are redundant if they are trying to do the same thing, competing for the same field resources, and producing less combined output than the sum of their individual averages.
+      </p>
+
+      <h3>Where Redundancy Hurts Most</h3>
+      <p>
+        Redundancy is most damaging in resource-constrained environments. If the scoring zone can only process one game piece at a time, two high-volume scorers will spend significant match time queued behind each other. If only one robot can occupy the endgame position, two climbers produce the same endgame points as one. If your robot is already covering a ranking point task in auto, a second robot doing the same task adds nothing — the RP is binary, not additive.
+      </p>
+      <p>
+        The subtler form of redundancy is positional: two robots that operate in the same physical zone of the field will interfere with each other even if they're nominally doing different things. A robot that sources and a robot that scores both need to pass through the center field area. Two of them doing that simultaneously creates traffic that reduces effective cycle rates for both. Mapping your own robot's movement pattern before the draft — and filtering candidates whose movement patterns collide with it — is a practical step most teams skip.
+      </p>
+
+      <h3>Where Complementarity Pays Off</h3>
+      <p>
+        Complementarity creates value through specialization and coverage. A primary scorer paired with a dedicated defender creates a dynamic where your scorer operates with significantly less resistance than either robot would face in a balanced alliance. The defender's contribution doesn't show up in their individual OPR — OPR only captures scoring — but it shows up in your scorer's effective cycle rate when opponents can't neutralize them.
+      </p>
+      <p>
+        Complementarity also appears in ranking point coverage. Many games require specific coordinated behaviors across multiple alliance robots to earn bonus ranking points. A robot that can reliably trigger the endgame RP condition pairs very differently with your alliance than one that cannot, even if their OPR values are identical. The RP robot's value to your alliance exceeds what any individual metric captures.
+      </p>
+
+      <div class="callout warning">
+        <span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">OPR Cannot See Synergy</div>
+          <p class="callout-text">
+            OPR models each robot as an independent contributor to alliance score. It cannot capture synergy — the additional value two specific robots create when paired. A defender's OPR is low because defense doesn't generate points. A robot that enables another robot to score more has no way to reflect that in its own OPR. Any analysis that relies solely on individual metrics will systematically underprice complementary robots and overprice redundant ones. Use individual metrics to build the candidate list; use role analysis to make the final decision.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── Section 4 ─── -->
+      <h2 id="snake-draft">The Snake Draft Constraint</h2>
+      <p>
+        Alliance selection in FRC uses a snake draft — the highest-seeded alliance selects first, then the selection order reverses. The top seed picks first in round one, the bottom seed picks first in round two, and so on. This structure has specific strategic implications that should shape how you build your pick list before selections begin.
+      </p>
+
+      <div class="draft-step">
+        <div class="draft-pick-num first">R1</div>
+        <div class="draft-pick-body">
+          <div class="draft-pick-title">First Pick — Fill Your Biggest Gap</div>
+          <div class="draft-pick-desc">Your first pick is made before other teams have drafted. The full field of available robots is still open. This is the moment to address your robot's most significant weakness — the role you cannot cover on your own. If you climb but can't score volume, pick a scorer. If you score but don't climb, pick a climber. Don't pick the highest-ranked robot available if they duplicate your strengths.</div>
+        </div>
+      </div>
+
+      <div class="draft-step">
+        <div class="draft-pick-num second">R2</div>
+        <div class="draft-pick-body">
+          <div class="draft-pick-title">Second Pick — Cover the Remaining Gap or Strategic Counter</div>
+          <div class="draft-pick-desc">By second pick, other alliances have made their first selections. Evaluate what you still need and what has been taken. If your first pick covered your primary weakness, the second pick either covers a remaining gap or provides strategic flexibility — a flex robot who can shift roles based on opponent scouting before each playoff match. Also evaluate what your opponents' alliances look like and whether a defender makes sense here.</div>
+        </div>
+      </div>
+
+      <div class="draft-step">
+        <div class="draft-pick-num third">R3</div>
+        <div class="draft-pick-body">
+          <div class="draft-pick-title">Third Pick — Backup Robot (Rarely Plays)</div>
+          <div class="draft-pick-desc">The third pick is a backup robot and rarely takes the field unless a primary alliance member has a mechanical failure or rule issue. The priority here shifts from capability to reliability and repairability — a robot with a simple, well-built design that can be quickly understood and fixed is often more valuable in this slot than a high-capability but fragile one. Also consider picking a robot you don't want your opponents to have.</div>
+        </div>
+      </div>
+
+      <p>
+        The snake draft also means that your second pick is made under time pressure with imperfect information — the teams selected before your turn shift the available pool and the strategic landscape simultaneously. Prepare a tiered pick list rather than a single ordered list: for each scenario (robot A is taken, robot B is taken, opponent alliance looks like X), know which robot you pivot to. Pre-planning these contingencies is worth more than any real-time optimization you'll do at the table.
+      </p>
+
+      <!-- ─── Section 5 ─── -->
+      <h2 id="builder">Alliance Builder</h2>
+      <p>
+        The builder below uses a simplified dataset of 14 fictional teams from a single event. Each robot has ratings across four metrics — auto, teleop, endgame, and defense effectiveness — and a primary role classification. Slot three robots into your alliance and watch the projected score breakdown and complementarity analysis update in real time. Try building an all-scorer alliance versus a role-diversified one and see what the numbers say.
+      </p>
+
+      <!-- ══════════ ALLIANCE BUILDER WIDGET ══════════ -->
+      <div class="builder-widget">
+        <div class="builder-header">
+          <div class="builder-header-left">
+            <div class="builder-icon"><i class="fa fa-users"></i></div>
+            <div class="builder-title-block">
+              <div class="builder-label">Interactive Tool</div>
+              <div class="builder-name">Alliance Builder</div>
+            </div>
+          </div>
+          <div class="builder-score-display">
+            <div class="builder-score-num" id="headerScore">— pts</div>
+            <div class="builder-score-label">Projected Alliance Score</div>
+          </div>
+        </div>
+
+        <div class="builder-body">
+          <!-- Left: robot pool -->
+          <div class="robot-pool">
+            <div class="pool-header">
+              Available Robots
+              <div class="pool-filter">
+                <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+                <button class="filter-btn" onclick="setFilter('Scorer', this)">Score</button>
+                <button class="filter-btn" onclick="setFilter('Climber', this)">Climb</button>
+                <button class="filter-btn" onclick="setFilter('Defense', this)">Def</button>
+                <button class="filter-btn" onclick="setFilter('Flex', this)">Flex</button>
+              </div>
+            </div>
+            <div class="robot-list" id="robotList"></div>
+          </div>
+
+          <!-- Right: alliance + analysis -->
+          <div class="alliance-panel">
+            <div class="alliance-slots">
+              <div class="slot-label">Your Alliance</div>
+              <div class="alliance-slot empty slot-1" id="slot0" onclick="clearSlot(0)">
+                <i class="fa fa-plus-circle" style="margin-right:0.4rem;opacity:0.4;"></i> Captain (you)
+              </div>
+              <div class="alliance-slot empty slot-2" id="slot1" onclick="clearSlot(1)">
+                <i class="fa fa-plus-circle" style="margin-right:0.4rem;opacity:0.4;"></i> First Pick
+              </div>
+              <div class="alliance-slot empty slot-3" id="slot2" onclick="clearSlot(2)">
+                <i class="fa fa-plus-circle" style="margin-right:0.4rem;opacity:0.4;"></i> Second Pick
+              </div>
+            </div>
+
+            <div class="projected-wrap" id="projectedWrap">
+              <div class="projected-label">vs avg opp</div>
+              <div class="projected-bar-wrap">
+                <div class="projected-bar-track">
+                  <div class="projected-bar-fill" id="projBar" style="width:0%"></div>
+                </div>
+                <div class="projected-bar-labels">
+                  <span>0</span><span>50</span><span>100</span><span>150</span><span>200+</span>
+                </div>
+              </div>
+              <div class="projected-pts" id="projPts">—</div>
+            </div>
+
+            <div class="score-breakdown" id="scoreBreakdown">
+              <div class="breakdown-header">Score Breakdown</div>
+              <div class="breakdown-row">
+                <div class="breakdown-name">Auto</div>
+                <div class="breakdown-track"><div class="breakdown-fill" id="bdAuto" style="width:0%;background:#7c3aed"></div></div>
+                <div class="breakdown-val" id="bdAutoVal">—</div>
+              </div>
+              <div class="breakdown-row">
+                <div class="breakdown-name">Teleop</div>
+                <div class="breakdown-track"><div class="breakdown-fill" id="bdTeleop" style="width:0%;background:#1d4ed8"></div></div>
+                <div class="breakdown-val" id="bdTeleopVal">—</div>
+              </div>
+              <div class="breakdown-row">
+                <div class="breakdown-name">Endgame</div>
+                <div class="breakdown-track"><div class="breakdown-fill" id="bdEndgame" style="width:0%;background:#0d9488"></div></div>
+                <div class="breakdown-val" id="bdEndgameVal">—</div>
+              </div>
+              <div class="breakdown-row">
+                <div class="breakdown-name">Synergy</div>
+                <div class="breakdown-track"><div class="breakdown-fill" id="bdSynergy" style="width:0%;background:#f59e0b"></div></div>
+                <div class="breakdown-val" id="bdSynergyVal">—</div>
+              </div>
+            </div>
+
+            <div class="alliance-analysis" id="allianceAnalysis">
+              <div class="chip-empty">← Click robots to build your alliance</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="builder-hint">
+          <i class="fa fa-info-circle"></i>
+          Click a robot to add it to the next open slot. Click a filled slot to remove that robot.
+        </div>
+      </div>
+      <!-- ══════════ END WIDGET ══════════ -->
+
+      <!-- ─── Section 6 ─── -->
+      <h2 id="ceiling-vs-floor">Ceiling vs Floor Thinking</h2>
+      <p>
+        Alliance selection often produces two competing frameworks: ceiling thinking and floor thinking. Ceiling thinking asks "what is the best this robot could do for us in a playoff match?" Floor thinking asks "what is the worst this robot could do, and can we survive it?" Both are valid — the tension between them is where most alliance selection debates actually live.
+      </p>
+      <p>
+        Ceiling thinking favors high-upside robots: the scorer who can put up 14 cycles when everything goes right, the climber who can hit the top bar and unlock maximum endgame points, the auto routine that can trigger a ranking-point-equivalent bonus. These robots win you matches you should lose. They are worth the risk if your alliance is already structurally sound — if your floor is high enough that a bad match from this robot doesn't cost you the match.
+      </p>
+      <p>
+        Floor thinking favors reliable robots: the scorer who averages 8 cycles but rarely drops below 6, the climber who hits a lower bar every single time rather than attempting a riskier high bar with occasional failures, the robot with a simple and proven autonomous rather than a complex one that breaks under pressure. These robots protect you from losing matches you should win. They matter most when your alliance's other robots have significant variance — a high-ceiling but inconsistent first pick is much safer to have when your third pick is a reliable floor robot who won't add variance of their own.
+      </p>
+
+      <div class="callout tip">
+        <span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Check the Consistency Metric, Not Just the Average</div>
+          <p class="callout-text">
+            Two robots with the same scouted average cycle count can have very different standard deviations across their matches. A robot that scored 6, 8, 7, 8, 6, 7 is fundamentally different from one that scored 2, 4, 14, 8, 10, 4 — same average, very different reliability profiles. For playoff alliance selection, the standard deviation of each robot's match-by-match performance is as important as the mean. A consistent 7-cycle robot is often worth more than a volatile 7-cycle robot, because the volatile one introduces uncertainty into matches you need to control.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── Section 7 ─── -->
+      <h2 id="opponent-modeling">Modeling the Opposition</h2>
+      <p>
+        Alliance optimization is not only about assembling your three robots — it is also about predicting how those three robots will perform against specific opponent alliances. In playoffs, you often know in advance who you will face, which means you can tailor your strategy to that specific matchup rather than optimizing for an average opponent.
+      </p>
+
+      <h3>Identifying the Opponent's Engine</h3>
+      <p>
+        Every opponent alliance has a primary scoring engine — the robot responsible for the majority of their point output. Identifying that robot and modeling what happens to your projected score if that robot's cycle rate is reduced by 40% (a realistic outcome for a focused defense effort) tells you whether a defensive strategy is worth pursuing in this matchup. If neutralizing their engine drops their projected score by 20 points and your defender costs you 5 points in scoring opportunity, the net gain is 15 — a significant edge for deploying defense.
+      </p>
+      <p>
+        The same analysis in reverse tells you whether your opponent is likely to deploy defense against you. If your alliance has a clear high-value scorer, expect focused defense. Pre-plan how your alliance responds to that scenario: does your scorer have enough agility to evade? Can your flex robot create driving lanes by occupying space near the opponent defender? Does your second pick become the de facto scorer while the primary scorer draws defensive attention?
+      </p>
+
+      <h3>Ranking Point Math</h3>
+      <p>
+        In a playoff scenario where the series is tied and you need a win, the ranking point structure is irrelevant — only the win matters. In early playoff rounds where a series lead changes the strategic calculus, understanding which ranking point conditions you can reliably achieve and which your opponents can deny is worth explicit analysis. A robot on the opposing alliance that is specifically built to deny your ranking point condition — by occupying a zone you need, blocking a position, or disrupting an auto routine — has strategic value that vastly exceeds what their OPR suggests. Your scouting database should flag this capability explicitly.
+      </p>
+
+      <div class="callout warning">
+        <span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Model the Worst-Case Match, Not the Average</div>
+          <p class="callout-text">
+            Your projected alliance score is an average. Playoffs are decided by individual matches, not averages. Model the worst-case outcome for each robot in your alliance — their lowest individual match performance from the event — and ask whether your alliance can still win if two of the three robots have their worst match simultaneously. If the answer is yes, you have a robust alliance. If the answer is no, identify which robot represents the most variance and consider whether there is a more consistent alternative available.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── Section 8 ─── -->
+      <h2 id="putting-it-together">Putting It Into the Database</h2>
+      <p>
+        Alliance optimization analysis belongs in your database as a derived layer sitting above the normalized team metrics. The inputs are your normalized team ratings, the role classifications you assigned during event analysis, and the known game structure. The outputs are per-candidate alliance contribution scores for each possible first pick given your robot's known capabilities, and a tiered contingency list that covers the top six to eight scenarios you might face during the draft.
+      </p>
+      <p>
+        The most practical implementation for most teams is a dedicated alliance selection table that is separate from the main scouting dataset. It is built the night before alliance selections open, updated after the final qualification match, and locked once selection begins. It contains: every available team's rank, role, average metrics, consistency score, a complementarity rating against your own robot, and a flag for any strategic notes that the data doesn't capture — known mechanical issues, teams that have expressed interest in being picked by specific alliances, robots that play a role the numbers don't show.
+      </p>
+      <p>
+        The flag column is as important as any numeric field. A team with a slightly lower composite score who has expressed a strong preference to join your alliance is worth picking over a slightly higher-ranked team who will decline your invitation and force you to move down the list under time pressure. Information that only exists in human conversations needs to flow into the database before selections begin.
+      </p>
+
+      <div class="callout info">
+        <span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">The Selection Table Is a Living Document</div>
+          <p class="callout-text">
+            Your alliance selection table should be updated in real time during the draft — not just before it. As other alliances make picks, mark those robots unavailable and re-run your contingency analysis. Teams ranked 3 and 4 on your backup list may jump to position 1 when robots above them are taken. Designate one person to manage the table during selections while the strategist focuses on the conversation and decision-making. The data operator and the decision-maker should not be the same person.
+          </p>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- TOC Panel -->
+    <aside class="toc-panel" aria-label="Table of contents">
+      <div class="toc-title">On This Page</div>
+      <ul class="toc-list">
+        <li id="toc-beyond-rankings"><a href="#beyond-rankings">Beyond the Pick List Rank</a></li>
+        <li id="toc-role-framework"><a href="#role-framework">The Role Framework</a></li>
+        <li id="toc-complementarity"><a href="#complementarity">Complementarity vs Redundancy</a></li>
+        <li id="toc-snake-draft"><a href="#snake-draft">The Snake Draft</a></li>
+        <li id="toc-builder"><a href="#builder">Alliance Builder 🔧</a></li>
+        <li id="toc-ceiling-vs-floor"><a href="#ceiling-vs-floor">Ceiling vs Floor Thinking</a></li>
+        <li id="toc-opponent-modeling"><a href="#opponent-modeling">Modeling the Opposition</a></li>
+        <li id="toc-putting-it-together"><a href="#putting-it-together">Into the Database</a></li>
+      </ul>
+      <div class="toc-divider"></div>
+      <div class="toc-progress-label">Reading progress</div>
+      <div class="toc-progress-bar">
+        <div class="toc-progress-fill" id="readingProgress"></div>
+      </div>
+    </aside>
+
+  </div><!-- /article-layout -->
+
+  <div class="section-divider"></div>
+
+  <section class="contributor-section" aria-label="Article contributors">
+    <div class="contributor-section-title">Provided to you by</div>
+    <div class="contributor-cards">
+      <div class="contributor-card">
+        <div class="contributor-avatar-placeholder" aria-hidden="true">AI</div>
+        <div class="contributor-info">
+          <div class="contributor-name">Claude AI</div>
+          <div class="contributor-team"><i class="fa fa-robot"></i> AI Author</div>
+          <div class="contributor-role">Article Author</div>
+        </div>
+      </div>
+      <div class="contributor-card">
+        <div class="contributor-avatar-placeholder" aria-hidden="true">AG</div>
+        <div class="contributor-info">
+          <div class="contributor-name">Adam G.</div>
+          <div class="contributor-team"><i class="fa fa-wrench"></i> Team 2062 — CORE</div>
+          <div class="contributor-role">Technical Reviewer</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <nav class="article-nav" aria-label="Article navigation">
+    <a href="./data-normalization.html" class="nav-card prev">
+      <div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
+      <div class="nav-title">Data Normalization</div>
+    </a>
+    <a href="./alliance-selection-strategy.html" class="nav-card next">
+      <div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+      <div class="nav-title">Alliance Selection Strategy</div>
+    </a>
+  </nav>
+
+  <footer>
+    <div class="footer-stripe">
+      <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+      <div class="footer-stripe-seg" style="background:#dc2626;"></div>
+      <div class="footer-stripe-seg" style="background:#0d9488;"></div>
+      <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+      <div class="footer-stripe-seg" style="background:#dc2626;"></div>
+      <div class="footer-stripe-seg" style="background:#0d9488;"></div>
+    </div>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">FRC<span>source</span></div>
+          <p class="footer-desc">A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.</p>
+          <p class="footer-powered">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" rel="noopener">w3.css</a></p>
+        </div>
+        <div>
+          <div class="footer-heading">Explore</div>
+          <ul class="footer-links">
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+            <li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+            <li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+            <li><a href="../../index.html#about">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Tags</div>
+          <div class="footer-tags">
+            <span class="footer-tag">Database</span>
+            <span class="footer-tag">Strategy</span>
+            <span class="footer-tag">Scouting</span>
+            <span class="footer-tag">FRCsource</span>
+            <span class="footer-tag">Alliance</span>
+            <span class="footer-tag">Analysis</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2025 FRCsource. Made by the FRC community.</span>
+        <span><a href="https://github.com/8BitAdam/FRCsource" style="color:#475569; text-decoration:none;"><i class="fa fa-github"></i> GitHub</a></span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /main-content -->
+
+<script>
+/* ── Sidebar & Theme ─────────────────────────────── */
+function openSidebar() {
+  document.getElementById('mySidebar').classList.add('open');
+  document.getElementById('myOverlay').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+  document.getElementById('mySidebar').classList.remove('open');
+  document.getElementById('myOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+const html = document.documentElement;
+const darkLabel = document.getElementById('darkLabel');
+function applyTheme(t) {
+  html.setAttribute('data-theme', t);
+  localStorage.setItem('frc-theme', t);
+  if (darkLabel) darkLabel.textContent = t === 'dark' ? 'Light' : 'Dark';
+}
+function toggleDark() { applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+(function () {
+  const saved = localStorage.getItem('frc-theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+})();
+
+/* ── Reading Progress ─────────────────────────────── */
+const progressFill = document.getElementById('readingProgress');
+const sections = document.querySelectorAll('.article-body h2[id]');
+const tocItems = document.querySelectorAll('.toc-list li[id]');
+function updateProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const p = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+  if (progressFill) progressFill.style.width = p + '%';
+  let activeId = null;
+  sections.forEach(s => { if (scrollTop >= s.offsetTop - 120) activeId = s.id; });
+  tocItems.forEach(item => {
+    item.classList.remove('active');
+    if (item.id === 'toc-' + activeId) item.classList.add('active');
+  });
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
+
+/* ══════════════════════════════════════════════════
+   ALLIANCE BUILDER
+══════════════════════════════════════════════════ */
+(function () {
+
+  /* ── Robot pool dataset ── */
+  const ROBOTS = [
+    { num: '1114', role: 'Scorer',  auto: 9,  teleop: 14, endgame: 15, defense: 2,  consistency: 0.92, note: 'Elite primary scorer, consistent climb' },
+    { num: '2056', role: 'Scorer',  auto: 7,  teleop: 12, endgame: 10, defense: 3,  consistency: 0.88, note: 'High volume scorer, occasional climb' },
+    { num: '2468', role: 'Climber', auto: 6,  teleop: 6,  endgame: 15, defense: 4,  consistency: 0.95, note: 'Locks in max endgame every match' },
+    { num: '3310', role: 'Scorer',  auto: 4,  teleop: 10, endgame: 10, defense: 2,  consistency: 0.80, note: 'Solid scorer, inconsistent in playoffs pressure' },
+    { num: '4414', role: 'Defense', auto: 5,  teleop: 3,  endgame: 5,  defense: 9,  consistency: 0.90, note: 'Heavy defender, neutralizes top scorers effectively' },
+    { num: '5188', role: 'Flex',    auto: 8,  teleop: 8,  endgame: 10, defense: 5,  consistency: 0.85, note: 'Auto specialist, competent across all phases' },
+    { num: '6328', role: 'Scorer',  auto: 10, teleop: 9,  endgame: 15, defense: 2,  consistency: 0.78, note: 'Best auto at event, high variance teleop' },
+    { num: '7461', role: 'Climber', auto: 4,  teleop: 5,  endgame: 15, defense: 3,  consistency: 0.97, note: '100% endgame success rate, minimal scoring' },
+    { num: '8033', role: 'Flex',    auto: 6,  teleop: 7,  endgame: 10, defense: 6,  consistency: 0.88, note: 'Well-rounded, good defensive awareness' },
+    { num: '971',  role: 'Defense', auto: 3,  teleop: 4,  endgame: 5,  defense: 8,  consistency: 0.93, note: 'Elite blocker, high foul discipline' },
+    { num: '4481', role: 'Scorer',  auto: 5,  teleop: 8,  endgame: 0,  defense: 2,  consistency: 0.82, note: 'Strong teleop, no endgame — huge gap' },
+    { num: '3538', role: 'Flex',    auto: 7,  teleop: 6,  endgame: 5,  defense: 5,  consistency: 0.90, note: 'Good backup, reliable if primary falls' },
+    { num: '2767', role: 'Climber', auto: 8,  teleop: 7,  endgame: 15, defense: 3,  consistency: 0.89, note: 'Climbs and contributes — rare combination' },
+    { num: '1678', role: 'Scorer',  auto: 9,  teleop: 11, endgame: 10, defense: 2,  consistency: 0.91, note: 'Consistent high scorer across all matches' },
+  ];
+
+  const MAX_SCORE = 45; // rough max per component for bar scaling
+
+  /* ── State ── */
+  let alliance = [null, null, null]; // indices into ROBOTS
+  let currentFilter = 'all';
+
+  /* ── Role badge class ── */
+  function roleCls(role) {
+    return { Scorer:'role-scorer', Climber:'role-climber', Defense:'role-defense', Flex:'role-flex', Auto:'role-auto' }[role] || '';
+  }
+
+  /* ── Bar colors per metric ── */
+  const BAR_COLORS = {
+    auto:     '#7c3aed',
+    teleop:   '#1d4ed8',
+    endgame:  '#0d9488',
+    defense:  '#dc2626',
+  };
+
+  /* ── Render robot pool ── */
+  function renderPool() {
+    const list = document.getElementById('robotList');
+    list.innerHTML = '';
+
+    ROBOTS.forEach((r, idx) => {
+      const inAlliance = alliance.includes(idx);
+      const hidden = currentFilter !== 'all' && r.role !== currentFilter;
+
+      const card = document.createElement('div');
+      card.className = 'robot-card' + (inAlliance ? ' in-alliance' : '') + (hidden ? ' disabled' : '');
+      card.title = r.note;
+      if (!inAlliance && !hidden) {
+        card.onclick = () => addRobot(idx);
+      }
+
+      const barMax = 15; // max stat value
+
+      card.innerHTML = `
+        <div class="robot-num">${r.num}</div>
+        <div class="robot-bars">
+          <div class="robot-bar-row">
+            <div class="robot-bar-label">A</div>
+            <div class="robot-bar-track"><div class="robot-bar-fill" style="width:${(r.auto/barMax)*100}%;background:${BAR_COLORS.auto}"></div></div>
+          </div>
+          <div class="robot-bar-row">
+            <div class="robot-bar-label">T</div>
+            <div class="robot-bar-track"><div class="robot-bar-fill" style="width:${(r.teleop/barMax)*100}%;background:${BAR_COLORS.teleop}"></div></div>
+          </div>
+          <div class="robot-bar-row">
+            <div class="robot-bar-label">E</div>
+            <div class="robot-bar-track"><div class="robot-bar-fill" style="width:${(r.endgame/barMax)*100}%;background:${BAR_COLORS.endgame}"></div></div>
+          </div>
+        </div>
+        <span class="role-badge ${roleCls(r.role)}">${r.role}</span>
+      `;
+
+      list.appendChild(card);
+    });
+  }
+
+  /* ── Add robot to next empty slot ── */
+  function addRobot(idx) {
+    const nextEmpty = alliance.indexOf(null);
+    if (nextEmpty === -1) return; // full
+    alliance[nextEmpty] = idx;
+    renderAll();
+  }
+
+  /* ── Remove robot from slot ── */
+  window.clearSlot = function (slotIdx) {
+    if (alliance[slotIdx] === null) return;
+    alliance[slotIdx] = null;
+    renderAll();
+  };
+
+  /* ── Render alliance slots ── */
+  function renderSlots() {
+    const slotClasses = ['slot-1', 'slot-2', 'slot-3'];
+    const slotLabels  = ['Captain (you)', 'First Pick', 'Second Pick'];
+
+    alliance.forEach((robotIdx, i) => {
+      const el = document.getElementById('slot' + i);
+      el.className = 'alliance-slot ' + slotClasses[i] + (robotIdx !== null ? ' filled' : ' empty');
+
+      if (robotIdx === null) {
+        el.innerHTML = `<i class="fa fa-plus-circle" style="margin-right:0.4rem;opacity:0.4;"></i> ${slotLabels[i]}`;
+      } else {
+        const r = ROBOTS[robotIdx];
+        el.innerHTML = `
+          <div class="slot-robot-num">${r.num}</div>
+          <div class="slot-robot-info">
+            <span class="role-badge ${roleCls(r.role)}">${r.role}</span>
+            <div class="slot-robot-role" style="margin-top:3px">${r.note.slice(0,42)}${r.note.length>42?'…':''}</div>
+          </div>
+          <button class="slot-remove" onclick="event.stopPropagation();clearSlot(${i})" title="Remove">
+            <i class="fa fa-times"></i>
+          </button>
+        `;
+      }
+    });
+  }
+
+  /* ── Compute projected score & breakdown ── */
+  function computeScore() {
+    const filled = alliance.filter(i => i !== null).map(i => ROBOTS[i]);
+    if (filled.length === 0) return null;
+
+    const auto     = filled.reduce((s, r) => s + r.auto,    0);
+    const teleop   = filled.reduce((s, r) => s + r.teleop,  0);
+    const endgame  = filled.reduce((s, r) => s + r.endgame, 0);
+
+    // Synergy calculation
+    const roles = filled.map(r => r.role);
+    const uniqueRoles = new Set(roles).size;
+    const hasDefense = roles.includes('Defense');
+    const scorerCount = roles.filter(r => r === 'Scorer').length;
+    const climbCount  = roles.filter(r => r === 'Climber' || (r !== 'Defense' && ROBOTS.find(rb => rb.role === r))).length;
+
+    // Redundancy penalty: duplicate scorer roles fight for field space
+    let redundancyPenalty = 0;
+    if (scorerCount >= 3) redundancyPenalty = -12;
+    else if (scorerCount === 2) redundancyPenalty = -4;
+
+    // Synergy bonus: diverse roles, defensive enablement
+    let synergyBonus = 0;
+    if (uniqueRoles === filled.length) synergyBonus += 8;  // all different roles
+    if (hasDefense && scorerCount >= 1) synergyBonus += 6; // defender enables scorer
+    if (filled.length === 3 && uniqueRoles === 3) synergyBonus += 4; // full diversity
+
+    // Consistency multiplier: low-consistency robots add variance
+    const avgConsistency = filled.reduce((s, r) => s + r.consistency, 0) / filled.length;
+    const consistencyMult = 0.85 + (avgConsistency * 0.15);
+
+    const synergy = synergyBonus + redundancyPenalty;
+    const rawTotal = (auto + teleop + endgame + synergy) * consistencyMult;
+    const total = Math.round(Math.max(0, rawTotal));
+
+    return { auto, teleop, endgame, synergy, total, filled, roles, uniqueRoles, scorerCount, hasDefense, avgConsistency };
+  }
+
+  /* ── Render projected score ── */
+  function renderScore() {
+    const s = computeScore();
+    const MAX_PROJ = 200;
+
+    if (!s) {
+      document.getElementById('headerScore').textContent = '— pts';
+      document.getElementById('projPts').textContent = '—';
+      document.getElementById('projBar').style.width = '0%';
+      ['bdAuto','bdTeleop','bdEndgame','bdSynergy'].forEach(id => {
+        document.getElementById(id).style.width = '0%';
+      });
+      ['bdAutoVal','bdTeleopVal','bdEndgameVal','bdSynergyVal'].forEach(id => {
+        document.getElementById(id).textContent = '—';
+      });
+      return;
+    }
+
+    document.getElementById('headerScore').textContent = s.total + ' pts';
+    document.getElementById('projPts').textContent = s.total;
+    document.getElementById('projBar').style.width = Math.min(100, (s.total / MAX_PROJ) * 100) + '%';
+
+    const MAX_COMPONENT = 45;
+    document.getElementById('bdAuto').style.width    = Math.min(100,(s.auto    /MAX_COMPONENT)*100)+'%';
+    document.getElementById('bdTeleop').style.width  = Math.min(100,(s.teleop  /MAX_COMPONENT)*100)+'%';
+    document.getElementById('bdEndgame').style.width = Math.min(100,(s.endgame /MAX_COMPONENT)*100)+'%';
+
+    const synergyPct = Math.min(100, Math.max(0, ((s.synergy + 15) / 30) * 100));
+    document.getElementById('bdSynergy').style.width = synergyPct + '%';
+    document.getElementById('bdSynergy').style.background = s.synergy >= 0 ? '#f59e0b' : '#dc2626';
+
+    document.getElementById('bdAutoVal').textContent    = s.auto;
+    document.getElementById('bdTeleopVal').textContent  = s.teleop;
+    document.getElementById('bdEndgameVal').textContent = s.endgame;
+    document.getElementById('bdSynergyVal').textContent = (s.synergy >= 0 ? '+' : '') + s.synergy;
+  }
+
+  /* ── Render analysis chips ── */
+  function renderAnalysis() {
+    const el = document.getElementById('allianceAnalysis');
+    const s = computeScore();
+
+    if (!s || s.filled.length === 0) {
+      el.innerHTML = '<div class="chip-empty">← Click robots to build your alliance</div>';
+      return;
+    }
+
+    const chips = [];
+
+    // Endgame check
+    const maxEndgame = s.filled.reduce((m, r) => Math.max(m, r.endgame), 0);
+    if (maxEndgame < 10 && s.filled.length >= 2) {
+      chips.push({ type: 'warn', icon: 'fa-exclamation-triangle', text: 'No reliable climber — endgame points are leaving points on the table.' });
+    } else if (maxEndgame === 15) {
+      chips.push({ type: 'good', icon: 'fa-check-circle', text: 'Max endgame covered. Full climb points in play every match.' });
+    }
+
+    // Scorer redundancy
+    if (s.scorerCount >= 3) {
+      chips.push({ type: 'warn', icon: 'fa-exclamation-triangle', text: 'Three scorers — high redundancy. Field congestion likely reduces effective cycle rate.' });
+    } else if (s.scorerCount === 2) {
+      chips.push({ type: 'warn', icon: 'fa-info-circle', text: 'Two primary scorers. Watch for positional overlap. Consider if a role specialist adds more value.' });
+    }
+
+    // Defense value
+    if (s.hasDefense) {
+      chips.push({ type: 'good', icon: 'fa-shield', text: 'Defender in alliance. Effective at neutralizing high-OPR opposing scorer.' });
+    }
+
+    // Role diversity bonus
+    if (s.uniqueRoles === s.filled.length && s.filled.length === 3) {
+      chips.push({ type: 'good', icon: 'fa-star', text: 'All three roles are distinct — maximum complementarity bonus applied.' });
+    }
+
+    // Auto check
+    const maxAuto = s.filled.reduce((m, r) => Math.max(m, r.auto), 0);
+    if (maxAuto >= 9) {
+      chips.push({ type: 'info', icon: 'fa-bolt', text: 'Strong auto contributor — ranking point auto task is in reach.' });
+    }
+
+    // Consistency warning
+    if (s.avgConsistency < 0.82) {
+      chips.push({ type: 'warn', icon: 'fa-random', text: `Average consistency ${(s.avgConsistency*100).toFixed(0)}% — high variance alliance. Risky in single-elimination.` });
+    }
+
+    // No endgame at all
+    const allEndgame = s.filled.every(r => r.endgame === 0);
+    if (allEndgame) {
+      chips.push({ type: 'warn', icon: 'fa-times-circle', text: 'No endgame scoring at all. This is a severe structural gap — opponents will win endgame every match.' });
+    }
+
+    if (chips.length === 0) {
+      chips.push({ type: 'info', icon: 'fa-info-circle', text: 'Alliance looks balanced. Add more robots to get specific analysis.' });
+    }
+
+    el.innerHTML = chips.map(c =>
+      `<div class="analysis-chip chip-${c.type}"><i class="fa ${c.icon}"></i>${c.text}</div>`
+    ).join('');
+  }
+
+  function renderAll() {
+    renderPool();
+    renderSlots();
+    renderScore();
+    renderAnalysis();
+  }
+
+  /* ── Filter ── */
+  window.setFilter = function (filter, btn) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderPool();
+  };
+
+  // Boot
+  renderAll();
+
+})();
+</script>
+
+</body>
+</html>

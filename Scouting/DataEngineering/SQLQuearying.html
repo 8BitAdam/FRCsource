@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en-US">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SQL Querying — FRCsource</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&amp;family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="https://8bitadam.github.io/FRCsource/Assets/CSS/Article.css" rel="stylesheet"/>
+<script src="../../vendor/CoffeeScript/coffeescript.js"></script>
+<style>
+    /* ─── SQL Demo Styles ─── */
+    .sql-demo {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .sql-demo::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #1d4ed8, #0d9488, #dc2626);
+    }
+
+    .sql-demo-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #30363d;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .sql-demo-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #f0f6fc;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sql-demo-title .demo-badge {
+      font-size: 0.62rem;
+      background: #0d9488;
+      color: white;
+      padding: 2px 7px;
+      border-radius: 3px;
+      letter-spacing: 0.1em;
+    }
+
+    /* Challenge tabs */
+    .challenge-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 20px;
+      border-bottom: 1px solid #30363d;
+      overflow-x: auto;
+    }
+
+    .challenge-tab {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 10px 16px;
+      color: #8b949e;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .challenge-tab:hover { color: #c9d1d9; }
+
+    .challenge-tab.active {
+      color: #0d9488;
+      border-bottom-color: #0d9488;
+    }
+
+    .challenge-tab.completed {
+      color: #34d399;
+    }
+
+    .challenge-tab.completed::after {
+      content: ' ✓';
+    }
+
+    /* Challenge body */
+    .challenge-body {
+      padding: 20px;
+    }
+
+    .challenge-prompt {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-left: 3px solid #1d4ed8;
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+
+    .challenge-prompt-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      margin-bottom: 6px;
+    }
+
+    .challenge-prompt-text {
+      font-size: 0.9rem;
+      color: #c9d1d9;
+      line-height: 1.55;
+    }
+
+    .challenge-prompt-text strong {
+      color: #f0f6fc;
+    }
+
+    /* Schema hint */
+    .schema-hint {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #8b949e;
+      line-height: 1.7;
+    }
+
+    .schema-hint-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6e7681;
+      margin-bottom: 8px;
+    }
+
+    .schema-col { color: #79c0ff; }
+    .schema-type { color: #a5d6ff; opacity: 0.6; }
+    .schema-table { color: #d2a8ff; }
+
+    /* Editor */
+    .sql-editor-wrap {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .sql-editor {
+      width: 100%;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.87rem;
+      color: #f0f6fc;
+      line-height: 1.65;
+      resize: vertical;
+      min-height: 80px;
+      outline: none;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+
+    .sql-editor:focus { border-color: #0d9488; }
+
+    /* Controls row */
+    .sql-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .sql-run-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 9px 20px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      background: #0d9488;
+      color: white;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .sql-run-btn:hover { background: #0f766e; transform: translateY(-1px); }
+
+    .sql-hint-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 9px 16px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      cursor: pointer;
+      background: transparent;
+      color: #8b949e;
+      transition: all 0.2s;
+    }
+
+    .sql-hint-btn:hover { border-color: #6e7681; color: #c9d1d9; }
+
+    .sql-reset-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 9px 14px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      cursor: pointer;
+      background: transparent;
+      color: #6e7681;
+      transition: all 0.2s;
+      margin-left: auto;
+    }
+
+    .sql-reset-btn:hover { color: #8b949e; }
+
+    /* Hint box */
+    .hint-box {
+      display: none;
+      background: #161b22;
+      border: 1px solid #d29922;
+      border-left: 3px solid #d29922;
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+      color: #e3b341;
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1.6;
+    }
+
+    .hint-box.visible { display: block; }
+
+    /* Results table */
+    .results-wrap {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .results-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 14px;
+      border-bottom: 1px solid #30363d;
+      background: #0d1117;
+    }
+
+    .results-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6e7681;
+    }
+
+    .results-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: #8b949e;
+    }
+
+    .results-table-wrap { overflow-x: auto; }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+    }
+
+    .results-table th {
+      padding: 8px 14px;
+      text-align: left;
+      background: #0d1117;
+      color: #58a6ff;
+      font-weight: 500;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid #30363d;
+      white-space: nowrap;
+    }
+
+    .results-table td {
+      padding: 7px 14px;
+      color: #c9d1d9;
+      border-bottom: 1px solid #21262d;
+      white-space: nowrap;
+    }
+
+    .results-table tr:last-child td { border-bottom: none; }
+
+    .results-table tr:hover td { background: #1c2128; }
+
+    .results-table td.num { color: #79c0ff; }
+    .results-table td.str { color: #a5d6ff; }
+    .results-table td.hi  { color: #34d399; font-weight: 600; }
+
+    /* Error / success messages */
+    .sql-message {
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    .sql-message.visible { display: block; }
+    .sql-message.error { background: #3d1a1a; color: #f87171; border: 1px solid #7f1d1d; }
+    .sql-message.success { background: #0d2618; color: #34d399; border: 1px solid #166534; }
+
+    /* Challenge complete banner */
+    .challenge-complete {
+      background: linear-gradient(135deg, #0d2618, #0f2e1a);
+      border: 1px solid #166534;
+      border-radius: 6px;
+      padding: 14px 16px;
+      text-align: center;
+      display: none;
+      margin-top: 12px;
+    }
+
+    .challenge-complete.visible { display: block; }
+
+    .challenge-complete-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #34d399;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .challenge-complete-text {
+      font-size: 0.82rem;
+      color: #6ee7b7;
+      line-height: 1.5;
+    }
+
+    /* Progress bar */
+    .demo-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 20px 16px;
+    }
+
+    .demo-progress-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6e7681;
+      white-space: nowrap;
+    }
+
+    .demo-progress-track {
+      flex: 1;
+      height: 4px;
+      background: #21262d;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .demo-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1d4ed8, #0d9488);
+      border-radius: 2px;
+      transition: width 0.6s ease;
+      width: 0%;
+    }
+
+    .demo-progress-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: #6e7681;
+      white-space: nowrap;
+    }
+
+    /* Keyword highlighting in textarea — we do it via a display overlay trick */
+    .keyword { color: #ff7b72; }
+  </style>
+</head>
+<body>
+<!-- ─── Sidebar ──────────────────────────────────────────── -->
+<nav aria-label="Main navigation" id="mySidebar" role="navigation">
+<button aria-label="Close menu" class="sidebar-close" onclick="closeSidebar()">
+<i class="fa fa-times"></i>
+</button>
+<div class="sidebar-logo-area">
+<img alt="FRCsource logo" src="../../Assests/logo.jpg"/>
+<div class="sidebar-brand">FRC<span>source</span></div>
+<div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+</div>
+<nav class="sidebar-nav">
+<div class="sidebar-section-label">Navigation</div>
+<a class="sidebar-link" href="../../index.html"><i class="fa fa-th-large"></i> Home</a>
+<a class="sidebar-link" href="../../index.html#about"><i class="fa fa-user"></i> About</a>
+<div class="sidebar-section-label">Content</div>
+<a class="sidebar-link" href="../../Programming/Programming-Index.html"><i class="fa fa-code"></i> Programming Index</a>
+<a class="sidebar-link active" href="../../Scouting/Scouting-Index.html"><i class="fa fa-binoculars"></i> Scouting Index</a>
+<a class="sidebar-link" href="../../FRCsource/FRCsource-Index.html"><i class="fa fa-envelope"></i> FRCsource Index</a>
+</nav>
+<div class="sidebar-footer">
+<a aria-label="GitHub" class="sidebar-github" href="https://github.com/8BitAdam/FRCsource"><i class="fa fa-github"></i></a>
+<button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggleBtn" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+<span id="darkLabel">Dark</span>
+</button>
+</div>
+</nav>
+<div aria-hidden="true" id="myOverlay" onclick="closeSidebar()"></div>
+<div id="main-content">
+<div class="topbar" role="banner">
+<button aria-label="Open menu" class="hamburger-btn" onclick="openSidebar()"><i class="fa fa-bars"></i></button>
+<a class="topbar-logo" href="../../index.html">FRC<span>source</span></a>
+<div class="topbar-actions">
+<button aria-label="Toggle dark mode" class="dark-toggle" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+</button>
+</div>
+</div>
+<!-- ─── Hero ─── -->
+<header class="article-hero">
+<div aria-hidden="true" class="hero-geometry">
+<svg preserveaspectratio="xMaxYMid slice" viewbox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="heroGrad1" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"></stop>
+<stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"></stop>
+</lineargradient>
+<lineargradient id="heroGrad2" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"></stop>
+<stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"></stop>
+</lineargradient>
+</defs>
+<polygon fill="url(#heroGrad1)" points="150,0 500,0 500,300 50,300"></polygon>
+<polygon fill="url(#heroGrad2)" opacity="0.6" points="300,0 500,0 500,180"></polygon>
+<line opacity="0.15" stroke="#0d9488" stroke-width="1.5" x1="280" x2="100" y1="0" y2="300"></line>
+<line opacity="0.10" stroke="#1d4ed8" stroke-width="1" x1="350" x2="170" y1="0" y2="300"></line>
+<line opacity="0.08" stroke="#dc2626" stroke-width="0.8" x1="420" x2="240" y1="0" y2="300"></line>
+<rect fill="#0d9488" height="20" opacity="0.2" rx="2" width="20" x="450" y="20"></rect>
+<rect fill="#1d4ed8" height="12" opacity="0.15" rx="2" width="12" x="420" y="50"></rect>
+<rect fill="#dc2626" height="16" opacity="0.12" rx="2" width="16" x="460" y="240"></rect>
+<circle cx="310" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="340" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="370" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="310" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="340" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="370" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="310" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="340" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="370" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+</svg>
+</div>
+<div class="hero-content">
+<div class="fade-in">
+<span class="article-category-badge"><i class="fa fa-tag"></i> Data Engineering</span>
+</div>
+<h1 class="article-title fade-in">
+        SQL <span class="title-accent">Querying</span>
+</h1>
+<p class="article-subtitle fade-in">
+        The core SQL commands every scouting data engineer needs — SELECT, FROM, WHERE, ORDER BY, and beyond — with a live interactive demo using real FRC scouting data.
+      </p>
+<div class="article-meta fade-in">
+<span class="meta-item"><i class="fa fa-clock-o"></i> 14 min read</span>
+<span class="meta-item"><i class="fa fa-calendar"></i> Updated Apr 2025</span>
+<span class="difficulty-badge difficulty-intermediate"><i class="fa fa-signal"></i> Intermediate</span>
+</div>
+</div>
+<div aria-label="Article tags" class="hero-tags" role="list">
+<span class="tag teal" role="listitem">Data Engineering</span>
+<span class="tag blue" role="listitem">SQL</span>
+<span class="tag" role="listitem">Database</span>
+<span class="tag" role="listitem">Querying</span>
+<span class="tag red" role="listitem">Interactive</span>
+</div>
+</header>
+<!-- ─── Article Layout ─── -->
+<div class="article-layout">
+<article class="article-body" id="article-top">
+<div class="callout info">
+<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Prerequisites</div>
+<div class="prereqs">
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Database Design</span>
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Data Standardization</span>
+</div>
+</div>
+</div>
+<!-- ─── Section 1 ─── -->
+<h2 id="what-is-sql">What Is SQL?</h2>
+<p>SQL — Structured Query Language — is the standard language for retrieving and manipulating data stored in relational databases. If your scouting system stores data in a database (SQLite, PostgreSQL, MySQL, or any other relational system), SQL is how you ask it questions. It is not a programming language in the traditional sense; it is a declarative query language, meaning you describe what you want rather than how to obtain it, and the database figures out the rest.</p>
+<p>SQL is the tool you reach for when you need to answer questions like: which teams averaged more than four cycles per bout, which robots never missed an endgame climb, or which alliance pairings produced the highest combined score, For scouting data engineering. These questions are trivial to express in SQL and tedious or error-prone to answer by manually sorting a spreadsheet.</p>
+<!-- ─── Section 2 ─── -->
+<h2 id="the-core-commands">The Core Commands</h2>
+<p>Virtually everything useful in SQL for scouting analysis is built from a small set of commands. Understanding these deeply gives you more leverage than knowing a wide surface area of rarely-used features.</p>
+<h3>SELECT and FROM</h3>
+<p>Every SQL query starts with SELECT and FROM . FROM tells the database which table to look in. SELECT tells it which columns to return. Together they form the minimal valid query:</p>
+<div class="code-block">
+<div class="code-block-header"><span class="code-lang">SQL</span></div>
+<pre>SELECT team_number, avg_cycles, endgame_result
+FROM match_scouting;</pre>
+</div>
+<p>
+        To return all columns rather than naming them individually, use an asterisk:
+      </p>
+<div class="code-block">
+<div class="code-block-header"><span class="code-lang">SQL</span></div>
+<pre>SELECT *
+FROM match_scouting;</pre>
+</div>
+<h3>WHERE</h3>
+<p>WHERE filters rows based on a condition. Only rows where the condition evaluates to accurate are included in the result. This is how you narrow a whole scouting records down to the teams or matches you actually care about:</p>
+<div class="code-block">
+<div class="code-block-header"><span class="code-lang">SQL</span></div>
+<pre>SELECT team_number, avg_cycles
+FROM match_scouting
+WHERE avg_cycles &gt; 4;</pre>
+</div>
+<p>
+        You can combine conditions with <code>AND</code> and <code>OR</code>, and negate them with <code>NOT</code>:
+      </p>
+<div class="code-block">
+<div class="code-block-header"><span class="code-lang">SQL</span></div>
+<pre>SELECT team_number, avg_cycles, endgame_result
+FROM match_scouting
+WHERE avg_cycles &gt; 3 AND endgame_result = 'climbed';</pre>
+</div>
+<h3>ORDER BY</h3>
+<p>ORDER BY sorts the results by one or more columns. The default arrange direction is ascending ( ASC ); use DESC to sort from highest to lowest. For alliance selection, you almost always desire to sort descending by your key performance metric:</p>
+<div class="code-block">
+<div class="code-block-header"><span class="code-lang">SQL</span></div>
+<pre>SELECT team_number, avg_cycles
+FROM match_scouting
+ORDER BY avg_cycles DESC;</pre>
+</div>
+<h3>LIMIT</h3>
+<p>BOUND caps the number of rows returned. Combined with ORDER BY , it gives you a clean top-N list — useful for efficiently surfacing your top candidates during alliance selection:</p>
+<div class="code-block">
+<div class="code-block-header"><span class="code-lang">SQL</span></div>
+<pre>SELECT team_number, avg_cycles
+FROM match_scouting
+ORDER BY avg_cycles DESC
+LIMIT 5;</pre>
+</div>
+<h3>Aggregate Functions</h3>
+<p>SQL provides built-in aggregate functions that compute a single value from a define of rows. The most useful for scouting analysis are AVG() for averages, SUM() for totals, COUNT() for row counts, MAX() and MIN() for extremes. These are typically paired with GROUP BY to compute the aggregate per team rather than across the entire dataset:</p>
+<div class="code-block">
+<div class="code-block-header"><span class="code-lang">SQL</span></div>
+<pre>SELECT team_number,
+       AVG(cycles) AS avg_cycles,
+       COUNT(*) AS matches_scouted
+FROM match_scouting
+GROUP BY team_number
+ORDER BY avg_cycles DESC;</pre>
+</div>
+<div class="callout tip">
+<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+<div class="callout-content">
+<div class="callout-title">AS Gives Columns Readable Names</div>
+<p class="callout-text">The AS keyword renames a column in the output — called an alias. Use it whenever a column name would otherwise be verbose or unclear, especially with aggregate functions whose default names like AVG(cycles) are harder to read in results.</p>
+</div>
+</div>
+<!-- ─── Section 3 — THE DEMO ─── -->
+<h2 id="interactive-demo">Interactive SQL Demo</h2>
+<p>The demo below runs a simulated FRC scouting database entirely in your browser. The database contains three tables: teams , match_scouting , and pit_scouting . Serve through the challenges in order — each one introduces a new concept on top of the last. Type your query in the editor, and the results appear below., hit Run Use the hint button if you get stuck.</p>
+<!-- THE DEMO WIDGET -->
+<div class="sql-demo">
+<div class="sql-demo-header">
+<div class="sql-demo-title">
+<i class="fa fa-database"></i>
+            FRC Scout DB
+            <span class="demo-badge">Live</span>
+</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#6e7681;">
+            3 tables  ·  48 rows  ·  in-browser
+          </div>
+</div>
+<!-- tabs -->
+<div class="challenge-tabs" id="challengeTabs"></div>
+<!-- progress -->
+<div class="demo-progress">
+<span class="demo-progress-label">Progress</span>
+<div class="demo-progress-track">
+<div class="demo-progress-fill" id="demoProgressFill"></div>
+</div>
+<span class="demo-progress-count" id="demoProgressCount">0 / 6</span>
+</div>
+<!-- challenge content rendered here -->
+<div class="challenge-body" id="challengeBody"></div>
+</div>
+<!-- ─── Section 4 ─── -->
+<h2 id="joins">Joining Tables</h2>
+<p>Real scouting databases store related data in separate tables — team metadata in one, match performance in another, pit scouting in a third. A JOIN lets you combine rows from multiple tables based on a shared key, usually a team number.</p>
+<p>The most prevalent join in scouting work is an INNER JOIN , which returns only rows that have a match in both tables. This is how you combine pit scouting notes with match performance data for the same team:</p>
+<div class="code-block">
+<div class="code-block-header"><span class="code-lang">SQL</span></div>
+<pre>SELECT ms.team_number,
+       ms.avg_cycles,
+       ps.robot_archetype,
+       ps.climb_capability
+FROM match_scouting ms
+INNER JOIN pit_scouting ps
+  ON ms.team_number = ps.team_number
+ORDER BY ms.avg_cycles DESC;</pre>
+</div>
+<p>The short aliases ms and ps after each table name let you prefix column names with the table they come from, which is necessary when both tables have columns with the same name — like team_number .</p>
+<!-- ─── Section 5 ─── -->
+<h2 id="practical-queries">Practical Queries for Alliance Selection</h2>
+<p>The queries that actually matter at an event are the ones you run in the hour before alliance selection. These are not academic exercises — they are the questions your strategist needs answered under time pressure, and having them pre-written as saved queries rather than composed on the fly is a significant operational advantage.</p>
+<h3>Top Offensive Robots by Average Cycles</h3>
+<div class="code-block">
+<div class="code-block-header"><span class="code-lang">SQL</span></div>
+<pre>SELECT team_number,
+       ROUND(AVG(teleop_cycles), 2) AS avg_cycles,
+       COUNT(*) AS matches
+FROM match_scouting
+WHERE archetype = 'Offensive'
+GROUP BY team_number
+HAVING COUNT(*) &gt;= 3
+ORDER BY avg_cycles DESC
+LIMIT 8;</pre>
+</div>
+<h3>Reliable Climbers (High Success Rate)</h3>
+<div class="code-block">
+<div class="code-block-header"><span class="code-lang">SQL</span></div>
+<pre>SELECT team_number,
+       COUNT(*) AS attempts,
+       SUM(CASE WHEN endgame_result = 'climbed' THEN 1 ELSE 0 END) AS successes,
+       ROUND(
+         100.0 * SUM(CASE WHEN endgame_result = 'climbed' THEN 1 ELSE 0 END) / COUNT(*),
+         1
+       ) AS climb_pct
+FROM match_scouting
+WHERE endgame_attempted = 1
+GROUP BY team_number
+HAVING attempts &gt;= 3
+ORDER BY climb_pct DESC;</pre>
+</div>
+<h3>Teams With High Foul Rates to Avoid</h3>
+<div class="code-block">
+<div class="code-block-header"><span class="code-lang">SQL</span></div>
+<pre>SELECT team_number,
+       ROUND(AVG(fouls_drawn), 2) AS avg_fouls
+FROM match_scouting
+GROUP BY team_number
+HAVING avg_fouls &gt; 1.5
+ORDER BY avg_fouls DESC;</pre>
+</div>
+<div class="callout warning">
+<span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+<div class="callout-content">
+<div class="callout-title">HAVING vs WHERE</div>
+<p class="callout-text">WHERE filters rows before aggregation. HAVING filters after aggregation, meaning it can reference the results of aggregate functions like COUNT(*) or AVG() . If you try to use WHERE AVG(cycles) &gt; 3 you will get an error — that filter belongs in a HAVING clause instead.</p>
+</div>
+</div>
+</article>
+<!-- TOC -->
+<aside aria-label="Table of contents" class="toc-panel">
+<div class="toc-title">On This Page</div>
+<ul class="toc-list">
+<li id="toc-what-is-sql"><a href="#what-is-sql">What Is SQL?</a></li>
+<li id="toc-the-core-commands"><a href="#the-core-commands">Core Commands</a></li>
+<li id="toc-interactive-demo"><a href="#interactive-demo">Interactive Demo ⚡</a></li>
+<li id="toc-joins"><a href="#joins">Joining Tables</a></li>
+<li id="toc-practical-queries"><a href="#practical-queries">Alliance Selection Queries</a></li>
+</ul>
+<div class="toc-divider"></div>
+<div class="toc-progress-label">Reading progress</div>
+<div class="toc-progress-bar">
+<div class="toc-progress-fill" id="readingProgress"></div>
+</div>
+</aside>
+</div>
+<div class="section-divider"></div>
+<!-- Contributor -->
+<section aria-label="Article contributors" class="contributor-section">
+<div class="contributor-section-title">Provided to you by</div>
+<div class="contributor-cards">
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">AI</div>
+<div class="contributor-info">
+<div class="contributor-name">Claude AI</div>
+<div class="contributor-team"><i class="fa fa-robot"></i> AI Author</div>
+<div class="contributor-role">Article Author</div>
+</div>
+</div>
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">AG</div>
+<div class="contributor-info">
+<div class="contributor-name">Adam G.</div>
+<div class="contributor-team"><i class="fa fa-wrench"></i> Team 2062 — CORE</div>
+<div class="contributor-role">Technical Reviewer</div>
+</div>
+</div>
+</div>
+</section>
+<div class="section-divider"></div>
+<!-- Nav -->
+<nav aria-label="Article navigation" class="article-nav">
+<a class="nav-card prev" href="./database-design.html">
+<div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
+<div class="nav-title">Database Design</div>
+</a>
+<a class="nav-card next" href="./data-visualization.html">
+<div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+<div class="nav-title">Data Visualization</div>
+</a>
+</nav>
+<!-- Footer -->
+<footer>
+<div class="footer-stripe">
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+</div>
+<div class="footer-inner">
+<div class="footer-grid">
+<div>
+<div class="footer-brand">FRC<span>source</span></div>
+<p class="footer-desc">A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.</p>
+<p class="footer-powered">Powered by <a href="https://www.w3schools.com/w3css/default.asp" rel="noopener" target="_blank">w3.css</a></p>
+</div>
+<div>
+<div class="footer-heading">Explore</div>
+<ul class="footer-links">
+<li><a href="../../index.html">Home</a></li>
+<li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+<li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+<li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+<li><a href="../../index.html#about">About</a></li>
+</ul>
+</div>
+<div>
+<div class="footer-heading">Tags</div>
+<div class="footer-tags">
+<span class="footer-tag">Index</span>
+<span class="footer-tag">SQL</span>
+<span class="footer-tag">Data</span>
+<span class="footer-tag">Engineering</span>
+<span class="footer-tag">Database</span>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2025 FRCsource. Made by the FRC community.</span>
+<span><a href="https://github.com/8BitAdam/FRCsource" style="color:#475569;text-decoration:none;"><i class="fa fa-github"></i> GitHub</a></span>
+</div>
+</div>
+</footer>
+</div>
+<script type="text/coffeescript">
+# Required dependencies: This script runs in a browser environment.
+# External dependencies: FontAwesome (for icons), JetBrains Mono font (for styles).
+
+### ── State ────────────────────────────────────────────────── ###
+tables = []
+activeTab = null
+currentTab = 'sql'
+tableIdCounter = 0
+fieldIdCounter = 0
+
+TYPES = ['INTEGER', 'TEXT', 'REAL', 'BOOLEAN', 'DATE', 'TIMESTAMP']
+COLORS = ['#f0abfc', '#93c5fd', '#6ee7b7', '#fcd34d', '#fca5a5', '#a5b4fc', '#67e8f9', '#86efac']
+
+### ── DOM refs ─────────────────────────────────────────────── ###
+tabsEl      = document.getElementById 'table-tabs'
+cardsEl     = document.getElementById 'table-cards-container'
+sqlEl       = document.getElementById 'sql-output'
+erCanvas    = document.getElementById 'er-canvas'
+outputEl    = document.getElementById 'output-content'
+scoreT      = document.getElementById 'score-tables'
+scoreF      = document.getElementById 'score-fields'
+scoreR      = document.getElementById 'score-relations'
+hintEl      = document.getElementById 'hint-text'
+nf1         = document.getElementById 'nf1-dot'
+nf2         = document.getElementById 'nf2-dot'
+nf3         = document.getElementById 'nf3-dot'
+nfLabel     = document.getElementById 'nf-label'
+
+### ── Table CRUD ───────────────────────────────────────────── ###
+addTable = (name, fields) ->
+  id    = ++tableIdCounter
+  color = COLORS[tables.length % COLORS.length]
+  tbl   = {
+    id
+    name: name or "Table#{id}"
+    color
+    fields: fields or [
+      { id: ++fieldIdCounter, name: 'id', type: 'INTEGER', isPK: true, fk: '' }
+    ]
+  }
+  tables.push tbl
+  setActive id
+  render()
+
+deleteTable = (id) ->
+  tables = tables.filter (t) -> t.id isnt id
+  # Remove any FK references to this table
+  tables.forEach (t) ->
+    t.fields.forEach (f) ->
+      if f.fk and f.fk.startsWith(getTableById(f.fk.split('.')[0])?.name ? '__GONE__')
+        f.fk = ''
+  cleanOrphanFKs()
+  if activeTab is id
+    activeTab = if tables.length then tables[tables.length - 1].id else null
+  render()
+
+addField = (tableId) ->
+  tbl = getTableById tableId
+  return unless tbl
+  tbl.fields.push { id: ++fieldIdCounter, name: 'field', type: 'TEXT', isPK: false, fk: '' }
+  render()
+
+deleteField = (tableId, fieldId) ->
+  tbl = getTableById tableId
+  return unless tbl
+  tbl.fields = tbl.fields.filter (f) -> f.id isnt fieldId
+  render()
+
+getTableById = (id) -> tables.find (t) -> t.id is id
+
+setActive = (id) -> activeTab = id
+
+cleanOrphanFKs = ->
+  validRefs = new Set()
+  tables.forEach (t) ->
+    t.fields.forEach (f) ->
+      if f.isPK then validRefs.add "#{t.name}.#{f.name}"
+  tables.forEach (t) ->
+    t.fields.forEach (f) ->
+      if f.fk and not validRefs.has f.fk then f.fk = ''
+
+### ── Render ───────────────────────────────────────────────── ###
+render = ->
+  renderTabs()
+  renderCards()
+  renderOutput()
+  renderScore()
+
+renderTabs = ->
+  tabsEl.innerHTML = ''
+  tables.forEach (tbl) ->
+    btn = document.createElement 'button'
+    btn.className = 'tbl-btn' + (if tbl.id is activeTab then ' active' else '')
+    btn.textContent = tbl.name
+    btn.style.borderColor = if tbl.id is activeTab then tbl.color else ''
+    btn.style.color       = if tbl.id is activeTab then tbl.color else ''
+    btn.onclick = ->
+      setActive tbl.id
+      render()
+    tabsEl.appendChild btn
+
+renderCards = ->
+  cardsEl.innerHTML = ''
+  activeTbl = tables.find (t) -> t.id is activeTab
+  if not activeTbl
+    cardsEl.innerHTML = '<div style="color:#475569;font-family:\'JetBrains Mono\',monospace;font-size:0.75rem;padding:1rem;">No tables yet. Click "+ New Table" to begin.</div>'
+    return
+
+  # Only show the active table card for clarity
+  card = buildCard activeTbl
+  cardsEl.appendChild card
+
+buildCard = (tbl) ->
+  card = document.createElement 'div'
+  card.className = 'schema-table-card'
+
+  # Header
+  hdr = document.createElement 'div'
+  hdr.className = 'table-card-header'
+  hdr.style.borderLeft = "3px solid #{tbl.color}"
+
+  nameInput = document.createElement 'input'
+  nameInput.value = tbl.name
+  nameInput.title = 'Table name'
+  nameInput.oninput = ->
+    tbl.name = nameInput.value
+    renderOutput()
+    renderScore()
+    renderTabs()
+
+  delBtn = document.createElement 'button'
+  delBtn.className = 'tbl-delete-btn'
+  delBtn.innerHTML = '<i class="fa fa-trash"></i>'
+  delBtn.title = 'Delete table'
+  delBtn.onclick = -> deleteTable tbl.id
+
+  hdr.appendChild nameInput
+  hdr.appendChild delBtn
+  card.appendChild hdr
+
+  # Fields
+  fieldsDiv = document.createElement 'div'
+  fieldsDiv.className = 'table-fields'
+
+  # Build FK options from all PKs in other tables
+  fkOptions = []
+  tables.forEach (t) ->
+    return if t.id is tbl.id
+    t.fields.filter((f) -> f.isPK).forEach (f) ->
+      fkOptions.push "#{t.name}.#{f.name}"
+
+  tbl.fields.forEach (field) ->
+    row = document.createElement 'div'
+    row.className = 'field-row'
+
+    # PK badge
+    pkEl = document.createElement 'span'
+    pkEl.className = 'field-pk'
+    pkEl.title     = if field.isPK then 'Primary Key' else 'Click to toggle PK'
+    pkEl.textContent = if field.isPK then 'PK' else '·'
+    pkEl.style.cursor = 'pointer'
+    pkEl.style.color  = if field.isPK then '#fbbf24' else (if field.fk then '#fcd34d' else '#334155')
+    if field.fk then pkEl.textContent = 'FK'
+    pkEl.onclick = ->
+      if not field.fk
+        field.isPK = not field.isPK
+        render()
+
+    # Name
+    nameIn = document.createElement 'input'
+    nameIn.className = 'field-name-input'
+    nameIn.value = field.name
+    nameIn.oninput = ->
+      field.name = nameIn.value
+      renderOutput()
+      renderScore()
+
+    # Type
+    typeSelect = document.createElement 'select'
+    typeSelect.className = 'field-type-select'
+    TYPES.forEach (t) ->
+      opt = document.createElement 'option'
+      opt.value = t
+      opt.textContent = t
+      if t is field.type then opt.selected = true
+      typeSelect.appendChild opt
+    typeSelect.onchange = ->
+      field.type = typeSelect.value
+      renderOutput()
+
+    # FK select
+    fkSelect = document.createElement 'select'
+    fkSelect.className = 'field-fk-select'
+    noFk = document.createElement 'option'
+    noFk.value = ''
+    noFk.textContent = 'no FK'
+    fkSelect.appendChild noFk
+    fkOptions.forEach (ref) ->
+      opt = document.createElement 'option'
+      opt.value = ref
+      opt.textContent = '→' + ref
+      if ref is field.fk then opt.selected = true
+      fkSelect.appendChild opt
+    fkSelect.onchange = ->
+      field.fk = fkSelect.value
+      if field.fk then field.isPK = false
+      render()
+
+    # Delete field btn
+    delF = document.createElement 'button'
+    delF.className = 'field-delete-btn'
+    delF.innerHTML = '×'
+    delF.onclick = -> deleteField tbl.id, field.id
+
+    row.appendChild pkEl
+    row.appendChild nameIn
+    row.appendChild typeSelect
+    if not field.isPK then row.appendChild fkSelect
+    row.appendChild delF
+    fieldsDiv.appendChild row
+
+  # Add field button
+  addFBtn = document.createElement 'button'
+  addFBtn.className = 'add-field-btn'
+  addFBtn.innerHTML = '<i class="fa fa-plus" style="font-size:0.6rem;"></i> add field'
+  addFBtn.onclick = -> addField tbl.id
+  fieldsDiv.appendChild addFBtn
+
+  card.appendChild fieldsDiv
+  card
+
+### ── SQL generation ───────────────────────────────────────── ###
+generateSQL = ->
+  if not tables.length
+    return '<span class="sql-comment">-- No tables defined yet.\n-- Click "+ New Table" to start building your schema.</span>'
+
+  sql = ''
+  tables.forEach (tbl, i) ->
+    if i > 0 then sql += '\n\n'
+    sql += "<span class=\"sql-comment\">-- #{tbl.name} table</span>\n"
+    sql += "<span class=\"sql-keyword\">CREATE TABLE</span> <span class=\"sql-table\">#{tbl.name}</span> (\n"
+
+    lines = []
+    pks = tbl.fields.filter((f) -> f.isPK).map (f) -> f.name
+
+    tbl.fields.forEach (f) ->
+      line = "  <span class=\"sql-field\">#{f.name}</span>  <span class=\"sql-type\">#{f.type}</span>"
+      if f.isPK and tbl.fields.filter((x) -> x.isPK).length is 1
+        line += ' <span class=\"sql-pk\">PRIMARY KEY</span>'
+      if f.isPK and f.type is 'INTEGER'
+        line += ' <span class=\"sql-keyword\">AUTOINCREMENT</span>'
+      if not f.isPK and not f.fk
+        line += ' <span class=\"sql-keyword\">NOT NULL</span>'
+      lines.push line
+
+    # Composite PK
+    if pks.length > 1
+      lines.push "  <span class=\"sql-pk\">PRIMARY KEY</span> (<span class=\"sql-field\">#{pks.join(', ')}</span>)"
+
+    # FK constraints
+    tbl.fields.filter((f) -> f.fk).forEach (f) ->
+      [refTable, refField] = f.fk.split '.'
+      lines.push "  <span class=\"sql-keyword\">FOREIGN KEY</span> (<span class=\"sql-field\">#{f.name}</span>) <span class=\"sql-keyword\">REFERENCES</span> <span class=\"sql-fk\">#{refTable}</span>(<span class=\"sql-field\">#{refField}</span>)"
+
+    sql += lines.join(',\n') + '\n);\n'
+
+    # Indexes for FK fields
+    tbl.fields.filter((f) -> f.fk).forEach (f) ->
+      sql += "<span class=\"sql-keyword\">CREATE INDEX</span> idx_#{tbl.name.toLowerCase()}_#{f.name} <span class=\"sql-keyword\">ON</span> <span class=\"sql-table\">#{tbl.name}</span>(<span class=\"sql-field\">#{f.name}</span>);\n"
+  
+  sql
+
+### ── ER Diagram ───────────────────────────────────────────── ###
+renderER = ->
+  ctx = erCanvas.getContext '2d'
+  W   = erCanvas.width  = erCanvas.offsetWidth  or 400
+  H   = erCanvas.height = erCanvas.offsetHeight or 360
+
+  ctx.clearRect 0, 0, W, H
+  ctx.fillStyle = '#0f172a'
+  ctx.fillRect 0, 0, W, H
+
+  if not tables.length
+    ctx.fillStyle = '#475569'
+    ctx.font = '12px JetBrains Mono, monospace'
+    ctx.textAlign = 'center'
+    ctx.fillText 'No tables to visualize.', W / 2, H / 2
+    return
+
+  # Layout tables in a circle
+  cx = W / 2
+  cy = H / 2
+  r  = Math.min(W, H) * 0.33
+  positions = {}
+  BOX_W = 120
+  BOX_H = 28
+
+  tables.forEach (tbl, i) ->
+    angle = (i / tables.length) * 2 * Math.PI - Math.PI / 2
+    positions[tbl.id] = {
+      x: cx + r * Math.cos angle
+      y: cy + r * Math.sin angle
+    }
+
+  # Draw FK relationship lines first
+  tables.forEach (tbl) ->
+    tbl.fields.filter((f) -> f.fk).forEach (f) ->
+      [refName] = f.fk.split '.'
+      refTbl = tables.find (t) -> t.name is refName
+      return unless refTbl
+      from = positions[tbl.id]
+      to   = positions[refTbl.id]
+
+      ctx.beginPath()
+      ctx.moveTo from.x, from.y
+
+      # Curved line
+      mx = (from.x + to.x) / 2
+      my = (from.y + to.y) / 2 - 20
+      ctx.quadraticCurveTo mx, my, to.x, to.y
+
+      ctx.strokeStyle = '#fcd34d66'
+      ctx.lineWidth = 1.5
+      ctx.setLineDash [4, 3]
+      ctx.stroke()
+      ctx.setLineDash []
+
+      # Arrow head at destination
+      angle = Math.atan2 to.y - my, to.x - mx
+      ctx.beginPath()
+      ctx.moveTo to.x, to.y
+      ctx.lineTo to.x - 10 * Math.cos(angle - 0.4), to.y - 10 * Math.sin(angle - 0.4)
+      ctx.lineTo to.x - 10 * Math.cos(angle + 0.4), to.y - 10 * Math.sin(angle + 0.4)
+      ctx.closePath()
+      ctx.fillStyle = '#fcd34d'
+      ctx.fill()
+
+      # Label the FK field
+      ctx.font = '9px JetBrains Mono, monospace'
+      ctx.fillStyle = '#fcd34d99'
+      ctx.textAlign = 'center'
+      ctx.fillText f.name, (from.x + to.x) / 2, (from.y + to.y) / 2 - 8
+
+  # Draw table boxes
+  tables.forEach (tbl) ->
+    pos = positions[tbl.id]
+    x   = pos.x - BOX_W / 2
+    y   = pos.y - BOX_H / 2
+
+    # Shadow
+    ctx.shadowColor   = tbl.color + '44'
+    ctx.shadowBlur    = 12
+    ctx.fillStyle = '#1e293b'
+    ctx.beginPath()
+    ctx.roundRect x, y, BOX_W, BOX_H, 6
+    ctx.fill()
+    ctx.shadowBlur = 0
+
+    # Border
+    ctx.strokeStyle = tbl.color
+    ctx.lineWidth   = 1.5
+    ctx.beginPath()
+    ctx.roundRect x, y, BOX_W, BOX_H, 6
+    ctx.stroke()
+
+    # Table name
+    ctx.fillStyle  = tbl.color
+    ctx.font       = 'bold 11px JetBrains Mono, monospace'
+    ctx.textAlign  = 'center'
+    ctx.fillText tbl.name, pos.x, pos.y + 4
+
+    # Field count badge
+    ctx.fillStyle = '#475569'
+    ctx.font      = '9px JetBrains Mono, monospace'
+    ctx.fillText "#{tbl.fields.length} fields", pos.x, pos.y + BOX_H + 12
+
+### ── Output switcher ──────────────────────────────────────── ###
+renderOutput = ->
+  if currentTab is 'sql'
+    sqlEl.style.display    = 'block'
+    erCanvas.style.display = 'none'
+    sqlEl.innerHTML        = generateSQL()
+  else
+    sqlEl.style.display    = 'none'
+    erCanvas.style.display = 'block'
+    setTimeout renderER, 10
+
+switchTab = (tab, el) ->
+  currentTab = tab
+  document.querySelectorAll('.output-tab').forEach (t) -> t.classList.remove 'active'
+  el.classList.add 'active'
+  copyBtn = document.getElementById 'copy-btn'
+  if copyBtn then copyBtn.style.display = if tab is 'sql' then '' else 'none'
+  renderOutput()
+
+### ── Score & NF ───────────────────────────────────────────── ###
+renderScore = ->
+  totalFields    = tables.reduce ((s, t) -> s + t.fields.length), 0
+  totalRelations = tables.reduce ((s, t) -> s + t.fields.filter((f) -> f.fk).length), 0
+
+  scoreT.textContent = tables.length
+  scoreF.textContent = totalFields
+  scoreR.textContent = totalRelations
+
+  # NF checks (heuristic, not rigorous)
+  has1NF = tables.length > 0 and tables.every (t) -> t.fields.length > 0
+  has2NF = has1NF and tables.every (t) -> t.fields.some (f) -> f.isPK
+  has3NF = has2NF and totalRelations > 0 and tables.length >= 2
+
+  nf1.classList.toggle 'achieved', has1NF
+  nf2.classList.toggle 'achieved', has2NF
+  nf3.classList.toggle 'achieved', has3NF
+
+  nfReached = if has3NF then '3NF' else (if has2NF then '2NF' else (if has1NF then '1NF' else 'Unnormalized'))
+  nfLabel.textContent = nfReached
+
+  # Hints
+  if not tables.length
+    hintEl.textContent = 'Add a table to get started'
+  else if not has2NF
+    hintEl.textContent = 'Tip: add a PRIMARY KEY to each table'
+  else if not has3NF
+    hintEl.textContent = 'Tip: link tables with a FOREIGN KEY to reach 3NF'
+  else
+    hintEl.textContent = "Schema looks good! #{tables.length} table#{if tables.length > 1 then 's' else ''} defined."
+
+### ── Copy SQL ─────────────────────────────────────────────── ###
+window.copySql = ->
+  plain = sqlEl.textContent
+  navigator.clipboard.writeText(plain).then ->
+    btn = document.getElementById 'copy-btn'
+    btn.textContent = 'Copied!'
+    setTimeout (-> btn.textContent = 'Copy SQL'), 1500
+
+### ── Seed data ────────────────────────────────────────────── ###
+loadSeed = ->
+  clearAll true
+
+  # Teams
+  addTable 'Teams', [
+    { id: ++fieldIdCounter, name: 'team_number', type: 'INTEGER', isPK: true,  fk: '' }
+    { id: ++fieldIdCounter, name: 'nickname',    type: 'TEXT',    isPK: false, fk: '' }
+    { id: ++fieldIdCounter, name: 'city',        type: 'TEXT',    isPK: false, fk: '' }
+    { id: ++fieldIdCounter, name: 'rookie_year', type: 'INTEGER', isPK: false, fk: '' }
+  ]
+
+  # Events
+  addTable 'Events', [
+    { id: ++fieldIdCounter, name: 'event_key',  type: 'TEXT',    isPK: true,  fk: '' }
+    { id: ++fieldIdCounter, name: 'event_name', type: 'TEXT',    isPK: false, fk: '' }
+    { id: ++fieldIdCounter, name: 'year',       type: 'INTEGER', isPK: false, fk: '' }
+    { id: ++fieldIdCounter, name: 'week',       type: 'INTEGER', isPK: false, fk: '' }
+  ]
+
+  # Matches
+  addTable 'Matches', [
+    { id: ++fieldIdCounter, name: 'event_key',    type: 'TEXT',    isPK: true,  fk: 'Events.event_key' }
+    { id: ++fieldIdCounter, name: 'match_number', type: 'INTEGER', isPK: true,  fk: '' }
+    { id: ++fieldIdCounter, name: 'red_score',    type: 'INTEGER', isPK: false, fk: '' }
+    { id: ++fieldIdCounter, name: 'blue_score',   type: 'INTEGER', isPK: false, fk: '' }
+  ]
+
+  # ScoutReports
+  addTable 'ScoutReports', [
+    { id: ++fieldIdCounter, name: 'event_key',    type: 'TEXT',    isPK: true,  fk: 'Events.event_key' }
+    { id: ++fieldIdCounter, name: 'match_number', type: 'INTEGER', isPK: true,  fk: '' }
+    { id: ++fieldIdCounter, name: 'team_number',  type: 'INTEGER', isPK: true,  fk: 'Teams.team_number' }
+    { id: ++fieldIdCounter, name: 'auto_cycles',  type: 'INTEGER', isPK: false, fk: '' }
+    { id: ++fieldIdCounter, name: 'tele_cycles',  type: 'INTEGER', isPK: false, fk: '' }
+    { id: ++fieldIdCounter, name: 'climbed',      type: 'BOOLEAN', isPK: false, fk: '' }
+    { id: ++fieldIdCounter, name: 'scout_id',     type: 'TEXT',    isPK: false, fk: '' }
+    { id: ++fieldIdCounter, name: 'notes',        type: 'TEXT',    isPK: false, fk: '' }
+  ]
+
+  setActive tables[tables.length - 1].id
+  render()
+
+clearAll = (silent) ->
+  tables = []
+  activeTab = null
+  tableIdCounter = 0
+  fieldIdCounter = 0
+  render() unless silent
+
+### ── Sidebar / dark mode (same as template) ───────────────── ###
+window.openSidebar = ->
+  document.getElementById('mySidebar').classList.add 'open'
+  document.getElementById('myOverlay').style.display = 'block'
+  document.body.style.overflow = 'hidden'
+
+window.closeSidebar = ->
+  document.getElementById('mySidebar').classList.remove 'open'
+  document.getElementById('myOverlay').style.display = 'none'
+  document.body.style.overflow = ''
+
+html      = document.documentElement
+darkLabel = document.getElementById 'darkLabel'
+
+applyTheme = (theme) ->
+  html.setAttribute 'data-theme', theme
+  localStorage.setItem 'frc-theme', theme
+  if darkLabel then darkLabel.textContent = if theme is 'dark' then 'Light' else 'Dark'
+
+window.toggleDark = ->
+  applyTheme(if html.getAttribute('data-theme') is 'dark' then 'light' else 'dark')
+
+do ->
+  saved = localStorage.getItem 'frc-theme'
+  prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  applyTheme(saved or (if prefersDark then 'dark' else 'light'))
+
+### ── Reading progress ─────────────────────────────────────── ###
+progressFill = document.getElementById 'readingProgress'
+sections     = document.querySelectorAll '.article-body h2[id]'
+tocItems     = document.querySelectorAll '.toc-list li[id]'
+
+updateProgress = ->
+  scrollTop  = window.scrollY
+  docHeight  = document.documentElement.scrollHeight - window.innerHeight
+  progress   = if docHeight > 0 then Math.round((scrollTop / docHeight) * 100) else 0
+  if progressFill then progressFill.style.width = progress + '%'
+
+  activeId = null
+  sections.forEach (sec) -> 
+    if scrollTop >= sec.offsetTop - 120 then activeId = sec.id
+  tocItems.forEach (item) ->
+    item.classList.remove 'active'
+    if item.id is 'toc-' + activeId then item.classList.add 'active'
+
+window.addEventListener 'scroll', updateProgress, { passive: true }
+updateProgress()
+
+### ── Init ─────────────────────────────────────────────────── ###
+loadSeed()
+
+
+</script>
+</body>
+</html>

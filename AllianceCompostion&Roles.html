@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-
-<html data-theme="light" lang="en-US">
+<html lang="en-US" data-theme="light">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Alliance Composition and Roles — FRCsource</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&amp;family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alliance Composition and Roles — FRCsource</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
     :root {
       --frc-blue:#1d4ed8;--frc-blue-dark:#1e3a8a;--frc-blue-light:#dbeafe;
       --frc-red:#dc2626;--frc-red-dark:#991b1b;--frc-red-light:#fee2e2;
@@ -229,6 +228,7 @@
       display:flex;gap:14px;align-items:flex-start;transition:background .3s}
     .gt-concept-num{font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;
       font-weight:800;line-height:1;color:var(--frc-teal);flex-shrink:0;min-width:32px}
+    .gt-concept-body{}
     .gt-concept-title{font-family:'Barlow Condensed',sans-serif;font-size:1rem;
       font-weight:700;color:var(--text-primary);margin-bottom:3px}
     .gt-concept-text{font-size:.87rem;color:var(--text-secondary);line-height:1.55}
@@ -533,406 +533,468 @@
   </style>
 </head>
 <body>
-<nav aria-label="Main navigation" id="mySidebar" role="navigation">
-<button aria-label="Close menu" class="sidebar-close" onclick="closeSidebar()">
-<i class="fa fa-times"></i>
-</button>
-<div class="sidebar-logo-area">
-<img alt="FRCsource logo" src="../../Assests/logo.jpg"/>
-<div class="sidebar-brand">FRC<span>source</span></div>
-<div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
-</div>
-<nav class="sidebar-nav">
-<div class="sidebar-section-label">Navigation</div>
-<a class="sidebar-link" href="../../index.html"><i class="fa fa-th-large"></i> Home</a>
-<a class="sidebar-link" href="../../index.html#about"><i class="fa fa-user"></i> About</a>
-<div class="sidebar-section-label">Content</div>
-<a class="sidebar-link" href="../../Programming/Programming-Index.html"><i class="fa fa-code"></i> Programming Index</a>
-<a class="sidebar-link active" href="../../Scouting/Scouting-Index.html"><i class="fa fa-binoculars"></i> Scouting Index</a>
-<a class="sidebar-link" href="../../FRCsource/FRCsource-Index.html"><i class="fa fa-envelope"></i> FRCsource Index</a>
+
+<nav id="mySidebar" role="navigation" aria-label="Main navigation">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">
+    <i class="fa fa-times"></i>
+  </button>
+  <div class="sidebar-logo-area">
+    <img src="../../Assests/logo.jpg" alt="FRCsource logo">
+    <div class="sidebar-brand">FRC<span>source</span></div>
+    <div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Navigation</div>
+    <a href="../../index.html" class="sidebar-link"><i class="fa fa-th-large"></i> Home</a>
+    <a href="../../index.html#about" class="sidebar-link"><i class="fa fa-user"></i> About</a>
+    <div class="sidebar-section-label">Content</div>
+    <a href="../../Programming/Programming-Index.html" class="sidebar-link"><i class="fa fa-code"></i> Programming Index</a>
+    <a href="../../Scouting/Scouting-Index.html" class="sidebar-link active"><i class="fa fa-binoculars"></i> Scouting Index</a>
+    <a href="../../FRCsource/FRCsource-Index.html" class="sidebar-link"><i class="fa fa-envelope"></i> FRCsource Index</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="https://github.com/8BitAdam/FRCsource" class="sidebar-github" aria-label="GitHub"><i class="fa fa-github"></i></a>
+    <button class="dark-toggle" onclick="toggleDark()" id="darkToggleBtn" aria-label="Toggle dark mode">
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      <span id="darkLabel">Dark</span>
+    </button>
+  </div>
 </nav>
-<div class="sidebar-footer">
-<a aria-label="GitHub" class="sidebar-github" href="https://github.com/8BitAdam/FRCsource"><i class="fa fa-github"></i></a>
-<button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggleBtn" onclick="toggleDark()">
-<span class="toggle-track"><span class="toggle-thumb"></span></span>
-<span id="darkLabel">Dark</span>
-</button>
-</div>
-</nav>
-<div aria-hidden="true" id="myOverlay" onclick="closeSidebar()"></div>
+
+<div id="myOverlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
 <div id="main-content">
-<div class="topbar" role="banner">
-<button aria-label="Open menu" class="hamburger-btn" onclick="openSidebar()"><i class="fa fa-bars"></i></button>
-<a class="topbar-logo" href="../../index.html">FRC<span>source</span></a>
-<div class="topbar-actions">
-<button aria-label="Toggle dark mode" class="dark-toggle" onclick="toggleDark()">
-<span class="toggle-track"><span class="toggle-thumb"></span></span>
-</button>
-</div>
-</div>
-<header class="article-hero">
-<div aria-hidden="true" class="hero-geometry">
-<svg preserveaspectratio="xMaxYMid slice" viewbox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<lineargradient id="heroGrad1" x1="0%" x2="100%" y1="0%" y2="100%">
-<stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"></stop>
-<stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"></stop>
-</lineargradient>
-<lineargradient id="heroGrad2" x1="0%" x2="100%" y1="100%" y2="0%">
-<stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"></stop>
-<stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"></stop>
-</lineargradient>
-</defs>
-<polygon fill="url(#heroGrad1)" points="150,0 500,0 500,300 50,300"></polygon>
-<polygon fill="url(#heroGrad2)" opacity="0.6" points="300,0 500,0 500,180"></polygon>
-<line opacity="0.15" stroke="#0d9488" stroke-width="1.5" x1="280" x2="100" y1="0" y2="300"></line>
-<line opacity="0.10" stroke="#1d4ed8" stroke-width="1" x1="350" x2="170" y1="0" y2="300"></line>
-<line opacity="0.08" stroke="#dc2626" stroke-width="0.8" x1="420" x2="240" y1="0" y2="300"></line>
-<rect fill="#0d9488" height="20" opacity="0.2" rx="2" width="20" x="450" y="20"></rect>
-<rect fill="#1d4ed8" height="12" opacity="0.15" rx="2" width="12" x="420" y="50"></rect>
-<rect fill="#dc2626" height="16" opacity="0.12" rx="2" width="16" x="460" y="240"></rect>
-<circle cx="310" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
-<circle cx="340" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
-<circle cx="370" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
-<circle cx="310" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
-<circle cx="340" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
-<circle cx="370" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
-<circle cx="310" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
-<circle cx="340" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
-<circle cx="370" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
-</svg>
-</div>
-<div class="hero-content">
-<div class="fade-in">
-<span class="article-category-badge"><i class="fa fa-tag"></i> Scouting Strategy</span>
-</div>
-<h1 class="article-title fade-in">
+  <div class="topbar" role="banner">
+    <button class="hamburger-btn" onclick="openSidebar()" aria-label="Open menu"><i class="fa fa-bars"></i></button>
+    <a href="../../index.html" class="topbar-logo">FRC<span>source</span></a>
+    <div class="topbar-actions">
+      <button class="dark-toggle" onclick="toggleDark()" aria-label="Toggle dark mode">
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      </button>
+    </div>
+  </div>
+
+  <header class="article-hero">
+    <div class="hero-geometry" aria-hidden="true">
+      <svg viewBox="0 0 500 300" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="heroGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"/>
+          </linearGradient>
+          <linearGradient id="heroGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"/>
+            <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"/>
+          </linearGradient>
+        </defs>
+        <polygon points="150,0 500,0 500,300 50,300" fill="url(#heroGrad1)"/>
+        <polygon points="300,0 500,0 500,180" fill="url(#heroGrad2)" opacity="0.6"/>
+        <line x1="280" y1="0" x2="100" y2="300" stroke="#0d9488" stroke-width="1.5" opacity="0.15"/>
+        <line x1="350" y1="0" x2="170" y2="300" stroke="#1d4ed8" stroke-width="1" opacity="0.10"/>
+        <line x1="420" y1="0" x2="240" y2="300" stroke="#dc2626" stroke-width="0.8" opacity="0.08"/>
+        <rect x="450" y="20" width="20" height="20" fill="#0d9488" opacity="0.2" rx="2"/>
+        <rect x="420" y="50" width="12" height="12" fill="#1d4ed8" opacity="0.15" rx="2"/>
+        <rect x="460" y="240" width="16" height="16" fill="#dc2626" opacity="0.12" rx="2"/>
+        <circle cx="310" cy="60" r="2" fill="#0d9488" opacity="0.25"/>
+        <circle cx="340" cy="60" r="2" fill="#0d9488" opacity="0.25"/>
+        <circle cx="370" cy="60" r="2" fill="#0d9488" opacity="0.25"/>
+        <circle cx="310" cy="90" r="2" fill="#0d9488" opacity="0.2"/>
+        <circle cx="340" cy="90" r="2" fill="#0d9488" opacity="0.2"/>
+        <circle cx="370" cy="90" r="2" fill="#0d9488" opacity="0.2"/>
+        <circle cx="310" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
+        <circle cx="340" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
+        <circle cx="370" cy="120" r="2" fill="#0d9488" opacity="0.15"/>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <div class="fade-in">
+        <span class="article-category-badge"><i class="fa fa-tag"></i> Scouting Strategy</span>
+      </div>
+      <h1 class="article-title fade-in">
         Alliance <span class="title-accent">Composition</span> and Roles
       </h1>
-<p class="article-subtitle fade-in">
+      <p class="article-subtitle fade-in">
         How FRC alliances are built, what roles each robot fills, and why game theory explains the difference between a good alliance and a great one.
       </p>
-<div class="article-meta fade-in">
-<span class="meta-item"><i class="fa fa-clock-o"></i> 15 min read</span>
-<span class="meta-item"><i class="fa fa-calendar"></i> Updated Apr 2025</span>
-<span class="difficulty-badge difficulty-intermediate"><i class="fa fa-signal"></i> Intermediate</span>
-</div>
-</div>
-<div aria-label="Article tags" class="hero-tags" role="list">
-<span class="tag teal" role="listitem">Scouting</span>
-<span class="tag blue" role="listitem">Strategy</span>
-<span class="tag" role="listitem">Alliance Selection</span>
-<span class="tag red" role="listitem">Game Theory</span>
-<span class="tag" role="listitem">Data Analysis</span>
-</div>
-</header>
-<div class="article-layout">
-<article class="article-body" id="article-top">
-<div class="callout info">
-<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
-<div class="callout-content">
-<div class="callout-title">Prerequisites</div>
-<div class="prereqs">
-<span class="prereq-pill"><i class="fa fa-check-circle"></i> Intro to FRC Match Flow</span>
-<span class="prereq-pill"><i class="fa fa-check-circle"></i> Basic understanding of FRC scoring</span>
-<span class="prereq-pill"><i class="fa fa-check-circle"></i> Match scouting experience helpful</span>
-</div>
-</div>
-</div>
-<!-- ─── Section 1 ─── -->
-<h2 id="what-is-alliance">What Is an Alliance?</h2>
-<p>In the FIRST Robotics Competition, two teams of three robots compete against each other in each match. One team is the Red Alliance partner, and the other is the Blue Alliance. To score more points than the opposing team in a match that lasts two minutes and thirty seconds, the three robots must work together. This is different from sports where individuals compete alone. Here, teams that collaborate effectively have an advantage. If an alliance has three robots that perform unique tasks and support each other's efforts, they are more likely to win against an alliance where all three robots have the consistent abilities and perform many tasks in a elemental manner.</p>
-<p>Partner grouping composition is all about deciding which robots to team up with, and the reasons behind that choice. It feels like a significant tackle in the game. During playoffs, teams pick their alliances intentionally through that selection approach. They aim to build the strongest group possible. the scheduling gets random, so alliances shape by chance, In qualifications. However, scouts still need to watch closely and identify how those teams function together, or don’t. That element can be challenging to track sometimes. That decision impacts everything, whether in playoffs or not.</p>
-<div class="callout tip">
-<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
-<div class="callout-content">
-<div class="callout-title">Why It Matters for Scouts</div>
-<p class="callout-text">Even with qualifiers the abilty to predict an outcome or a reason why a certin score turned out is easier when you how alliances work, and what kinds of teams work better as a pair.</p>
-</div>
-</div>
-<!-- ─── Section 2 ─── -->
-<h2 id="alliance-roles">The Four Core Roles</h2>
-<p>Although the specific nuance to each of the roles shifts somewhat between seasons, the four archetypes above are to be found in almost any FRC game. An important element of any alliance analysis is to develop a keen understanding of each role from the scouting information.</p>
-<div class="role-grid">
-<div class="role-card scorer">
-<div class="role-card-icon">🎯</div>
-<div class="role-card-title">Scorer / Cycler</div>
-<p class="role-card-desc">The primary point generator. Focuses on moving game pieces from source to target as quickly and reliably as potential. Intake-to-score loop time and consistency are the key metrics to track.</p>
-<span class="role-tag">High Teleop Output</span>
-</div>
-<div class="role-card defender">
-<div class="role-card-icon">🛡️</div>
-<div class="role-card-title">Defender</div>
-<p class="role-card-desc">Disrupts the opposing alliance's scorers by legally blocking, slowing, or rerouting them. A good defender can neutralize an opponent's top robot and swing a competition cycle entirely.</p>
-<span class="role-tag">Disruption Focus</span>
-</div>
-<div class="role-card climber">
-<div class="role-card-icon">🧗</div>
-<div class="role-card-title">Climber / Endgame</div>
-<p class="role-card-desc">Specializes in endgame objectives — climbing, docking, balancing. Endgame points are often high-value and can decide close matches. Watch for consistency and timing.</p>
-<span class="role-tag">Endgame Specialist</span>
-</div>
-<div class="role-card support">
-<div class="role-card-icon">⚙️</div>
-<div class="role-card-title">Support / Utility</div>
-<p class="role-card-desc">Fills gaps — feeds game pieces, holds a zone, performs secondary tasks. Routinely undervalued in scouting because their contributions don't show up directly in the score sheet.</p>
-<span class="role-tag">Alliance Enabler</span>
-</div>
-</div>
-<div class="callout warning">
-<span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
-<div class="callout-content">
-<div class="callout-title">Common Mistake</div>
-<p class="callout-text">Someone who only foucses on scoring, A great defender on an opposing partner grouping can decreese tele-operated phase scores by 30% to 40%, will over and under estimate defense, if you don`t retain space for zone defense performance on your scouting form you`re not gathering alliance level data.</p>
-</div>
-</div>
-<!-- ─── Section 3 ─── -->
-<h2 id="selection-process">Alliance Selection</h2>
-<p>the top eight teams pursue up the alliance leader positions in the elimination games, After qualifications. Alliances are made up with snake drafting: the number one leader chooses a team then two through eight choose one after another. When leader number eight chooses his second team, the pickers go down to seven then back up again. Note that the number one and last alliances are full before numbers 2-7 choose their second team mates.</p>
-<p>Alliances might decline to invite sometimes, the best option would be being the leader of a weaker alliance partner rather than the second option for a stronger one. Knowing this, scouts might offer advice for driving team as best as possible to accept, decline or select allies.</p>
-<h3>What Captains Look For</h3>
-<p>In alliance selection it's not just who is the second best scoring bot. You want a robot with the right skills . You want an terminate-game robot and a defender if you are a scorer. It makes no sense to have a scorer, as you have a scorer that do the same work and don't add any coverage. Scouting data have an edge there.</p>
-<!-- ─── Section 4 — Game Theory ─── -->
-<h2 id="game-theory">Game Theory and Alliance Building</h2>
-<p>Game theory is the mathematical modeling of strategic decision making - and FRC alliance selection is a pretty darn good real-life example. In fact, a limited classic game theory ideas appear directly in how solid teams decide on composition.</p>
-<div class="gt-concept">
-<div class="gt-concept-num">01</div>
-<div class="gt-concept-body">
-<div class="gt-concept-title">Nash Equilibrium</div>
-<div class="gt-concept-text">A situation when no player can get a better result by choosing any other strategy. FRC, a balanced alliance (scorer, defender, climber) forms a Nash equilibrium; neither team can improve by unilaterally departing from their specialist roles because this opens up weaknesses that the opponent can capitalize on.</div>
-</div>
-</div>
-<div class="gt-concept">
-<div class="gt-concept-num">02</div>
-<div class="gt-concept-body">
-<div class="gt-concept-title">Dominant Strategy</div>
-<div class="gt-concept-text">A strategy which is best, no matter what your opponent does. In an endgame scenario good performance could be a dominant strategy because the points are certain no matter what your opponent does and they force the opponent to react:</div>
-</div>
-</div>
-<div class="gt-concept">
-<div class="gt-concept-num">03</div>
-<div class="gt-concept-body">
-<div class="gt-concept-title">Prisoner's Dilemma</div>
-<div class="gt-concept-text">Both sides stacking on scorers looks like a "good for me personally"-they won't have any defense, strategy -if both sides choose this strategy, &gt; more points." However, as "more scorers, and the competition will turn out somewhat chaotic and based on luck. The "cooperative" equilibrium, both sides on mixed strategy, will be a competition where skill is of greater importance.</div>
-</div>
-</div>
-<div class="gt-concept">
-<div class="gt-concept-num">04</div>
-<div class="gt-concept-body">
-<div class="gt-concept-title">Expected Value and Risk</div>
-<div class="gt-concept-text">Even an above-average but erratic scorer will have a lower "expected value" than an average but reliable one over three games of a finals round series. It behooves a field analyst to direct on the variance in production, rather than simply on the substantial mark a prospect hits every so often. A machine that produces twelve points a game is better than one that produces twenty points a game for two out of three games, and produces zero points the third.</div>
-</div>
-</div>
-<!-- ─── GAME ─── -->
-<h2 id="game">Alliance Draft Challenge</h2>
-<p>Set your knowledge to the test. Draft a 3-robot alliance from the pool below, game, then simulate a round against a CPU opponent that invariably tries to build a balanced-theory-optimal coalition. The scoring engine rewards role diversity and punishes redundancy — just like the real game.</p>
-<div class="game-section">
-<div class="game-header">
-<div class="game-title">
-<i class="fa fa-gamepad"></i>
+      <div class="article-meta fade-in">
+        <span class="meta-item"><i class="fa fa-clock-o"></i> 15 min read</span>
+        <span class="meta-item"><i class="fa fa-calendar"></i> Updated Apr 2025</span>
+        <span class="difficulty-badge difficulty-intermediate"><i class="fa fa-signal"></i> Intermediate</span>
+      </div>
+    </div>
+    <div class="hero-tags" role="list" aria-label="Article tags">
+      <span class="tag teal" role="listitem">Scouting</span>
+      <span class="tag blue" role="listitem">Strategy</span>
+      <span class="tag" role="listitem">Alliance Selection</span>
+      <span class="tag red" role="listitem">Game Theory</span>
+      <span class="tag" role="listitem">Data Analysis</span>
+    </div>
+  </header>
+
+  <div class="article-layout">
+    <article class="article-body" id="article-top">
+
+      <div class="callout info">
+        <span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Prerequisites</div>
+          <div class="prereqs">
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Intro to FRC Match Flow</span>
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Basic understanding of FRC scoring</span>
+            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Match scouting experience helpful</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Section 1 ─── -->
+      <h2 id="what-is-alliance">What Is an Alliance?</h2>
+      <p>
+        In FIRST Robotics Competition, two groups of three robots play against each other in every match. There is a Red Alliance and a Blue Alliance. To score more points than the opponents during a match that lasts two minutes plus thirty seconds, those three robots must work together. It is different from sports where people compete alone because this competition gives an advantage to groups that function well together. If an alliance has three robots that perform different tasks and support what the others do, they will usually win against an alliance where three robots have the same abilities but also perform many tasks in a basic way.
+      </p>
+      <p>
+        Alliance composition is all about deciding <em>which robots to team up with, and the reasons behind that choice.,/em. It feels like a big deal in the game.
+
+During playoffs, teams pick their alliances on purpose through that selection process. You know, trying to build the strongest group possible.
+
+In qualifications, things get random with the scheduling, so alliances just happen. But scouts still have to watch closely and figure out how those teams are working together, or not. I think that part can be tricky to follow sometimes.
+
+That decision affects everything, playoffs or not.
+      </p>
+      <div class="callout tip">
+        <span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Why It Matters for Scouts</div>
+          <p class="callout-text">
+            Even in the qualification rounds, knowing how alliances are put together can really help with figuring out what might happen in a match. Like, you can guess the outcomes better, or make sense of why some results were surprising. It also shows which teams work well as a pair, I think. That kind of breakdown is what makes a scout stand out from just being okay at it.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── Section 2 ─── -->
+      <h2 id="alliance-roles">The Four Core Roles</h2>
+      <p>
+        Although role names are used in subtly different ways in different seasons, four archetypes are present in nearly every FRC game. A major aspect of analyzing any alliance is learning to recognize each of the roles from scouting data.
+      </p>
+
+      <div class="role-grid">
+        <div class="role-card scorer">
+          <div class="role-card-icon">🎯</div>
+          <div class="role-card-title">Scorer / Cycler</div>
+          <p class="role-card-desc">The primary point generator. Focuses on moving game pieces from source to target as quickly and reliably as possible. Cycle time and consistency are the key metrics to track.</p>
+          <span class="role-tag">High Teleop Output</span>
+        </div>
+        <div class="role-card defender">
+          <div class="role-card-icon">🛡️</div>
+          <div class="role-card-title">Defender</div>
+          <p class="role-card-desc">Disrupts the opposing alliance's scorers by legally blocking, slowing, or rerouting them. A good defender can neutralize an opponent's top robot and swing a match entirely.</p>
+          <span class="role-tag">Disruption Focus</span>
+        </div>
+        <div class="role-card climber">
+          <div class="role-card-icon">🧗</div>
+          <div class="role-card-title">Climber / Endgame</div>
+          <p class="role-card-desc">Specializes in endgame objectives — climbing, docking, balancing. Endgame points are often high-value and can decide close matches. Watch for consistency and timing.</p>
+          <span class="role-tag">Endgame Specialist</span>
+        </div>
+        <div class="role-card support">
+          <div class="role-card-icon">⚙️</div>
+          <div class="role-card-title">Support / Utility</div>
+          <p class="role-card-desc">Fills gaps — feeds game pieces, holds a zone, performs secondary tasks. Often undervalued in scouting because their contributions don't show up directly in the score sheet.</p>
+          <span class="role-tag">Alliance Enabler</span>
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Common Mistake</div>
+          <p class="callout-text">
+            For teams with scorer-focused analysis, they overemphasize those statistics and underemphasize defense. One strong defender on an opponent alliance can reduce their teleop score by 30-40%. If you don't track defender performance on your scouting form, you are not collecting alliance level information.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── Section 3 ─── -->
+      <h2 id="selection-process">Alliance Selection</h2>
+      <p>
+        At the conclusion of qualifications the eight top ranked teams fill the spots of the alliance leaders for the playoff matches. The teams are paired by using a snake draft method. In this method the first leader selects a team and then leaders two through eight pick one after another. By the time leader number eight picks their second team, the pickers have gone down to seven and up from there. It may be noted that the first and last alliances are filled prior to teams at the positions in the middle selecting their second partner.
+      </p>
+      <p>
+        Alliances can reject their invitation - sometimes, the better alternative is to be the captain of an inferior alliance instead of the second pick of a superior one. Knowing this, the scouts can give the drive team the best recommendations for accepting, rejecting, or choosing partners.
+      </p>
+      <h3>What Captains Look For</h3>
+      <p>
+        In alliance selection, it's not just about choosing the next best-ranked robot, it's about choosing a robot with a <strong>compatible skillset</strong>. If you are a scorer, you want an end-game robot and a defender - you don't want a scorer, since another scorer does the same job but doesn't add coverage. This is where scouting data gives an advantage.
+      </p>
+
+      <!-- ─── Section 4 — Game Theory ─── -->
+      <h2 id="game-theory">Game Theory and Alliance Building</h2>
+      <p>
+        Game theory is the mathematical study of strategic decision-making — and it turns out FRC alliance selection is a near-perfect real-world case study. Several classic concepts from game theory show up directly in how good teams think about composition.
+      </p>
+
+      <div class="gt-concept">
+        <div class="gt-concept-num">01</div>
+        <div class="gt-concept-body">
+          <div class="gt-concept-title">Nash Equilibrium</div>
+          <div class="gt-concept-text">A situation where no player can improve their outcome by changing strategy alone. In FRC, a <em>balanced alliance</em> (scorer + defender + climber) represents a Nash Equilibrium — neither side gains by abandoning their specialized role, because doing so leaves a gap the opponent can exploit.</div>
+        </div>
+      </div>
+      <div class="gt-concept">
+        <div class="gt-concept-num">02</div>
+        <div class="gt-concept-body">
+          <div class="gt-concept-title">Dominant Strategy</div>
+          <div class="gt-concept-text">A strategy that is optimal regardless of what the opponent does. Reliable endgame performance is often a dominant strategy: the points are guaranteed regardless of opponent behavior, and they apply pressure that forces opponents to respond.</div>
+        </div>
+      </div>
+      <div class="gt-concept">
+        <div class="gt-concept-num">03</div>
+        <div class="gt-concept-body">
+          <div class="gt-concept-title">Prisoner's Dilemma</div>
+          <div class="gt-concept-text">Both alliances stacking scorers feels individually rational — more scorers means more points. But if both alliances do this, neither has defense, and match outcomes become chaotic and luck-dependent. The "cooperative" equilibrium — both alliances using balanced composition — produces more predictable, strategy-driven competition.</div>
+        </div>
+      </div>
+      <div class="gt-concept">
+        <div class="gt-concept-num">04</div>
+        <div class="gt-concept-body">
+          <div class="gt-concept-title">Expected Value and Risk</div>
+          <div class="gt-concept-text">A high-ceiling but inconsistent scorer has lower <em>expected value</em> than a moderate but consistent one in a best-of-three playoff series. Scouts should track variance, not just peak performance. A robot that scores 12 points every match beats one that scores 20 points two matches and zero in a third.</div>
+        </div>
+      </div>
+
+      <!-- ─── GAME ─── -->
+      <h2 id="game">Alliance Draft Challenge</h2>
+      <p>
+        Put your knowledge to the test. Draft a 3-robot alliance from the pool below, then simulate a match against a CPU opponent that always tries to build a balanced, game-theory-optimal alliance. The scoring engine rewards role diversity and punishes redundancy — just like the real game.
+      </p>
+
+      <div class="game-section">
+        <div class="game-header">
+          <div class="game-title">
+            <i class="fa fa-gamepad"></i>
             Alliance Draft Challenge
             <span class="game-badge">Interactive</span>
-</div>
-<div class="game-subtitle">Pick 3 robots from the pool. The CPU builds a balanced counter-alliance. Simulate the match and see what game theory predicts.</div>
-</div>
-<div class="game-phases" id="gamePhases">
-<div class="phase-step active" id="phase1">1 · Draft</div>
-<div class="phase-step" id="phase2">2 · Preview</div>
-<div class="phase-step" id="phase3">3 · Match</div>
-<div class="phase-step" id="phase4">4 · Analysis</div>
-</div>
-<!-- DRAFT PHASE -->
-<div id="draftPhase">
-<div class="pool-label">Robot Pool — Select 3 Robots for Your Alliance</div>
-<div class="robot-pool" id="robotPool"></div>
-<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
-<div class="selection-counter">
-<span id="selectionText">Select 3 robots</span>
-<div class="counter-pips">
-<div class="pip" id="pip0"></div>
-<div class="pip" id="pip1"></div>
-<div class="pip" id="pip2"></div>
-</div>
-</div>
-<div class="game-controls">
-<button class="game-btn game-btn-secondary" onclick="resetDraft()"><i class="fa fa-refresh"></i> Reset</button>
-<button class="game-btn game-btn-primary" disabled="" id="draftBtn" onclick="confirmDraft()"><i class="fa fa-arrow-right"></i> Lock In Alliance</button>
-</div>
-</div>
-</div>
-<!-- PREVIEW PHASE -->
-<div id="previewPhase" style="display:none">
-<div class="alliance-preview">
-<div class="alliance-box player">
-<div class="alliance-box-label"><i class="fa fa-user"></i> Your Alliance</div>
-<div class="alliance-slots" id="playerSlots"></div>
-</div>
-<div class="vs-badge">VS</div>
-<div class="alliance-box cpu">
-<div class="alliance-box-label"><i class="fa fa-cog"></i> CPU Alliance</div>
-<div class="alliance-slots" id="cpuSlots"></div>
-</div>
-</div>
-<div class="game-controls">
-<button class="game-btn game-btn-secondary" onclick="backToDraft()"><i class="fa fa-arrow-left"></i> Re-Draft</button>
-<button class="game-btn game-btn-primary" onclick="startMatch()"><i class="fa fa-play"></i> Simulate Match</button>
-</div>
-</div>
-<!-- MATCH + RESULT PHASE -->
-<div id="matchPhase" style="display:none">
-<div class="match-sim visible" id="matchSim">
-<div class="pool-label">Match Simulation</div>
-<div class="score-counters">
-<div class="score-box player-score">
-<div class="score-box-label"><i class="fa fa-user"></i> Your Alliance</div>
-<div class="score-number" id="playerScoreNum">0</div>
-<div class="score-breakdown" id="playerBreakdown"></div>
-</div>
-<div class="score-box cpu-score">
-<div class="score-box-label"><i class="fa fa-cog"></i> CPU Alliance</div>
-<div class="score-number" id="cpuScoreNum">0</div>
-<div class="score-breakdown" id="cpuBreakdown"></div>
-</div>
-</div>
-<div class="sim-bar-wrap">
-<div class="sim-bar-header">
-<span class="sim-bar-player" id="barLabelPlayer">Your Alliance</span>
-<span class="sim-bar-cpu" id="barLabelCpu">CPU Alliance</span>
-</div>
-<div class="sim-track">
-<div class="sim-fill-player" id="simFillPlayer"></div>
-<div class="sim-fill-cpu" id="simFillCpu"></div>
-</div>
-</div>
-</div>
-<div class="result-panel" id="resultPanel">
-<div class="result-headline" id="resultHeadline">—</div>
-<div class="result-subtitle" id="resultSubtitle"></div>
-<div class="gt-insight">
-<div class="gt-insight-label"><i class="fa fa-flask"></i> Game Theory Insight</div>
-<div class="gt-insight-text" id="gtInsight"></div>
-</div>
-</div>
-<div class="game-controls" id="matchControls" style="margin-top:16px">
-<button class="game-btn game-btn-secondary" onclick="fullReset()"><i class="fa fa-refresh"></i> Play Again</button>
-</div>
-</div>
-</div><!-- /game-section -->
-<!-- ─── Section 5 ─── -->
-<h2 id="scouting-for-roles">Scouting for Role Fit</h2>
-<p>Knowing that roles matter is simply useful if your scouting data genuinely captures them. Standard match forms frequently track exclusively scoring metrics — which is why many alliances end up over-stacked with scorers. To scout for role fit, you need to deliberately track metrics for each archetype.</p>
-<h3>Metrics to Track by Role</h3>
-<ul>
-<li>Scorer: Cycles per round, average cycle time, scoring zone consistency, sandstorm period performance</li>
-<li>Defender: Time spent defending, fouls incurred, opponent cycles disrupted (estimate), mobility in defense</li>
-<li>Climber: Endgame success rate, climb level achieved, time to complete charging station mount, consistency across matches</li>
-<li>Enable: Secondary actions completed, alliance-enabling behaviors, fouls avoided, field positioning</li>
-</ul>
-<p>It's not "Team X has scored 47pts." The most important piece of scouting information is "Team X is a steady endgame robot that never defends and climbs at an average of 94% with extremely slow endgame scoring". The team trio captain can instantly see where it would fit into their alliance partner and what kind of robot they would need to put around it.</p>
-<div class="callout tip">
-<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
-<div class="callout-content">
-<div class="callout-title">Build Role Profiles, Not Score Sheets</div>
-<p class="callout-text">The most valuable information that you get out of your scouting system isn't the total point breakdown ranked, but role profiles that allow alliance captains to see "do I have all four roles covered" and not "who scored highest".</p>
-</div>
-</div>
-</article>
-<aside aria-label="Table of contents" class="toc-panel">
-<div class="toc-title">On This Page</div>
-<ul class="toc-list">
-<li id="toc-what-is-alliance"><a href="#what-is-alliance">What Is an Alliance?</a></li>
-<li id="toc-alliance-roles"><a href="#alliance-roles">The Four Core Roles</a></li>
-<li id="toc-selection-process"><a href="#selection-process">Alliance Selection</a></li>
-<li id="toc-game-theory"><a href="#game-theory">Game Theory</a></li>
-<li id="toc-game"><a href="#game">Draft Challenge ⚡</a></li>
-<li id="toc-scouting-for-roles"><a href="#scouting-for-roles">Scouting for Roles</a></li>
-</ul>
-<div class="toc-divider"></div>
-<div class="toc-progress-label">Reading progress</div>
-<div class="toc-progress-bar">
-<div class="toc-progress-fill" id="readingProgress"></div>
-</div>
-</aside>
-</div>
-<div class="section-divider"></div>
-<section aria-label="Article contributors" class="contributor-section">
-<div class="contributor-section-title">Provided to you by</div>
-<div class="contributor-cards">
-<div class="contributor-card">
-<div aria-hidden="true" class="contributor-avatar-placeholder">AI</div>
-<div class="contributor-info">
-<div class="contributor-name">Claude AI</div>
-<div class="contributor-team"><i class="fa fa-robot"></i> AI Author</div>
-<div class="contributor-role">Article Author &amp; Game Designer</div>
-</div>
-</div>
-<div class="contributor-card">
-<div aria-hidden="true" class="contributor-avatar-placeholder">AG</div>
-<div class="contributor-info">
-<div class="contributor-name">Adam G.</div>
-<div class="contributor-team">
-<i class="fa fa-wrench"></i> Team 2062 — CORE
           </div>
-<div class="contributor-role">Technical Reviewer</div>
+          <div class="game-subtitle">Pick 3 robots from the pool. The CPU builds a balanced counter-alliance. Simulate the match and see what game theory predicts.</div>
+        </div>
+
+        <div class="game-phases" id="gamePhases">
+          <div class="phase-step active" id="phase1">1 · Draft</div>
+          <div class="phase-step" id="phase2">2 · Preview</div>
+          <div class="phase-step" id="phase3">3 · Match</div>
+          <div class="phase-step" id="phase4">4 · Analysis</div>
+        </div>
+
+        <!-- DRAFT PHASE -->
+        <div id="draftPhase">
+          <div class="pool-label">Robot Pool — Select 3 Robots for Your Alliance</div>
+          <div class="robot-pool" id="robotPool"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+            <div class="selection-counter">
+              <span id="selectionText">Select 3 robots</span>
+              <div class="counter-pips">
+                <div class="pip" id="pip0"></div>
+                <div class="pip" id="pip1"></div>
+                <div class="pip" id="pip2"></div>
+              </div>
+            </div>
+            <div class="game-controls">
+              <button class="game-btn game-btn-secondary" onclick="resetDraft()"><i class="fa fa-refresh"></i> Reset</button>
+              <button class="game-btn game-btn-primary" id="draftBtn" onclick="confirmDraft()" disabled><i class="fa fa-arrow-right"></i> Lock In Alliance</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PREVIEW PHASE -->
+        <div id="previewPhase" style="display:none">
+          <div class="alliance-preview">
+            <div class="alliance-box player">
+              <div class="alliance-box-label"><i class="fa fa-user"></i> Your Alliance</div>
+              <div class="alliance-slots" id="playerSlots"></div>
+            </div>
+            <div class="vs-badge">VS</div>
+            <div class="alliance-box cpu">
+              <div class="alliance-box-label"><i class="fa fa-cog"></i> CPU Alliance</div>
+              <div class="alliance-slots" id="cpuSlots"></div>
+            </div>
+          </div>
+          <div class="game-controls">
+            <button class="game-btn game-btn-secondary" onclick="backToDraft()"><i class="fa fa-arrow-left"></i> Re-Draft</button>
+            <button class="game-btn game-btn-primary" onclick="startMatch()"><i class="fa fa-play"></i> Simulate Match</button>
+          </div>
+        </div>
+
+        <!-- MATCH + RESULT PHASE -->
+        <div id="matchPhase" style="display:none">
+          <div class="match-sim visible" id="matchSim">
+            <div class="pool-label">Match Simulation</div>
+            <div class="score-counters">
+              <div class="score-box player-score">
+                <div class="score-box-label"><i class="fa fa-user"></i> Your Alliance</div>
+                <div class="score-number" id="playerScoreNum">0</div>
+                <div class="score-breakdown" id="playerBreakdown"></div>
+              </div>
+              <div class="score-box cpu-score">
+                <div class="score-box-label"><i class="fa fa-cog"></i> CPU Alliance</div>
+                <div class="score-number" id="cpuScoreNum">0</div>
+                <div class="score-breakdown" id="cpuBreakdown"></div>
+              </div>
+            </div>
+            <div class="sim-bar-wrap">
+              <div class="sim-bar-header">
+                <span class="sim-bar-player" id="barLabelPlayer">Your Alliance</span>
+                <span class="sim-bar-cpu" id="barLabelCpu">CPU Alliance</span>
+              </div>
+              <div class="sim-track">
+                <div class="sim-fill-player" id="simFillPlayer"></div>
+                <div class="sim-fill-cpu" id="simFillCpu"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-panel" id="resultPanel">
+            <div class="result-headline" id="resultHeadline">—</div>
+            <div class="result-subtitle" id="resultSubtitle"></div>
+            <div class="gt-insight">
+              <div class="gt-insight-label"><i class="fa fa-flask"></i> Game Theory Insight</div>
+              <div class="gt-insight-text" id="gtInsight"></div>
+            </div>
+          </div>
+
+          <div class="game-controls" style="margin-top:16px" id="matchControls">
+            <button class="game-btn game-btn-secondary" onclick="fullReset()"><i class="fa fa-refresh"></i> Play Again</button>
+          </div>
+        </div>
+
+      </div><!-- /game-section -->
+
+      <!-- ─── Section 5 ─── -->
+      <h2 id="scouting-for-roles">Scouting for Role Fit</h2>
+      <p>
+        Knowing that roles matter is only useful if your scouting data actually captures them. Standard match forms often track only scoring metrics — which is why many alliances end up over-stacked with scorers. To scout for role fit, you need to deliberately track metrics for each archetype.
+      </p>
+      <h3>Metrics to Track by Role</h3>
+      <ul>
+        <li><strong>Scorer:</strong> Cycles per match, average cycle time, scoring zone consistency, auto performance</li>
+        <li><strong>Defender:</strong> Time spent defending, opponent cycles disrupted (estimate), fouls incurred, mobility in defense</li>
+        <li><strong>Climber:</strong> Endgame success rate, climb level achieved, time to complete climb, consistency across matches</li>
+        <li><strong>Support:</strong> Secondary actions completed, alliance-enabling behaviors, fouls avoided, field positioning</li>
+      </ul>
+      <p>
+        The most valuable scouting insight is not "Team X scored 47 points" — it's "Team X is a reliable endgame robot with a consistent 94% climb rate that has never defended and scores slowly." That profile tells an alliance captain exactly where Team X fits and what they need to surround it with.
+      </p>
+
+      <div class="callout tip">
+        <span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+        <div class="callout-content">
+          <div class="callout-title">Build Role Profiles, Not Score Sheets</div>
+          <p class="callout-text">
+            The most powerful output from your scouting system isn't a ranked list by total points — it's a set of role profiles that let alliance captains ask "do I have all four roles covered?" rather than "who scored the most?"
+          </p>
+        </div>
+      </div>
+
+    </article>
+
+    <aside class="toc-panel" aria-label="Table of contents">
+      <div class="toc-title">On This Page</div>
+      <ul class="toc-list">
+        <li id="toc-what-is-alliance"><a href="#what-is-alliance">What Is an Alliance?</a></li>
+        <li id="toc-alliance-roles"><a href="#alliance-roles">The Four Core Roles</a></li>
+        <li id="toc-selection-process"><a href="#selection-process">Alliance Selection</a></li>
+        <li id="toc-game-theory"><a href="#game-theory">Game Theory</a></li>
+        <li id="toc-game"><a href="#game">Draft Challenge ⚡</a></li>
+        <li id="toc-scouting-for-roles"><a href="#scouting-for-roles">Scouting for Roles</a></li>
+      </ul>
+      <div class="toc-divider"></div>
+      <div class="toc-progress-label">Reading progress</div>
+      <div class="toc-progress-bar">
+        <div class="toc-progress-fill" id="readingProgress"></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <section class="contributor-section" aria-label="Article contributors">
+    <div class="contributor-section-title">Provided to you by</div>
+    <div class="contributor-cards">
+      <div class="contributor-card">
+        <div class="contributor-avatar-placeholder" aria-hidden="true">AI</div>
+        <div class="contributor-info">
+          <div class="contributor-name">Claude AI</div>
+          <div class="contributor-team"><i class="fa fa-robot"></i> AI Author</div>
+          <div class="contributor-role">Article Author &amp; Game Designer</div>
+        </div>
+      </div>
+      <div class="contributor-card">
+        <div class="contributor-avatar-placeholder" aria-hidden="true">MS</div>
+        <div class="contributor-info">
+          <div class="contributor-name">Marcus S.</div>
+          <div class="contributor-team"><i class="fa fa-wrench"></i> Team 5678 — Circuit Breakers</div>
+          <div class="contributor-role">Technical Reviewer</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <nav class="article-nav" aria-label="Article navigation">
+    <a href="./match-flow.html" class="nav-card prev">
+      <div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
+      <div class="nav-title">Intro to FRC Match Flow and Timing</div>
+    </a>
+    <a href="./pit-vs-match.html" class="nav-card next">
+      <div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+      <div class="nav-title">Pit Scouting vs Match Scouting</div>
+    </a>
+  </nav>
+
+  <footer>
+    <div class="footer-stripe">
+      <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+      <div class="footer-stripe-seg" style="background:#dc2626;"></div>
+      <div class="footer-stripe-seg" style="background:#0d9488;"></div>
+      <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+      <div class="footer-stripe-seg" style="background:#dc2626;"></div>
+      <div class="footer-stripe-seg" style="background:#0d9488;"></div>
+    </div>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">FRC<span>source</span></div>
+          <p class="footer-desc">A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.</p>
+          <p class="footer-powered">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" rel="noopener">w3.css</a></p>
+        </div>
+        <div>
+          <div class="footer-heading">Explore</div>
+          <ul class="footer-links">
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+            <li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+            <li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+            <li><a href="../../index.html#about">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Tags</div>
+          <div class="footer-tags">
+            <span class="footer-tag">Alliance</span>
+            <span class="footer-tag">Strategy</span>
+            <span class="footer-tag">Scouting</span>
+            <span class="footer-tag">Game Theory</span>
+            <span class="footer-tag">Data</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2025 FRCsource. Made by the FRC community.</span>
+        <span><a href="https://github.com" style="color:#475569;text-decoration:none;"><i class="fa fa-github"></i> GitHub</a></span>
+      </div>
+    </div>
+  </footer>
 </div>
-</div>
-</div>
-</section>
-<div class="section-divider"></div>
-<nav aria-label="Article navigation" class="article-nav">
-<a class="nav-card prev" href="./match-flow.html">
-<div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
-<div class="nav-title">Intro to FRC Match Flow and Timing</div>
-</a>
-<a class="nav-card next" href="./pit-vs-match.html">
-<div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
-<div class="nav-title">Pit Scouting vs Match Scouting</div>
-</a>
-</nav>
-<footer>
-<div class="footer-stripe">
-<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
-<div class="footer-stripe-seg" style="background:#dc2626;"></div>
-<div class="footer-stripe-seg" style="background:#0d9488;"></div>
-<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
-<div class="footer-stripe-seg" style="background:#dc2626;"></div>
-<div class="footer-stripe-seg" style="background:#0d9488;"></div>
-</div>
-<div class="footer-inner">
-<div class="footer-grid">
-<div>
-<div class="footer-brand">FRC<span>source</span></div>
-<p class="footer-desc">A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.</p>
-<p class="footer-powered">Powered by <a href="https://www.w3schools.com/w3css/default.asp" rel="noopener" target="_blank">w3.css</a></p>
-</div>
-<div>
-<div class="footer-heading">Explore</div>
-<ul class="footer-links">
-<li><a href="../../index.html">Home</a></li>
-<li><a href="../../Programming/Programming-Index.html">Programming</a></li>
-<li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
-<li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
-<li><a href="../../index.html#about">About</a></li>
-</ul>
-</div>
-<div>
-<div class="footer-heading">Tags</div>
-<div class="footer-tags">
-<span class="footer-tag">Alliance</span>
-<span class="footer-tag">Strategy</span>
-<span class="footer-tag">Scouting</span>
-<span class="footer-tag">Game Theory</span>
-<span class="footer-tag">Data</span>
-</div>
-</div>
-</div>
-<div class="footer-bottom">
-<span>© 2025 FRCsource. Made by the FRC community.</span>
-<span><a href="https://github.com" style="color:#475569;text-decoration:none;"><i class="fa fa-github"></i> GitHub</a></span>
-</div>
-</div>
-</footer>
-</div>
+
 <script>
 /* ─── Sidebar ─── */
 function openSidebar(){

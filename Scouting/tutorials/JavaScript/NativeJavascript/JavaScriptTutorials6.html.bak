@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutorial Page Template</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+<style>
+  /* Sidebar styling */
+  .sidebar {
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    width: 180px;
+    background-color: #003366;
+    color: white;
+  }
+  .sidebar h3 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    padding-left: 12px;
+    color: #ff3333;
+    font-size: 14px;
+  }
+  .sidebar a {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+    border-radius: 4px;
+  }
+  .sidebar a:hover {
+    background-color: #ff3333;
+    color: white;
+  }
+
+  /* Main content area */
+  .main-content {
+    margin-left: 190px;
+    padding: 20px;
+    background-color: white;
+    color: #000;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  /* Dark mode class */
+  .darkmode {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+  }
+  .darkmode h1,
+  .darkmode h3 {
+    color: #ff6666;
+  }
+
+  /* Button */
+  .darkmode-btn {
+    background-color: #ff3333;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+  .darkmode-btn:hover {
+    background-color: #cc0000;
+  }
+
+  h1 { color: #003366; }
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar / Navigation -->
+<div class="sidebar w3-card">
+  <h2 class="w3-center w3-padding-12" style="font-size:16px; color:white;">Tutorial Menu</h2>
+  <h3>Getting Started</h3>
+  <a href="#intro">Introduction</a>
+  <a href="#setup">Setup</a>
+  <h3>Core Concepts</h3>
+  <a href="#concept1">Concept 1</a>
+  <a href="#concept2">Concept 2</a>
+  <h3>Advanced</h3>
+  <a href="#advanced1">Advanced 1</a>
+  <a href="#advanced2">Advanced 2</a>
+</div>
+
+<!-- Main Content Area -->
+<div class="main-content" id="mainContent">
+  <button class="darkmode-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+  <h1 id="intro">JavaScript Conditionals</h1>
+
+    <p>JavaScript Conditional statements allow to perform different actions for different conditions or events. Conditional statements are used to make decisions in JavaScript depending on the outcome of a condition on true false values.</p>
+    <p>Types of conditional Statements:</p>
+    <ol>
+        <li>if</li>
+        <li>if else</li>
+        <li>if else if else</li>
+        <li>switch</li>
+        <li>ternary operator</li>
+    </ol>
+      <p>when to use each conditional Statements:</p>
+    <ol>
+        <li>Use if to specify a block of code to be executed if a condition is true</li>
+        <li>Use if else to specify a block of code to be executed if a condition is true, and another block if it is false</li>
+        <li>Use if else if else to specify multiple conditions and execute different blocks of code for each condition</li>
+        <li>Use switch to specify multiple conditions and execute different blocks of code for each condition</li>
+        <li>Use ternary operator to assign a value based on a condition in a single line</li>
+    </ol>
+    <br>
+    <h3>The If statements</h3>
+    <p>The if statement is used to specify a block of code to be executed if a condition is true.</p>
+    <p>Example:</p>
+    <script src="//onlinegdb.com/embed/js/qxcBbl9aZ?theme=dark"></script>
+    
+
+
+    </script>
+    <h4>Typeof Operator</h4>
+    <p>The typeof operator is used to determine the data type of a variable or value. It returns a string indicating the type.</p>
+    
+    <h1>Common Data Types Explained</h1>
+    <h3>Strings</h3>
+    <p>Strings are used to represent text in JavaScript. They can be created using single quotes (' '), double quotes (" "), or backticks (` `) for template literals.</p>
+    <h3>Numbers</h3>
+    <p>Numbers in JavaScript can be integers or floating-point values. JavaScript uses the IEEE 754 standard for representing numbers.</p>
+    <h3>Booleans</h3>
+    <p>Booleans represent logical values and can be either true or false. They
+      <h3>Null and Undefined</h3>
+    <p>Null is an assignment value that represents no value or object. Undefined indicates that a variable has been declared but has not yet been assigned a value.</p>
+    
+<!-- Navigation Buttons at the Bottom -->
+<div style="display:flex; justify-content:space-between; margin-top:40px;">
+  <button class="w3-button w3-blue" onclick="window.location.href='/Scouting/tutorials/JavaScript/NativeJavascript/JavaScriptTutorials3.html'">Previous Lesson</button>
+  <button class="w3-button w3-red" onclick="window.location.href='/Scouting/tutorials/JavaScript/NativeJavascript/JavaScriptTutorials5.html'">Next Lesson</button>
+</div>
+
+</div>
+
+<script>
+const content = document.getElementById('mainContent');
+
+// Apply saved preference or system preference on load
+function applyPreference() {
+  const saved = localStorage.getItem('darkmode');
+  if (saved === 'true') {
+    content.classList.add('darkmode');
+  } else if (saved === 'false') {
+    content.classList.remove('darkmode');
+  } else {
+    // Follow system preference if no saved value
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      content.classList.add('darkmode');
+    }
+  }
+}
+
+window.onload = applyPreference;
+
+// Toggle dark/light mode and save preference
+function toggleDarkMode() {
+  if (content.classList.contains('darkmode')) {
+    content.classList.remove('darkmode');
+    localStorage.setItem('darkmode', 'false');
+  } else {
+    content.classList.add('darkmode');
+    localStorage.setItem('darkmode', 'true');
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en-US" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Analysis — FRCsource</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://8bitadam.github.io/FRCsource/Assets/CSS/Article.css">
+
+    <style>
+        /* ── Game Styles ────────────────────────────────────────── */
+        .game-wrapper {
+            border: 1.5px solid var(--border-color, #e2e8f0);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 2rem 0;
+            font-family: 'Barlow', sans-serif;
+        }
+
+        .game-header {
+            background: #dc2626;
+            color: #fff;
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .game-header-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: 0.03em;
+        }
+
+        .game-header-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.82rem;
+            opacity: 0.9;
+            white-space: nowrap;
+        }
+
+        .game-body {
+            padding: 1.25rem;
+            background: var(--surface-color, #f8fafc);
+        }
+
+        .game-pip-row {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 0.85rem;
+        }
+
+        .game-pip {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #cbd5e1;
+        }
+
+        .game-pip.correct-pip {
+            background: #34d399;
+        }
+
+        .game-pip.wrong-pip {
+            background: #f87171;
+        }
+
+        .game-pip.current-pip {
+            background: #dc2626;
+        }
+
+        .game-scenario-box {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #dc2626;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .game-scenario-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #dc2626;
+            margin-bottom: 0.4rem;
+        }
+
+        .game-scenario-text {
+            font-size: 0.95rem;
+            color: #1e293b;
+            line-height: 1.55;
+        }
+
+        .game-prompt {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .game-choices {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .game-choice {
+            background: #fff;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 0.7rem 1rem;
+            font-size: 0.87rem;
+            color: #1e293b;
+            cursor: pointer;
+            text-align: left;
+            line-height: 1.4;
+            transition: border-color 0.15s, background 0.15s;
+            font-family: 'Barlow', sans-serif;
+        }
+
+        .game-choice:hover:not(:disabled) {
+            border-color: #dc2626;
+            background: #fff5f5;
+        }
+
+        .game-choice.correct {
+            border-color: #0d9488;
+            background: #f0fdfa;
+            color: #134e4a;
+        }
+
+        .game-choice.wrong {
+            border-color: #dc2626;
+            background: #fef2f2;
+            color: #7f1d1d;
+        }
+
+        .game-choice.reveal-correct {
+            border-color: #0d9488;
+            background: #f0fdfa;
+            color: #134e4a;
+            opacity: 0.7;
+        }
+
+        .game-choice:disabled {
+            cursor: default;
+        }
+
+        .game-feedback {
+            display: none;
+            font-size: 0.88rem;
+            line-height: 1.55;
+            padding: 0.7rem 1rem;
+            border-radius: 7px;
+            margin-bottom: 0.75rem;
+        }
+
+        .game-feedback.show {
+            display: block;
+        }
+
+        .game-feedback.ok {
+            background: #f0fdfa;
+            color: #134e4a;
+            border: 1px solid #0d9488;
+        }
+
+        .game-feedback.bad {
+            background: #fef2f2;
+            color: #7f1d1d;
+            border: 1px solid #dc2626;
+        }
+
+        .game-next {
+            display: none;
+            background: #dc2626;
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 0.55rem 1.25rem;
+            font-size: 0.88rem;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .game-next:hover {
+            background: #b91c1c;
+        }
+
+        .game-next.show {
+            display: inline-block;
+        }
+
+        .game-result {
+            display: none;
+            text-align: center;
+            padding: 1.5rem 1rem 0.5rem;
+        }
+
+        .game-result.show {
+            display: block;
+        }
+
+        .game-result-score {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #dc2626;
+            line-height: 1;
+        }
+
+        .game-result-label {
+            font-size: 0.88rem;
+            color: #64748b;
+            margin-bottom: 0.9rem;
+        }
+
+        .game-result-msg {
+            font-size: 0.93rem;
+            color: #1e293b;
+            line-height: 1.55;
+            margin-bottom: 1.1rem;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .game-restart {
+            background: transparent;
+            border: 1.5px solid #dc2626;
+            color: #dc2626;
+            border-radius: 7px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.88rem;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-restart:hover {
+            background: #fff5f5;
+        }
+
+        @media (max-width: 540px) {
+            .game-choices {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ─── Sidebar ──────────────────────────────────────────── -->
+    <nav id="mySidebar" role="navigation" aria-label="Main navigation">
+        <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">
+            <i class="fa fa-times"></i>
+        </button>
+        <div class="sidebar-logo-area">
+            <img src="../../Assests/logo.jpg" alt="FRCsource logo">
+            <div class="sidebar-brand">FRC<span>source</span></div>
+            <div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="sidebar-section-label">Navigation</div>
+            <a href="../../index.html" class="sidebar-link"><i class="fa fa-th-large"></i> Home</a>
+            <a href="../../index.html#about" class="sidebar-link"><i class="fa fa-user"></i> About</a>
+            <div class="sidebar-section-label">Content</div>
+            <a href="../../Programming/Programming-Index.html" class="sidebar-link"><i class="fa fa-code"></i>
+                Programming Index</a>
+            <a href="../../Scouting/Scouting-Index.html" class="sidebar-link"><i class="fa fa-binoculars"></i> Scouting
+                Index</a>
+            <a href="../../Strategy/Strategy-Index.html" class="sidebar-link active"><i class="fa fa-chess"></i>
+                Strategy Index</a>
+            <a href="../../FRCsource/FRCsource-Index.html" class="sidebar-link"><i class="fa fa-envelope"></i> FRCsource
+                Index</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="https://github.com/8BitAdam/FRCsource" class="sidebar-github" aria-label="GitHub">
+                <i class="fa fa-github"></i>
+            </a>
+            <button class="dark-toggle" onclick="toggleDark()" id="darkToggleBtn" aria-label="Toggle dark mode">
+                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                <span id="darkLabel">Dark</span>
+            </button>
+        </div>
+    </nav>
+
+    <div id="myOverlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <!-- ─── Main Content ──────────────────────────────────────── -->
+    <div id="main-content">
+
+        <div class="topbar" role="banner">
+            <button class="hamburger-btn" onclick="openSidebar()" aria-label="Open menu">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a href="../../index.html" class="topbar-logo">FRC<span>source</span></a>
+            <div class="topbar-actions">
+                <button class="dark-toggle" onclick="toggleDark()" aria-label="Toggle dark mode">
+                    <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ─── Article Hero ──────────────────────────────── -->
+        <header class="article-hero">
+            <div class="hero-geometry" aria-hidden="true">
+                <svg viewBox="0 0 500 300" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="heroGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#dc2626" stop-opacity="0.08" />
+                            <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.12" />
+                        </linearGradient>
+                        <linearGradient id="heroGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#0d9488" stop-opacity="0.06" />
+                            <stop offset="100%" stop-color="#dc2626" stop-opacity="0.10" />
+                        </linearGradient>
+                    </defs>
+                    <polygon points="150,0 500,0 500,300 50,300" fill="url(#heroGrad1)" />
+                    <polygon points="300,0 500,0 500,180" fill="url(#heroGrad2)" opacity="0.6" />
+                    <line x1="280" y1="0" x2="100" y2="300" stroke="#dc2626" stroke-width="1.5" opacity="0.15" />
+                    <line x1="350" y1="0" x2="170" y2="300" stroke="#1d4ed8" stroke-width="1" opacity="0.10" />
+                    <line x1="420" y1="0" x2="240" y2="300" stroke="#0d9488" stroke-width="0.8" opacity="0.08" />
+                    <rect x="450" y="20" width="20" height="20" fill="#dc2626" opacity="0.2" rx="2" />
+                    <rect x="420" y="50" width="12" height="12" fill="#1d4ed8" opacity="0.15" rx="2" />
+                    <rect x="460" y="240" width="16" height="16" fill="#0d9488" opacity="0.12" rx="2" />
+                    <circle cx="310" cy="60" r="2" fill="#dc2626" opacity="0.25" />
+                    <circle cx="340" cy="60" r="2" fill="#dc2626" opacity="0.25" />
+                    <circle cx="370" cy="60" r="2" fill="#dc2626" opacity="0.25" />
+                    <circle cx="310" cy="90" r="2" fill="#dc2626" opacity="0.2" />
+                    <circle cx="340" cy="90" r="2" fill="#dc2626" opacity="0.2" />
+                    <circle cx="370" cy="90" r="2" fill="#dc2626" opacity="0.2" />
+                    <circle cx="310" cy="120" r="2" fill="#dc2626" opacity="0.15" />
+                    <circle cx="340" cy="120" r="2" fill="#dc2626" opacity="0.15" />
+                    <circle cx="370" cy="120" r="2" fill="#dc2626" opacity="0.15" />
+                </svg>
+            </div>
+
+            <div class="hero-content">
+                <div class="fade-in">
+                    <span class="article-category-badge">
+                        <i class="fa fa-tag"></i>
+                        Strategy &amp; Decision Making
+                    </span>
+                </div>
+                <h1 class="article-title fade-in">
+                    Risk <span class="title-accent">Analysis</span>
+                </h1>
+                <p class="article-subtitle fade-in">
+                    Every strategic decision in FRC is a bet made under uncertainty. Whether you are choosing a pick at
+                    alliance selection, deciding how aggressively to play a match, or trusting a cycle count your scouts
+                    collected at 8 AM — the question is never whether risk exists. It is whether you have thought
+                    clearly enough about it to make the right call anyway.
+                </p>
+                <div class="article-meta fade-in">
+                    <span class="meta-item"><i class="fa fa-clock-o"></i> 14 min read</span>
+                    <span class="meta-item"><i class="fa fa-calendar"></i> Updated Apr 2025</span>
+                    <span class="difficulty-badge difficulty-beginner">
+                        <i class="fa fa-signal"></i> Intermediate
+                    </span>
+                </div>
+            </div>
+
+            <div class="hero-tags" role="list" aria-label="Article tags">
+                <span class="tag red" role="listitem">Strategy</span>
+                <span class="tag blue" role="listitem">Decision Making</span>
+                <span class="tag teal" role="listitem">Risk</span>
+                <span class="tag" role="listitem">Alliance Selection</span>
+                <span class="tag" role="listitem">Intermediate</span>
+            </div>
+        </header>
+
+        <!-- ─── Article Layout ────────────────────────────────── -->
+        <div class="article-layout">
+
+            <article class="article-body" id="article-top">
+
+                <div class="callout info">
+                    <span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+                    <div class="callout-content">
+                        <div class="callout-title">Prerequisites</div>
+                        <div class="prereqs">
+                            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Alliance Selection
+                                Strategy</span>
+                            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Data Standardization</span>
+                            <span class="prereq-pill"><i class="fa fa-check-circle"></i> Scout Training Protocols</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─── Section 1 ─── -->
+                <h2 id="what-is-risk">What Risk Actually Means in FRC</h2>
+                <p>
+                    In competition strategy, risk is not a vague feeling of unease about a decision. It is a specific
+                    property of a situation: the possibility that the outcome you are counting on does not materialize,
+                    and the magnitude of the consequences if it does not. Every strategic call your team makes — on the
+                    field, at alliance selection, in pre-match strategy meetings — involves both of those dimensions.
+                    The probability something goes wrong, and how badly it hurts if it does.
+                </p>
+                <p>
+                    Teams that do not think about risk explicitly still encounter it constantly. They just respond to it
+                    reactively rather than proactively — realizing too late that their alliance partner's high-variance
+                    climb attempt was the load-bearing element of a strategy that had no backup, or discovering at
+                    alliance selection that a robot they ranked second on their pick list has only three matches of
+                    scouting data behind it. Risk does not disappear when you ignore it. It just becomes harder to
+                    manage.
+                </p>
+                <p>
+                    This article works through risk analysis at three levels: the data your decisions are based on, the
+                    in-match strategic choices your drive team and strategist make, and the alliance selection process
+                    where risk and reward interact most visibly. The goal is not to eliminate risk — in a competitive
+                    environment, the teams that take zero risks tend to leave significant performance on the table. The
+                    goal is to make risk decisions deliberately, with a clear understanding of what you are accepting
+                    and why.
+                </p>
+
+                <!-- ─── Section 2 ─── -->
+                <h2 id="data-confidence">Risk in Your Data</h2>
+                <p>
+                    Before you can make sound strategic decisions, you have to know how much to trust the data those
+                    decisions are based on. Scouting data is not ground truth — it is an estimate produced by human
+                    observers under time pressure, aggregated across matches with varying conditions. Every number in
+                    your dataset carries an implicit confidence level, and treating all numbers as equally reliable
+                    leads to decisions that look rational on paper but are built on shaky foundations.
+                </p>
+
+                <h3>Sample Size and Confidence</h3>
+                <p>
+                    The most obvious dimension of data confidence is sample size: how many matches has a robot been
+                    scouted in? A team with twelve scouted matches has a much more stable average than a team with
+                    three. The three-match sample is vulnerable to outliers in both directions — a single exceptional
+                    match or a single breakdown match can move the average significantly in a way that twelve matches
+                    would absorb without much noise. At alliance selection, a robot you have seen in three matches is a
+                    much higher-uncertainty pick than a robot you have seen in ten, even if their averages look
+                    identical.
+                </p>
+                <p>
+                    A useful mental model is to think about the range of plausible true values behind an average, not
+                    just the average itself. If Robot A has averaged 6.0 cycles across ten matches with low variance,
+                    their plausible true ability range might be 5–7. If Robot B has averaged 6.0 cycles across three
+                    matches, their plausible range might be 3–9. The averages are identical but the uncertainty is not,
+                    and that difference is decision-relevant at alliance selection — Robot B might be better than Robot
+                    A, or they might be significantly worse, and you simply do not have enough data to know.
+                </p>
+
+                <h3>Variance as a Risk Signal</h3>
+                <p>
+                    Sample size tells you how confident to be in an average. Variance tells you something different: how
+                    consistent the robot actually is. A robot that scores between 5 and 7 cycles in every match is a
+                    different asset from one that scores 2 cycles in half their matches and 10 in the other half — even
+                    if the average is the same. The consistent robot is lower-risk: you can build a match strategy
+                    around them and trust that the outcome will fall in a predictable range. The high-variance robot is
+                    a gamble: sometimes they give you more than the consistent robot would, but sometimes they give you
+                    far less, and you cannot control which version shows up on a given match day.
+                </p>
+                <p>
+                    High variance in scouting data can come from two sources, and they are worth distinguishing. The
+                    first is genuine robot variance — the robot actually does perform inconsistently, whether due to
+                    mechanism reliability, driver consistency, or strategic adaptability. This is real information about
+                    the robot. The second is observer variance — the robot is consistent but different scouts are
+                    counting differently, or the form design is producing inconsistent data for a field that should be
+                    stable. This is noise in your measurement, not signal about the robot. If variance is high only for
+                    fields that tend to have definition ambiguity, that is a standardization problem. If variance is
+                    high across all fields for a given robot, that might be the robot.
+                </p>
+
+                <h3>Recency and Conditions</h3>
+                <p>
+                    Data from earlier in a competition day is not equivalent to data from later in the day. Robots
+                    frequently perform differently after pit crews make adjustments, after drivers warm up, or after an
+                    alliance partner configuration changes. A robot that scored two cycles in their first match and
+                    seven in their last three may be in a very different mechanical state now than their event average
+                    suggests. When evaluating data for alliance selection, weight recent matches more heavily than the
+                    overall average, and look at performance trend — is this robot getting better or regressing?
+                </p>
+                <p>
+                    Field conditions and alliance context also affect what a given match's data tells you. A robot that
+                    scored eight cycles while playing with a dominant first pick and against weak defense is operating
+                    under different conditions than one that scored six while playing defense themselves and supporting
+                    a weaker alliance. The raw number does not capture this context. Your scouts' notes do — or should —
+                    and qualitative context is often what separates a good alliance selection read from a naive average
+                    comparison.
+                </p>
+
+                <div class="callout warning">
+                    <span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+                    <div class="callout-content">
+                        <div class="callout-title">Confident Numbers Are Not Accurate Numbers</div>
+                        <p class="callout-text">
+                            One of the most dangerous properties of a well-formatted dataset is that precise-looking
+                            numbers feel credible regardless of whether they are. "6.4 cycles per match" looks
+                            authoritative whether it is based on fifteen matches or two. When presenting data to a
+                            strategy lead or drive team, always communicate the confidence level behind a number
+                            alongside the number itself. A robot's average means something very different depending on
+                            whether it is backed by twelve matches of consistent data or three matches from which one is
+                            already known to be anomalous.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ─── Section 3 ─── -->
+                <h2 id="in-match">In-Match Risk Decisions</h2>
+                <p>
+                    During a match, risk decisions happen in real time under significant pressure. The drive team cannot
+                    pause the match to run an analysis. The strategist calling plays does not have a spreadsheet open.
+                    The decisions that matter most happen in seconds, and whether they are good decisions depends almost
+                    entirely on whether the risk framing was done in advance — in pre-match strategy and in the drive
+                    team's training — rather than in the moment.
+                </p>
+
+                <h3>High-Risk, High-Reward Plays</h3>
+                <p>
+                    Many FRC games include scoring actions with asymmetric payoffs: attempting a high climb that is
+                    worth significantly more than a low climb, attempting a difficult autonomous routine that scores
+                    more but fails more often, or going for a bonus threshold that requires all three alliance robots to
+                    contribute precisely. These are high-risk, high-reward plays. They are not inherently good or bad —
+                    whether they are worth attempting depends on the match context.
+                </p>
+                <p>
+                    The key questions are: what is the expected value of the high-risk play versus the safe alternative,
+                    and what is the match state that makes each one appropriate? A team that is comfortably ahead with
+                    two minutes left should usually take the safer path — the additional upside of a risky play does not
+                    improve a winning outcome, but the downside of a failure could convert a comfortable win into a
+                    contest. A team that is behind and needs to close a gap has the opposite calculus: the safe play
+                    preserves the margin by which they lose, while the high-risk play is the only path to victory. Risk
+                    tolerance should scale with match state, not stay fixed across all situations.
+                </p>
+
+                <h3>Autonomous and Early Match Risk</h3>
+                <p>
+                    Auto routines present a specific version of the risk problem: teams typically have a "safe" auto and
+                    a "high-value" auto, and the choice between them is made in the final seconds before the match
+                    starts. The trap is always running the aggressive auto because it looks better on average without
+                    accounting for the penalty of a failure. A failed aggressive auto can leave the robot in a bad field
+                    position, waste the scoring opportunity entirely, or interfere with an alliance partner — all of
+                    which have downstream effects on teleop that the raw auto point comparison does not capture.
+                </p>
+                <p>
+                    Pre-match auto decisions should be based on a clear assessment of three things: the current robot's
+                    known reliability rate for the aggressive routine, the field state (is a partner robot likely to be
+                    in the zone where a failed auto would leave you?), and the opponent alliance's likely auto strength.
+                    Running the aggressive auto against a dominant opposing auto when you have had reliability issues is
+                    a different decision from running it when your opponents are weak and a few extra auto points could
+                    decide the match.
+                </p>
+
+                <h3>Defense and Counter-Strategy</h3>
+                <p>
+                    Deploying a defensive robot is itself a risk decision. A robot playing defense is not scoring — you
+                    are trading guaranteed scoring contribution for the possibility of disrupting an opponent's
+                    contribution, which is a probabilistic outcome that depends heavily on how effective your defense is
+                    and how vulnerable the opponent is to it. If your defense robot is capable but your opponents are
+                    not particularly cycle-dependent, defense is a losing trade. If your opponents have a single
+                    dominant scorer and your defense can reliably reduce their output, the math changes.
+                </p>
+                <p>
+                    The risk in counter-strategy is assuming that disruption will work as planned. An opponent's driver
+                    who is good at avoiding defense will absorb your defensive resource for the whole match without
+                    significant disruption. Assess defense opportunities against what you know about the specific
+                    driver, not just the robot's cycle average on paper.
+                </p>
+
+                <div class="callout tip">
+                    <span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+                    <div class="callout-content">
+                        <div class="callout-title">Pre-Match Risk Checklists</div>
+                        <p class="callout-text">
+                            The drive team cannot run a risk analysis mid-match, but they can execute a pre-match
+                            decision framework that was built with risk in mind. Before each match, your strategist
+                            should answer three questions: what is the one thing that would most likely flip this match
+                            against us, what can we control to reduce that probability, and what is our plan if it
+                            happens anyway? This is not a full risk model — it is a targeting exercise that forces
+                            explicit acknowledgment of the highest-probability failure mode rather than assuming the
+                            planned strategy will simply execute cleanly.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ─── Section 4 ─── -->
+                <h2 id="alliance-selection">Risk at Alliance Selection</h2>
+                <p>
+                    Alliance selection is the highest-stakes risk decision most scouting programs will ever directly
+                    influence. The picks you make determine your playoff alliance. A good pick amplifies your
+                    capabilities; a high-variance pick that underperforms can end a strong qualification run in the
+                    quarterfinals. Understanding risk explicitly — not just ranking robots by their average — is what
+                    separates alliance selection analysis that performs well from analysis that looks good in a
+                    spreadsheet.
+                </p>
+
+                <h3>Upside vs Floor</h3>
+                <p>
+                    When comparing two robots at a similar average performance level, the right question is not which
+                    one looks better on average — it is what their floor is in a poor match and what their ceiling is in
+                    a great one. A robot with a floor of 4 cycles and a ceiling of 8 is a different risk profile from
+                    one with a floor of 1 and a ceiling of 11. The average might be similar, but your playoff result
+                    depends on which version shows up, and you cannot control that.
+                </p>
+                <p>
+                    For a first pick, floor matters enormously. You are building your entire playoff strategy around
+                    this robot's contribution. A high-ceiling but low-floor robot as your first pick means your playoff
+                    runs are either dominant or collapse — and you have no control over which. For a second or third
+                    pick, the calculus can shift: if you already have a reliable first pick, you might accept more
+                    variance in a second pick in exchange for a higher ceiling, because the first pick provides a stable
+                    floor for the alliance even if the second pick has an off match.
+                </p>
+
+                <h3>Capability Gaps and Redundancy</h3>
+                <p>
+                    Alliance selection risk is not only about performance level — it is also about capability coverage.
+                    If your alliance needs all three robots to contribute to a specific bonus threshold, and one of them
+                    has a reliability issue with that mechanism, your entire bonus scoring path has a single point of
+                    failure. Analyzing risk at alliance selection means mapping what your alliance needs to win against
+                    the reliability profiles of the robots you are considering — not just which robot averages the most
+                    points.
+                </p>
+                <p>
+                    Redundancy is undervalued. An alliance where two robots can cover a critical scoring function is
+                    substantially more resilient than one where a single robot must perform it. A second pick that
+                    provides redundancy on a function your first pick sometimes fails is often more valuable than a
+                    nominally higher-performing second pick that leaves you fully exposed when the first pick has a bad
+                    match.
+                </p>
+
+                <h3>Robot Reliability and Mechanical Risk</h3>
+                <p>
+                    Playoff matches happen quickly. A robot that brownouts in qualification matches will brownout in
+                    playoffs. A mechanism that jams under defense in qualifications will jam under defense in playoffs —
+                    probably more, because playoff defense is more aggressive. Scouting notes on reliability are not
+                    soft data that can be discounted in favor of the clean number in the cycle count column. They are
+                    risk information that the cycle count column cannot represent.
+                </p>
+                <p>
+                    Before finalizing any alliance selection pick, review the notes column for that robot's full event.
+                    Consistent notes about mechanism issues, brownouts, defense vulnerability, or inconsistent
+                    autonomous performance are patterns that predict playoff behavior. A robot who has logged two
+                    brownout flags across their matches is a meaningfully different risk proposition than one with zero,
+                    regardless of what their point average says.
+                </p>
+
+                <div class="callout info">
+                    <span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+                    <div class="callout-content">
+                        <div class="callout-title">The Conversation Your Data Cannot Have</div>
+                        <p class="callout-text">
+                            Alliance selection strategy meetings between teams happen during the selection process
+                            itself, and the things you learn in those conversations can shift a risk assessment
+                            dramatically. A team that honestly tells you their climber has been unreliable all event is
+                            giving you information your scouting data may not clearly capture. A team that talks through
+                            how their robot interfaces with your scoring strategy can confirm or deny assumptions your
+                            analysis was built on. Scouting data sets the prior; pit scouting and alliance conversations
+                            update it. Both inputs belong in the final risk assessment.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ─── Section 5 ─── -->
+                <h2 id="risk-tolerance">Knowing Your Risk Tolerance</h2>
+                <p>
+                    Risk analysis is not value-neutral. Two teams looking at the same data will make different picks if
+                    they have different risk tolerances, and both decisions can be correct given different strategic
+                    contexts. A team that is the first seed with a dominant robot may rationally choose the most
+                    reliable second pick available because they do not need upside — they need to not lose. A third seed
+                    with a weaker robot may rationally accept higher variance in a pick because they need the ceiling to
+                    compete with stronger alliances.
+                </p>
+                <p>
+                    Your seeding position, your own robot's reliability, the composition of other alliances, and how
+                    many matches of data you have behind each candidate all feed into a risk tolerance calculation that
+                    is specific to your situation at that event. There is no universal answer to "should we take the
+                    safe pick or the high-upside pick?" There is only the right answer for your alliance at this event,
+                    given what you know.
+                </p>
+                <p>
+                    What you can do in advance is build the habit of explicitly asking the risk tolerance question
+                    before every significant decision — at alliance selection, before a high-stakes auto choice, when
+                    designing a playoff strategy. The teams that do this consistently are not more risk-averse than
+                    teams that do not. They are more deliberate. And deliberate risk decisions, even ones that do not
+                    work out, leave you with something to learn from. Unexamined risk decisions just leave you wondering
+                    what went wrong.
+                </p>
+
+                <!-- ─── Section 6 ─── -->
+                <h2 id="game-section">Test Your Risk Instincts</h2>
+                <p>
+                    Risk analysis is most useful when it becomes a natural lens rather than a formal exercise. The
+                    scenarios below cover all three dimensions — data confidence, in-match decisions, and alliance
+                    selection. Pick the call that best accounts for the risks in play.
+                </p>
+
+                <!-- ── GAME ─────────────────────────────────────────── -->
+                <div class="game-wrapper" id="game-wrapper">
+                    <div class="game-header">
+                        <span class="game-header-title"><i class="fa fa-exclamation-triangle"></i> &nbsp;Risk Judgment
+                            Calls</span>
+                        <div class="game-header-meta">
+                            <span id="g-score-display">Score: 0</span>
+                            <span id="g-q-display">Q1 / 9</span>
+                        </div>
+                    </div>
+                    <div class="game-body">
+                        <div class="game-pip-row" id="g-pips"></div>
+
+                        <div id="g-play">
+                            <div class="game-scenario-box">
+                                <div class="game-scenario-label">Scenario</div>
+                                <div class="game-scenario-text" id="g-scenario"></div>
+                            </div>
+                            <p class="game-prompt" id="g-prompt"></p>
+                            <div class="game-choices" id="g-choices"></div>
+                            <div class="game-feedback" id="g-feedback"></div>
+                            <button class="game-next" id="g-next" onclick="gameNext()">Next →</button>
+                        </div>
+
+                        <div class="game-result" id="g-result">
+                            <div class="game-result-score" id="g-final-score"></div>
+                            <div class="game-result-label">out of 9 correct</div>
+                            <div class="game-result-msg" id="g-final-msg"></div>
+                            <button class="game-restart" onclick="gameInit()">Play again</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─── Section 7 ─── -->
+                <h2 id="putting-it-together">Carrying Risk Thinking Into Competition</h2>
+                <p>
+                    The practical value of risk analysis is not that it produces a single correct answer to every
+                    strategic question. It is that it changes the quality of the questions you ask. "Which robot should
+                    we pick second?" is a worse question than "Which robot gives us the best floor for the playoff
+                    scenarios we are most likely to face, given the reliability concerns in our scouting notes?" The
+                    second question forces engagement with uncertainty. The first can be answered by looking at a sorted
+                    column in a spreadsheet.
+                </p>
+                <p>
+                    Carry three habits into competition. Before trusting any data point, ask how many observations it is
+                    based on and how consistent those observations were. Before committing to a strategy, ask what
+                    happens if the one thing you are counting on does not materialize. Before making a significant pick
+                    or strategic call, ask whether you are accepting risk you have consciously weighed or risk you have
+                    simply not noticed yet.
+                </p>
+                <p>
+                    The teams that do this well do not avoid bad outcomes entirely — no one does. But they arrive at
+                    those outcomes having made the best available decision with the information they had. That is the
+                    actual goal. In a competition environment where luck, mechanical failure, and opponent quality are
+                    all genuinely outside your control, the quality of your decision process is the one thing that
+                    reliably stays in your hands.
+                </p>
+
+            </article>
+
+            <!-- TOC Panel -->
+            <aside class="toc-panel" aria-label="Table of contents">
+                <div class="toc-title">On This Page</div>
+                <ul class="toc-list">
+                    <li id="toc-what-is-risk"><a href="#what-is-risk">What Risk Means in FRC</a></li>
+                    <li id="toc-data-confidence"><a href="#data-confidence">Risk in Your Data</a></li>
+                    <li id="toc-in-match"><a href="#in-match">In-Match Risk Decisions</a></li>
+                    <li id="toc-alliance-selection"><a href="#alliance-selection">Risk at Alliance Selection</a></li>
+                    <li id="toc-risk-tolerance"><a href="#risk-tolerance">Knowing Your Risk Tolerance</a></li>
+                    <li id="toc-game-section"><a href="#game-section">Test Your Instincts</a></li>
+                    <li id="toc-putting-it-together"><a href="#putting-it-together">Carrying Risk Into Competition</a>
+                    </li>
+                </ul>
+                <div class="toc-divider"></div>
+                <div class="toc-progress-label">Reading progress</div>
+                <div class="toc-progress-bar">
+                    <div class="toc-progress-fill" id="readingProgress"></div>
+                </div>
+            </aside>
+
+        </div><!-- /article-layout -->
+
+        <div class="section-divider"></div>
+
+        <!-- ─── Contributors ─── -->
+        <section class="contributor-section" aria-label="Article contributors">
+            <div class="contributor-section-title">Provided to you by</div>
+            <div class="contributor-cards">
+                <div class="contributor-card">
+                    <div class="contributor-avatar-placeholder" aria-hidden="true">AI</div>
+                    <div class="contributor-info">
+                        <div class="contributor-name">Claude AI</div>
+                        <div class="contributor-team"><i class="fa fa-robot"></i> AI Author</div>
+                        <div class="contributor-role">Article Author</div>
+                    </div>
+                </div>
+                <div class="contributor-card">
+                    <div class="contributor-avatar-placeholder" aria-hidden="true">AG</div>
+                    <div class="contributor-info">
+                        <div class="contributor-name">Adam G.</div>
+                        <div class="contributor-team"><i class="fa fa-wrench"></i> Team 2062 — CORE</div>
+                        <div class="contributor-role">Technical Reviewer</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- ─── Article Nav ─── -->
+        <nav class="article-nav" aria-label="Article navigation">
+            <a href="./alliance-selection-strategy.html" class="nav-card prev">
+                <div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
+                <div class="nav-title">Alliance Selection Strategy</div>
+            </a>
+            <a href="./match-strategy-frameworks.html" class="nav-card next">
+                <div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+                <div class="nav-title">Match Strategy Frameworks</div>
+            </a>
+        </nav>
+
+        <!-- ─── Footer ─── -->
+        <footer>
+            <div class="footer-stripe">
+                <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+                <div class="footer-stripe-seg" style="background:#dc2626;"></div>
+                <div class="footer-stripe-seg" style="background:#0d9488;"></div>
+                <div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+                <div class="footer-stripe-seg" style="background:#dc2626;"></div>
+                <div class="footer-stripe-seg" style="background:#0d9488;"></div>
+            </div>
+            <div class="footer-inner">
+                <div class="footer-grid">
+                    <div>
+                        <div class="footer-brand">FRC<span>source</span></div>
+                        <p class="footer-desc">A community-built resource for FRC teams covering scouting systems,
+                            programming, strategy, and everything in between. Built by students, for students.</p>
+                        <p class="footer-powered">Powered by <a href="https://www.w3schools.com/w3css/default.asp"
+                                target="_blank" rel="noopener">w3.css</a></p>
+                    </div>
+                    <div>
+                        <div class="footer-heading">Explore</div>
+                        <ul class="footer-links">
+                            <li><a href="../../index.html">Home</a></li>
+                            <li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+                            <li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+                            <li><a href="../../Strategy/Strategy-Index.html">Strategy</a></li>
+                            <li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="footer-heading">Tags</div>
+                        <div class="footer-tags">
+                            <span class="footer-tag">Strategy</span>
+                            <span class="footer-tag">Risk</span>
+                            <span class="footer-tag">Alliance Selection</span>
+                            <span class="footer-tag">Decision Making</span>
+                            <span class="footer-tag">Data</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <span>&copy; 2025 FRCsource. Made by the FRC community.</span>
+                    <span>
+                        <a href="https://github.com/8BitAdam/FRCsource" style="color:#475569;text-decoration:none;">
+                            <i class="fa fa-github"></i> GitHub
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </footer>
+
+    </div><!-- /main-content -->
+
+    <!-- ─── Scripts ───────────────────────────────────────────── -->
+    <script>
+        /* Sidebar / Theme */
+        function openSidebar() { document.getElementById('mySidebar').classList.add('open'); document.getElementById('myOverlay').style.display = 'block'; document.body.style.overflow = 'hidden'; }
+        function closeSidebar() { document.getElementById('mySidebar').classList.remove('open'); document.getElementById('myOverlay').style.display = 'none'; document.body.style.overflow = ''; }
+        const html = document.documentElement;
+        const darkLabel = document.getElementById('darkLabel');
+        function applyTheme(t) { html.setAttribute('data-theme', t); localStorage.setItem('frc-theme', t); if (darkLabel) darkLabel.textContent = t === 'dark' ? 'Light' : 'Dark'; }
+        function toggleDark() { applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+        (function () { const s = localStorage.getItem('frc-theme'); applyTheme(s || (window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light')); })();
+
+        /* TOC / Progress */
+        const progressFill = document.getElementById('readingProgress');
+        const sections = document.querySelectorAll('.article-body h2[id]');
+        const tocItems = document.querySelectorAll('.toc-list li[id]');
+        function updateProgress() {
+            const st = window.scrollY, dh = document.documentElement.scrollHeight - window.innerHeight;
+            if (progressFill) progressFill.style.width = (dh > 0 ? Math.round(st / dh * 100) : 0) + '%';
+            let aid = null;
+            sections.forEach(s => { if (st >= s.offsetTop - 120) aid = s.id; });
+            tocItems.forEach(i => { i.classList.remove('active'); if (i.id === 'toc-' + aid) i.classList.add('active'); });
+        }
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        updateProgress();
+
+        /* ── GAME ───────────────────────────────────────────────── */
+        const QUESTIONS = [
+            {
+                scenario: "Robot 4812 has a scouted average of 7.1 cycles per match — the highest at the event. They have been scouted in 3 matches. Robot 2390 has an average of 6.4 cycles across 11 matches with low variance.",
+                prompt: "You are the first alliance captain. Which robot do you take as your first pick, and what is the deciding factor?",
+                choices: [
+                    {
+                        text: "4812 — the higher average wins, and small sample size evens out.",
+                        correct: false, feedback: "Three matches is not enough to trust a 7.1 average for a playoff-deciding pick. The plausible range behind that number is too wide. Small samples do not 'even out' at alliance selection — you are making one decision, not averaging across a population."
+                    },
+                    {
+                        text: "2390 — 11 matches of low-variance data gives you a reliable floor you can build a playoff strategy around.",
+                        correct: true, feedback: "Correct. For a first pick where the rest of your playoff run depends on this robot, floor matters more than ceiling. 6.4 across 11 consistent matches is a much more trustworthy number than 7.1 across 3."
+                    },
+                    {
+                        text: "4812 — if they've been performing at 7.1 in qualifying, that's real.",
+                        correct: false, feedback: "Three matches might include one exceptional game that skewed the average upward. 'Real' performance needs enough observations to distinguish signal from variance. This is exactly the data confidence risk the article describes."
+                    },
+                    {
+                        text: "2390 — lower averages are always safer in playoffs.",
+                        correct: false, feedback: "That's the right pick but the wrong reason. Reliable picks are not lower by definition — they are robots with stable, well-supported data. A robot with 11 high-cycle matches would still be the right pick over a 3-match outlier."
+                    },
+                ]
+            },
+            {
+                scenario: "Your team is up by 14 points with 45 seconds left in teleop. Your robot can attempt a high climb worth 10 points but fails roughly 30% of the time, leaving you on the floor. The safe park earns 3 points.",
+                prompt: "What does sound risk analysis say about attempting the high climb here?",
+                choices: [
+                    {
+                        text: "Attempt it — 10 points is always better than 3.",
+                        correct: false, feedback: "This ignores the match state entirely. You are winning. The 7-point upside of the high climb does not change a winning outcome. The 10-point swing of a failure (going from +10 to 0) risks converting a comfortable win into a contest."
+                    },
+                    {
+                        text: "Park — you are ahead, so eliminate the risk of a failure costing you the match.",
+                        correct: true, feedback: "Correct. Risk tolerance should scale with match state. When you are winning, the marginal value of additional points is low, but the downside of a failure is real. The safe play protects what you already have."
+                    },
+                    {
+                        text: "Attempt it — a 30% failure rate means you will succeed 70% of the time.",
+                        correct: false, feedback: "70% is a strong success rate, but this question is not about expected value in isolation — it is about whether the upside justifies the risk given the current match state. Winning teams should not be taking unnecessary risks."
+                    },
+                    {
+                        text: "Park — climbing is never worth the risk in any situation.",
+                        correct: false, feedback: "That is too absolute. If you were losing by 8 points, a high climb is exactly the play to attempt. Risk tolerance is context-dependent, not a fixed rule."
+                    },
+                ]
+            },
+            {
+                scenario: "You are behind by 9 points with 30 seconds remaining. The high climb is worth 10 points. Your team's climb success rate this event is approximately 65%.",
+                prompt: "How does the risk calculus change compared to the previous scenario?",
+                choices: [
+                    {
+                        text: "Park — it is still a 35% failure rate, which is too high.",
+                        correct: false, feedback: "When you are losing, the park does not help you win. Risk tolerance must change with match state. At -9 with a 10-point climb available, the safe play guarantees a loss. The risky play gives you a chance."
+                    },
+                    {
+                        text: "Attempt the climb — it is your only realistic path to closing the gap.",
+                        correct: true, feedback: "Correct. You are losing by a margin the park cannot close. A 65% chance of tying or winning the match on the climb is clearly preferable to a guaranteed loss from parking. This is the scenario where the risky play earns its place."
+                    },
+                    {
+                        text: "Attempt the climb only if partners are already secured in their endgame.",
+                        correct: false, feedback: "Partially right thinking, but the core decision is already made for you by the match state — you need the climb. Partner coordination matters for execution, but it does not change the fundamental risk analysis here."
+                    },
+                    {
+                        text: "Park — consistency is always better than gambling.",
+                        correct: false, feedback: "Consistency protects leads. It does not close deficits. 'Always safe' is a strategy that works from a winning position and fails from a losing one."
+                    },
+                ]
+            },
+            {
+                scenario: "Your scout notes for robot 7031 show: 'brownout during teleop' in match 4 and 'arm jammed, did not climb' in match 7. Their average cycle count is still strong at 5.8 across 9 matches.",
+                prompt: "How should these notes affect your alliance selection risk assessment for 7031?",
+                choices: [
+                    {
+                        text: "Ignore the notes — 5.8 across 9 matches is statistically reliable.",
+                        correct: false, feedback: "The statistical average is reliable for normal operation, but the notes are flagging a different question: how does this robot behave at the edges? Brownouts and jams are reliability signals that averages cannot capture because they are rare events."
+                    },
+                    {
+                        text: "Treat them as signals that this robot has a meaningful failure mode that could surface in playoffs.",
+                        correct: true, feedback: "Correct. Two reliability incidents in nine matches is not noise. In playoff conditions with more aggressive defense and higher stakes, mechanisms that jammed once tend to jam again. The average tells you what they do when they are working; the notes tell you what happens when they are not."
+                    },
+                    {
+                        text: "Only worry about notes if there are three or more incidents.",
+                        correct: false, feedback: "There is no magic threshold for reliability concerns. Two brownouts in nine matches, or two mechanism failures in nine matches, is meaningful pattern information — especially for a playoff pick where you cannot afford the worst-case scenario."
+                    },
+                    {
+                        text: "Ask their pit crew if the issues are fixed before making the pick.",
+                        correct: false, feedback: "Good practice, but not the primary answer here. Pit scouting updates your prior — the notes establish the prior. The correct answer is to treat the notes as meaningful risk information first, then gather additional context from the pit conversation."
+                    },
+                ]
+            },
+            {
+                scenario: "Two robots have nearly identical averages for the critical scoring function your alliance needs. Robot A has high variance (2–11 cycles per match). Robot B has low variance (5–7 cycles per match). You already have a strong, reliable first pick.",
+                prompt: "Which robot makes the better second pick, and why?",
+                choices: [
+                    {
+                        text: "Robot A — the higher ceiling means bigger playoff wins.",
+                        correct: false, feedback: "Ceiling without floor is a gamble. An 11-cycle performance from Robot A is great, but a 2-cycle performance undermines your alliance even with a strong first pick. Variance in a second pick adds unnecessary exposure."
+                    },
+                    {
+                        text: "Robot B — low variance gives your alliance a predictable floor that playoff strategy can be built around.",
+                        correct: true, feedback: "Correct. Your first pick already provides strength. What your second pick needs to contribute is reliability — a floor that does not collapse your alliance total on an off match. Robot B's 5–7 range is dependable; Robot A's 2–11 range is not."
+                    },
+                    {
+                        text: "Robot A — the high variance could go either way, so it is a coin flip.",
+                        correct: false, feedback: "A coin flip between a 2-cycle and an 11-cycle match is not neutral — the cost of the low end is higher than the benefit of the high end when your alliance depends on consistent scoring contributions."
+                    },
+                    {
+                        text: "Robot B — high-variance robots should never be picked.",
+                        correct: false, feedback: "Context matters. If your first pick were weak and you needed ceiling badly, high variance might be the right call. The reason Robot B is correct here is specifically because you already have a reliable first pick — not because high variance is always wrong."
+                    },
+                ]
+            },
+            {
+                scenario: "Your analyst presents the ranking: '3.2 average cycles in auto, 6.8 in teleop, 85% climb rate.' The data comes from 4 matches. Alliance selection starts in 20 minutes.",
+                prompt: "What is the right way to communicate this data to your lead strategist?",
+                choices: [
+                    {
+                        text: "Present it as-is — the numbers speak for themselves.",
+                        correct: false, feedback: "Numbers without confidence context are misleading. '6.8 cycles' from 4 matches and '6.8 cycles' from 14 matches are very different levels of certainty. Presenting them the same way hides the risk."
+                    },
+                    {
+                        text: "Flag the sample size explicitly: these are solid numbers but based on 4 matches, so hold them with lower confidence than robots we have seen more.",
+                        correct: true, feedback: "Correct. The strategist needs to know not just what the data says, but how much to trust it when making a high-stakes pick. 'Solid but low-confidence' is critical framing that 4 matches of data requires."
+                    },
+                    {
+                        text: "Do not use the data — 4 matches is too few to be useful.",
+                        correct: false, feedback: "Four matches is limited, but it is not useless. The right move is to use it with appropriate uncertainty — lower weight in the ranking, explicit caution in communication — not to discard it entirely."
+                    },
+                    {
+                        text: "Round the numbers to the nearest integer to avoid false precision.",
+                        correct: false, feedback: "Presentation format does not address the confidence problem. '7 cycles' from 4 matches is no more or less reliable than '6.8' — the issue is sample size, not decimal places."
+                    },
+                ]
+            },
+            {
+                scenario: "You are considering running a defense robot in the next playoff match. Your target is the opposing alliance's highest scorer, who averages 8 cycles per match. Your defense robot's driver has been inconsistent at containing fast-moving scorers.",
+                prompt: "How should the driver inconsistency factor into the decision to deploy defense?",
+                choices: [
+                    {
+                        text: "Ignore it — the defense assignment is based on the target robot's impact, not the driver.",
+                        correct: false, feedback: "Defense is a probabilistic trade: you give up guaranteed scoring in exchange for possible disruption. If your driver cannot reliably execute the disruption, the trade becomes guaranteed scoring loss for minimal disruption — a net negative."
+                    },
+                    {
+                        text: "Weight it heavily — an inconsistent defender against a fast target may generate little disruption while costing your alliance a full robot's scoring contribution.",
+                        correct: true, feedback: "Correct. Defense risk is two-sided: the opponent's vulnerability to defense, and your defender's ability to execute it. Both have to be favorable for the trade to be positive. A capable target and a weak defender is usually a losing combination."
+                    },
+                    {
+                        text: "Run defense anyway — any disruption is better than none.",
+                        correct: false, feedback: "'Any disruption' is only better than none if the disruption is real. A defense robot that fails to contain their target has contributed zero and sacrificed the scoring that a fourth offensive robot would have provided."
+                    },
+                    {
+                        text: "Only run defense if the opposing scorer is the sole reason you are losing.",
+                        correct: false, feedback: "Useful heuristic, but it does not address the driver inconsistency factor, which is the core risk in this scenario. The decision requires both a strong case for the target and confidence in execution."
+                    },
+                ]
+            },
+            {
+                scenario: "Your first pick declines your offer at alliance selection. Your backup pick has a strong average but your scout notes include 'appeared to avoid defense in matches 5 and 9' and 'auto failed twice under match pressure.'",
+                prompt: "What is the highest-priority risk to assess before confirming the pick?",
+                choices: [
+                    {
+                        text: "Whether their average still holds up after removing the two failed auto matches.",
+                        correct: false, feedback: "Recalculating the average is useful but not the primary concern. The average is already known to be strong. The notes are pointing at a behavioral pattern — defense avoidance and pressure-induced auto failures — that the average cannot capture."
+                    },
+                    {
+                        text: "Whether the defense avoidance and auto reliability patterns will recur in playoff conditions, which typically involve more defense and higher stakes.",
+                        correct: true, feedback: "Correct. Playoffs are exactly the environment where these two flags become most relevant. More defense pressure, higher stakes. A robot that dodges defense in quals and fails auto when stressed is a meaningful playoff risk that the cycle average does not show."
+                    },
+                    {
+                        text: "Whether another alliance will take them if you pass.",
+                        correct: false, feedback: "That is a negotiation consideration, not a risk assessment. The risk question is whether this robot is a good pick for your alliance given what you know — the pick order pressure should not override a genuine reliability concern."
+                    },
+                    {
+                        text: "How many scouted matches the average is based on.",
+                        correct: false, feedback: "Important context, but the notes are already surfacing specific incidents. The primary risk to investigate is the behavioral pattern those incidents describe, not just the statistical reliability of the average behind them."
+                    },
+                ]
+            },
+            {
+                scenario: "Your autonomous routine has two versions: Safe Auto scores 6 points reliably. Aggressive Auto scores 12 points but fails 25% of the time, leaving the robot in a poor field position that costs approximately 4 teleop cycles when it fails.",
+                prompt: "Your alliance is playing against the top seed. Opponents' auto is estimated at 14 points. Which auto should you run, and on what basis?",
+                choices: [
+                    {
+                        text: "Safe Auto — 25% failure is too high to risk in a playoff match.",
+                        correct: false, feedback: "Against the top seed with a 14-point auto, Safe Auto's 6 points puts you in a significant auto deficit that teleop must overcome from a worse field position. The cost of falling behind a top seed has to factor into the math."
+                    },
+                    {
+                        text: "Aggressive Auto — the expected value calculation favors it, and you need every point against the top seed.",
+                        correct: true, feedback: "Correct. Against a top seed with strong auto, the expected value of Aggressive Auto (0.75 × 12 = 9 points before accounting for position) outpaces Safe Auto's 6, and the extra points are needed to stay competitive. Match state changes the risk calculus."
+                    },
+                    {
+                        text: "Safe Auto — consistency always wins in playoffs.",
+                        correct: false, feedback: "Consistency is valuable, but it is not absolute. Against a dominant opponent, a consistent 6-point auto that keeps you well behind is not serving your strategic goal. The match context demands a higher-output choice."
+                    },
+                    {
+                        text: "Aggressive Auto — always run the highest-scoring option available.",
+                        correct: false, feedback: "This is the right call here but for the wrong reason. 'Always run the highest option' ignores match state — the scenario where you are comfortably ahead demonstrated that the safe play is sometimes correct. The reason aggressive is right here is the specific opponent context, not a blanket rule."
+                    },
+                ]
+            },
+        ];
+
+        let gIndex = 0, gScore = 0, gAnswered = false, gResults = [];
+
+        function gameInit() {
+            gIndex = 0; gScore = 0; gAnswered = false; gResults = [];
+            document.getElementById('g-result').classList.remove('show');
+            document.getElementById('g-play').style.display = '';
+            renderPips();
+            gameRender();
+        }
+
+        function renderPips() {
+            const row = document.getElementById('g-pips');
+            row.innerHTML = '';
+            for (let i = 0; i < QUESTIONS.length; i++) {
+                const p = document.createElement('div');
+                p.className = 'game-pip' +
+                    (gResults[i] === true ? ' correct-pip' :
+                        gResults[i] === false ? ' wrong-pip' :
+                            i === gIndex && !document.getElementById('g-result').classList.contains('show') ? ' current-pip' : '');
+                row.appendChild(p);
+            }
+        }
+
+        function gameRender() {
+            const q = QUESTIONS[gIndex];
+            document.getElementById('g-q-display').textContent = 'Q' + (gIndex + 1) + ' / ' + QUESTIONS.length;
+            document.getElementById('g-score-display').textContent = 'Score: ' + gScore;
+            document.getElementById('g-scenario').textContent = q.scenario;
+            document.getElementById('g-prompt').textContent = q.prompt;
+            document.getElementById('g-feedback').className = 'game-feedback';
+            document.getElementById('g-feedback').textContent = '';
+            document.getElementById('g-next').className = 'game-next';
+            gAnswered = false;
+
+            const shuffled = [...q.choices].sort(() => Math.random() - 0.5);
+            const box = document.getElementById('g-choices');
+            box.innerHTML = '';
+            shuffled.forEach((c) => {
+                const btn = document.createElement('button');
+                btn.className = 'game-choice';
+                btn.textContent = c.text;
+                btn.onclick = () => handleAnswer(c, btn, shuffled);
+                box.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(chosen, btn, shuffled) {
+            if (gAnswered) return;
+            gAnswered = true;
+            document.querySelectorAll('.game-choice').forEach(b => b.disabled = true);
+
+            const fb = document.getElementById('g-feedback');
+            if (chosen.correct) {
+                btn.classList.add('correct');
+                fb.className = 'game-feedback ok show';
+                fb.textContent = '✓ ' + chosen.feedback;
+                gScore++;
+                gResults[gIndex] = true;
+            } else {
+                btn.classList.add('wrong');
+                fb.className = 'game-feedback bad show';
+                fb.textContent = '✗ ' + chosen.feedback;
+                gResults[gIndex] = false;
+                document.querySelectorAll('.game-choice').forEach((b, i) => {
+                    if (shuffled[i] && shuffled[i].correct) b.classList.add('reveal-correct');
+                });
+            }
+
+            document.getElementById('g-score-display').textContent = 'Score: ' + gScore;
+            renderPips();
+            const nextBtn = document.getElementById('g-next');
+            nextBtn.textContent = gIndex < QUESTIONS.length - 1 ? 'Next →' : 'See results →';
+            nextBtn.className = 'game-next show';
+        }
+
+        function gameNext() {
+            gIndex++;
+            if (gIndex >= QUESTIONS.length) {
+                showResults();
+            } else {
+                gameRender();
+                renderPips();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('g-play').style.display = 'none';
+            document.getElementById('g-result').classList.add('show');
+            document.getElementById('g-final-score').textContent = gScore + '/9';
+            renderPips();
+            const msg =
+                gScore <= 3 ? "Risk analysis gets easier with practice. Re-read the data confidence and match state sections — those are the two areas where instincts most often need calibration." :
+                    gScore <= 5 ? "Solid foundation. The scenarios you missed tend to be where match state or data confidence interact in non-obvious ways. Worth reviewing those sections before your next event." :
+                        gScore <= 7 ? "Strong risk instincts. The gaps are in the edge cases where context flips the obvious answer — exactly the situations that catch experienced strategists off-guard." :
+                            "Excellent. You are reading risk correctly across all three dimensions: data confidence, in-match decisions, and alliance selection. Your strategist team is in good hands.";
+            document.getElementById('g-final-msg').textContent = msg;
+        }
+
+        gameInit();
+    </script>
+
+</body>
+
+</html>

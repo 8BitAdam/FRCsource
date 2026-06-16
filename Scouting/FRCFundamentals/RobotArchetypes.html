@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en-US">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Robot Archetypes — FRCsource</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&amp;family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="https://8bitadam.github.io/FRCsource/Assets/CSS/Article.css" rel="stylesheet"/>
+</head>
+<body>
+<!-- ─── Sidebar ──────────────────────────────────────────── -->
+<nav aria-label="Main navigation" id="mySidebar" role="navigation">
+<button aria-label="Close menu" class="sidebar-close" onclick="closeSidebar()">
+<i class="fa fa-times"></i>
+</button>
+<div class="sidebar-logo-area">
+<img alt="FRCsource logo" src="../../Assests/logo.jpg"/>
+<div class="sidebar-brand">FRC<span>source</span></div>
+<div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+</div>
+<nav class="sidebar-nav">
+<div class="sidebar-section-label">Navigation</div>
+<a class="sidebar-link" href="../../index.html">
+<i class="fa fa-th-large"></i> Home
+    </a>
+<a class="sidebar-link" href="../../index.html#about">
+<i class="fa fa-user"></i> About
+    </a>
+<div class="sidebar-section-label">Content</div>
+<a class="sidebar-link" href="../../Programming/Programming-Index.html">
+<i class="fa fa-code"></i> Programming Index
+    </a>
+<a class="sidebar-link active" href="../../Scouting/Scouting-Index.html">
+<i class="fa fa-binoculars"></i> Scouting Index
+    </a>
+<a class="sidebar-link" href="../../FRCsource/FRCsource-Index.html">
+<i class="fa fa-envelope"></i> FRCsource Index
+    </a>
+</nav>
+<div class="sidebar-footer">
+<a aria-label="GitHub" class="sidebar-github" href="https://github.com/8BitAdam/FRCsource">
+<i class="fa fa-github"></i>
+</a>
+<button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggleBtn" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+<span id="darkLabel">Dark</span>
+</button>
+</div>
+</nav>
+<!-- Overlay -->
+<div aria-hidden="true" id="myOverlay" onclick="closeSidebar()"></div>
+<!-- ─── Main Content ──────────────────────────────────────── -->
+<div id="main-content">
+<!-- Mobile top bar -->
+<div class="topbar" role="banner">
+<button aria-label="Open menu" class="hamburger-btn" onclick="openSidebar()">
+<i class="fa fa-bars"></i>
+</button>
+<a class="topbar-logo" href="../../index.html">FRC<span>source</span></a>
+<div class="topbar-actions">
+<button aria-label="Toggle dark mode" class="dark-toggle" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+</button>
+</div>
+</div>
+<!-- ─── Article Hero ──────────────────────────────── -->
+<header class="article-hero">
+<div aria-hidden="true" class="hero-geometry">
+<svg preserveaspectratio="xMaxYMid slice" viewbox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="heroGrad1" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"></stop>
+<stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"></stop>
+</lineargradient>
+<lineargradient id="heroGrad2" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"></stop>
+<stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"></stop>
+</lineargradient>
+</defs>
+<polygon fill="url(#heroGrad1)" points="150,0 500,0 500,300 50,300"></polygon>
+<polygon fill="url(#heroGrad2)" opacity="0.6" points="300,0 500,0 500,180"></polygon>
+<line opacity="0.15" stroke="#0d9488" stroke-width="1.5" x1="280" x2="100" y1="0" y2="300"></line>
+<line opacity="0.10" stroke="#1d4ed8" stroke-width="1" x1="350" x2="170" y1="0" y2="300"></line>
+<line opacity="0.08" stroke="#dc2626" stroke-width="0.8" x1="420" x2="240" y1="0" y2="300"></line>
+<rect fill="#0d9488" height="20" opacity="0.2" rx="2" width="20" x="450" y="20"></rect>
+<rect fill="#1d4ed8" height="12" opacity="0.15" rx="2" width="12" x="420" y="50"></rect>
+<rect fill="#dc2626" height="16" opacity="0.12" rx="2" width="16" x="460" y="240"></rect>
+<circle cx="310" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="340" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="370" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="310" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="340" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="370" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="310" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="340" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="370" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+</svg>
+</div>
+<div class="hero-content">
+<div class="fade-in">
+<span class="article-category-badge">
+<i class="fa fa-tag"></i>
+          Scouting Strategy
+        </span>
+</div>
+<h1 class="article-title fade-in">
+        Robot <span class="title-accent">Archetypes</span>
+</h1>
+<p class="article-subtitle fade-in">
+        How to identify and classify robots as offensive, defensive, or hybrid — and why getting that classification right is fundamental to useful scouting data.
+      </p>
+<div class="article-meta fade-in">
+<span class="meta-item">
+<i class="fa fa-clock-o"></i> 12 min read
+        </span>
+<span class="meta-item">
+<i class="fa fa-calendar"></i> Updated Apr 2025
+        </span>
+<span class="difficulty-badge difficulty-intermediate">
+<i class="fa fa-signal"></i> Intermediate
+        </span>
+</div>
+</div>
+<div aria-label="Article tags" class="hero-tags" role="list">
+<span class="tag teal" role="listitem">Scouting</span>
+<span class="tag blue" role="listitem">Strategy</span>
+<span class="tag" role="listitem">Robot Design</span>
+<span class="tag" role="listitem">Alliance Selection</span>
+<span class="tag red" role="listitem">Intermediate</span>
+</div>
+</header>
+<!-- ─── Article Layout ────────────────────────────────── -->
+<div class="article-layout">
+<article class="article-body" id="article-top">
+<div class="callout info">
+<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Prerequisites</div>
+<div class="prereqs">
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Intro to FRC Match Flow</span>
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Scoring Systems and Ranking Points</span>
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Alliance Composition and Roles</span>
+</div>
+</div>
+</div>
+<!-- ─── Section 1 ─── -->
+<h2 id="what-is-an-archetype">What Is a Robot Archetype?</h2>
+<p>An archetype is a generalized classification of a robot's primary strategic function. Rather than describing every capability a robot has, an archetype captures the role it is built around — the thing it does that most directly influences match outcomes. The three core archetypes in FRC are offensive , defensive , and hybrid .</p>
+<p>Archetypes are a tool for quickly communicating useful information. When a strategist says "they run a defensive bot," everyone on the drive team immediately adjusts their expectations for how that robot will behave on the field. When a scout tags a robot as hybrid, it signals that the robot must be evaluated differently than a pure scorer — neither its offensive stats nor its defensive stats convey the full story alone. Getting archetypes proper in your scouting data makes every downstream analysis faster and more accurate.</p>
+<div class="callout tip">
+<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+<div class="callout-content">
+<div class="callout-title">Archetypes Are Observed, Not Self-Reported</div>
+<p class="callout-text">Team often characterize there own robot the max it can do. Archetypes assigned represent what they end up doig, in the feiled across multiple matches. not from what the team tells you what the robot is made to do.</p>
+</div>
+</div>
+<!-- ─── Section 2 ─── -->
+<h2 id="offensive">Offensive Robots</h2>
+<p>An offensive robot's primary contribution is generating points for its alliance. Its design is optimized around scoring actions — moving game pieces, completing objectives, earning auto bonuses, and hitting endgame targets. The quality of an offensive robot is measured primarily by its output: how many points it reliably adds to the alliance score per match, and how consistently it delivers that output under pressure.</p>
+<h3>What to Scout for Offensive Robots</h3>
+<p>The most important metrics for offensive robots are cycle count, scoring zone accuracy, auto reliability, average cycle time, and endgame success rate. Cycle count tells you how active the robot is; cycle time tells you how efficient it is. A robot that completes six cycles in teleop is more valuable than one that completes four at the equivalent scoring rate, all else equal.</p>
+<p>Pay close attention to how offensive robots respond to disruption. Some high-ceiling offensive robots fall apart the moment a defender engages them — their cycle time doubles, they misplace game pieces, and their driver makes errors. Others maintain consistent output regardless. That resilience under pressure is extremely difficult to capture from specs alone and is one of the most valuable things live scouting can reveal.</p>
+<h3>Subtypes Worth Distinguishing</h3>
+<p>Not all offensive robots are the same. A high-cycle generalist scores moderate-value actions very promptly. A high-value specialist attempts lower-frequency but higher-point actions — like shooting from a distance or scoring in a harder zone. An auto-focused offense contributes most of its value in the first 15 seconds and then plays more cautiously during teleop. Each subtype pairs differently with alliance partners, so noting this in your scouting form adds meaningful context beyond a raw score total.</p>
+<!-- ─── Section 3 ─── -->
+<h2 id="defensive">Defensive Robots</h2>
+<p>A defensive robot's primary contribution is reducing the opposing alliance's offensive output. Rather than scoring points directly, it attempts to deny them — blocking paths, contesting zones, slowing cycles, and forcing opponent drivers into errors. A well-executed defensive robot can neutralize an opponent's top scorer and effectively swing the match margin by 20 or more points without appearing on the score sheet at all.</p>
+<p>This makes defensive robots one of the hardest archetypes to evaluate from raw data. If you are only tracking scored actions, a defensive robot looks like it did nothing. Scouting defense properly requires a different set of observations.</p>
+<h3>What to Scout for Defensive Robots</h3>
+<p>For defensive robots, the metrics that matter are: time spent actively contesting opponents, estimated cycles disrupted or prevented, fouls drawn, and mobility across the field. Time spent defending is a simple but useful proxy for how committed the robot is to the role. Estimating disrupted cycles requires watching the opposing offensive robot and noting when its cycle is visibly interrupted, slowed, or abandoned — this is demanding to track live but pays off in analysis.</p>
+<p>Foul rate is critical for defensive robots specifically. Defense that draws consistent fouls is counterproductive — every tech foul hands the opponent points that more than offset the cycles you disrupted. A defensive robot that plays aggressively but cleanly is far more valuable than one that plays aggressively and fouls frequently.</p>
+<div class="callout warning">
+<span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Don't Undervalue Good Defense</div>
+<p class="callout-text">Scouting Systems often only tracking scoring like behaviour, and commonly unnderate defensive robots, whitch repeatedly makes good defense bots skipped during alliance selection. If an Event even has one outstanding degense robot, routinely time the alliance that picks it often is signifcant advantage. Construct forms to capture defnesive effectivness, not just scoring.</p>
+</div>
+</div>
+<h3>When Defense Is Not Worth Picking</h3>
+<p>Blocking is most valuable when the game's scoring structure allows it to meaningfully disrupt point generation — typically in games where game pieces must travel across a contested area or where opponent robots must enter specific zones to score. In games where scoring is highly distributed or autonomous-heavy, defense has less leverage and a second offensive robot may produce a better expected outcome. Understanding the current season's scoring structure, covered in the game manual analysis article, is a prerequisite for evaluating whether defensive robots are worth targeting.</p>
+<!-- ─── Section 4 ─── -->
+<h2 id="hybrid">Hybrid Robots</h2>
+<p>A hybrid robot is one that meaningfully contributes to both offensive and defensive play within a single match — but one where both contributions are deliberate, not a robot that scores a little and occasionally bumps opponents, consistent, and strategically significant. True hybrids are relatively rare and often represent some of the most valuable robots at an event precisely because they give alliances flexibility.</p>
+<p>The challenge with hybrids is that their merit is contextual. In one match they may be deployed offensively to maximize score; in another, they switch to blocking when the alliance is already ahead and needs to protect a lead. Their full contribution only becomes visible when you track them across multiple matches and note the context in which each behavior occurred.</p>
+<h3>What to Scout for Hybrid Robots</h3>
+<p>For hybrids, track everything you would for a pure offensive robot and a pure defensive robot, and add a per-match note about which role the robot primarily played. Over several matches you will start to see their effective ceiling in each mode. This gives alliance captains the data they need to develop deployment decisions: "this robot scores at 80% of our primary scorer's rate and defends at 70% of a dedicated defender's effectiveness — we can flex them based on matchup."</p>
+<p>Also pay attention to how the robot transitions between roles mid-match. Some hybrids switch cleanly and immediately; 30 seconds of productivity during the switch.–others take time to reposition and effectively lose 20 That transition cost matters in tight matches.</p>
+<!-- ─── Section 5 ─── -->
+<h2 id="edge-cases">Edge Cases and Misclassifications</h2>
+<p>Not every robot fits cleanly into one of three buckets, and forcing a bad fit creates misleading data. A limited common classification problems worth knowing about:</p>
+<h3>The Accidental Defender</h3>
+<p>Some robots play defense not by design but by necessity — their game piece mechanism failed, they broke down, or their driver ran out of game pieces and decided to be useful some other way. An accidental defender is not a defensive robot. you will overestimate its defensive reliability when evaluating it for selection, If you classify it as one. Look for consistency across matches: a robot that defended in one round out of eight is a broken offensive robot, not a defensive one.</p>
+<h3>The Low-Output Offensive Robot</h3>
+<p>A robot that scores infrequently but is clearly trying to score is still an offensive robot — just a weak one. Resist the temptation to reclassify it as hybrid or support because it isn't scoring much. The archetype reflects intent and design, not performance level. Classifying it correctly lets you compare it against other offensive robots on a consistent scale.</p>
+<h3>The Support Robot</h3>
+<p>Some robots fill a utility role that doesn't fit offense or defensive play cleanly — feeding game pieces to alliance partners, holding zones to enable bonus conditions, or performing secondary tasks that the game rewards but that aren't traditional scoring. These robots are worth noting separately. Calling them hybrid or offensive misrepresents their actual contribution, and calling them defensive ignores the positive value they incorporate. A short free-text notes field alongside your archetype classification handles these cases well.</p>
+<!-- ─── Section 6 ─── -->
+<h2 id="using-archetypes">Using Archetypes in Analysis</h2>
+<p>Once you have archetype classifications across your full scouting dataset, they become a filtering and grouping tool for every other analysis you run. Sorting by archetype before comparing scoring averages immediately removes the distortion of mixing offensive and defensive robots in the same distribution. Looking at foul rates by archetype quickly surfaces whether your defensive robots are playing clean. Filtering to hybrid robots gives alliance captains a shortlist of flexible picks worth investigating further.</p>
+<p>Archetypes as well anchor alliance composition conversations. Rather than presenting a captain with a ranked list of teams by score and letting them figure out what that means, you can existing a structured answer: "here are your top three offensive options, here is the one defensive robot at this event worth picking, and here are two hybrids if you need flexibility." That framing directly answers the question alliance captains are actually trying to answer.</p>
+<div class="callout tip">
+<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+<div class="callout-content">
+<div class="callout-title">Assign Archetypes After Three Matches</div>
+<p class="callout-text">Often archetypes of robots can chnage based, on many factors and many teams play unsual stratgies in early qals, often they only become clear once they seen with diffrent alliance types.</p>
+</div>
+</div>
+</article>
+<!-- TOC Panel -->
+<aside aria-label="Table of contents" class="toc-panel">
+<div class="toc-title">On This Page</div>
+<ul class="toc-list">
+<li id="toc-what-is-an-archetype"><a href="#what-is-an-archetype">What Is an Archetype?</a></li>
+<li id="toc-offensive"><a href="#offensive">Offensive Robots</a></li>
+<li id="toc-defensive"><a href="#defensive">Defensive Robots</a></li>
+<li id="toc-hybrid"><a href="#hybrid">Hybrid Robots</a></li>
+<li id="toc-edge-cases"><a href="#edge-cases">Edge Cases</a></li>
+<li id="toc-using-archetypes"><a href="#using-archetypes">Using Archetypes in Analysis</a></li>
+</ul>
+<div class="toc-divider"></div>
+<div class="toc-progress-label">Reading progress</div>
+<div class="toc-progress-bar">
+<div class="toc-progress-fill" id="readingProgress"></div>
+</div>
+</aside>
+</div><!-- /article-layout -->
+<div class="section-divider"></div>
+<!-- ─── Contributor Section ─── -->
+<section aria-label="Article contributors" class="contributor-section">
+<div class="contributor-section-title">Provided to you by</div>
+<div class="contributor-cards">
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">AI</div>
+<div class="contributor-info">
+<div class="contributor-name">Claude AI</div>
+<div class="contributor-team">
+<i class="fa fa-robot"></i> AI Author
+          </div>
+<div class="contributor-role">Article Author</div>
+</div>
+</div>
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">MS</div>
+<div class="contributor-info">
+<div class="contributor-name">Marcus S.</div>
+<div class="contributor-team">
+<i class="fa fa-wrench"></i> Team 5678 — Circuit Breakers
+          </div>
+<div class="contributor-role">Technical Reviewer</div>
+</div>
+</div>
+</div>
+</section>
+<div class="section-divider"></div>
+<!-- ─── Next / Previous Navigation ─── -->
+<nav aria-label="Article navigation" class="article-nav">
+<a class="nav-card prev" href="./scoring-systems-ranking-points.html">
+<div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
+<div class="nav-title">Scoring Systems and Ranking Points</div>
+</a>
+<a class="nav-card next" href="./pit-scouting.html">
+<div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+<div class="nav-title">Pit Scouting Fundamentals</div>
+</a>
+</nav>
+<!-- ─── Footer ─── -->
+<footer>
+<div class="footer-stripe">
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+</div>
+<div class="footer-inner">
+<div class="footer-grid">
+<div>
+<div class="footer-brand">FRC<span>source</span></div>
+<p class="footer-desc">
+            A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.
+          </p>
+<p class="footer-powered">
+            Powered by <a href="https://www.w3schools.com/w3css/default.asp" rel="noopener" target="_blank">w3.css</a>
+</p>
+</div>
+<div>
+<div class="footer-heading">Explore</div>
+<ul class="footer-links">
+<li><a href="../../index.html">Home</a></li>
+<li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+<li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+<li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+<li><a href="../../index.html#about">About</a></li>
+</ul>
+</div>
+<div>
+<div class="footer-heading">Tags</div>
+<div class="footer-tags">
+<span class="footer-tag">Index</span>
+<span class="footer-tag">Programming</span>
+<span class="footer-tag">Scouting</span>
+<span class="footer-tag">FRCsource</span>
+<span class="footer-tag">Strategy</span>
+<span class="footer-tag">Data</span>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2025 FRCsource. Made by the FRC community.</span>
+<span>
+<a href="https://github.com/8BitAdam/FRCsource" style="color:#475569; text-decoration:none;">
+<i class="fa fa-github"></i> GitHub
+          </a>
+</span>
+</div>
+</div>
+</footer>
+</div><!-- /main-content -->
+<script>
+  function openSidebar() {
+    document.getElementById('mySidebar').classList.add('open');
+    document.getElementById('myOverlay').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    document.getElementById('mySidebar').classList.remove('open');
+    document.getElementById('myOverlay').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  const html = document.documentElement;
+  const darkLabel = document.getElementById('darkLabel');
+
+  function applyTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('frc-theme', theme);
+    if (darkLabel) darkLabel.textContent = theme === 'dark' ? 'Light' : 'Dark';
+  }
+
+  function toggleDark() {
+    applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  }
+
+  (function () {
+    const saved = localStorage.getItem('frc-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+  })();
+
+  const progressFill = document.getElementById('readingProgress');
+  const sections = document.querySelectorAll('.article-body h2[id]');
+  const tocItems = document.querySelectorAll('.toc-list li[id]');
+
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+    if (progressFill) progressFill.style.width = progress + '%';
+
+    let activeId = null;
+    sections.forEach(sec => {
+      if (scrollTop >= sec.offsetTop - 120) activeId = sec.id;
+    });
+
+    tocItems.forEach(item => {
+      item.classList.remove('active');
+      if (item.id === 'toc-' + activeId) item.classList.add('active');
+    });
+  }
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+</script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en-US">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Real-Time vs Post-Match Scouting Workflows — FRCsource</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&amp;family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="https://8bitadam.github.io/FRCsource/Assets/CSS/Article.css" rel="stylesheet"/>
+</head>
+<body>
+<!-- ─── Sidebar ──────────────────────────────────────────── -->
+<nav aria-label="Main navigation" id="mySidebar" role="navigation">
+<button aria-label="Close menu" class="sidebar-close" onclick="closeSidebar()">
+<i class="fa fa-times"></i>
+</button>
+<div class="sidebar-logo-area">
+<img alt="FRCsource logo" src="../../Assests/logo.jpg"/>
+<div class="sidebar-brand">FRC<span>source</span></div>
+<div class="sidebar-tagline">Scouting &amp; Programming Resources</div>
+</div>
+<nav class="sidebar-nav">
+<div class="sidebar-section-label">Navigation</div>
+<a class="sidebar-link" href="../../index.html">
+<i class="fa fa-th-large"></i> Home
+    </a>
+<a class="sidebar-link" href="../../index.html#about">
+<i class="fa fa-user"></i> About
+    </a>
+<div class="sidebar-section-label">Content</div>
+<a class="sidebar-link" href="../../Programming/Programming-Index.html">
+<i class="fa fa-code"></i> Programming Index
+    </a>
+<a class="sidebar-link active" href="../../Scouting/Scouting-Index.html">
+<i class="fa fa-binoculars"></i> Scouting Index
+    </a>
+<a class="sidebar-link" href="../../FRCsource/FRCsource-Index.html">
+<i class="fa fa-envelope"></i> FRCsource Index
+    </a>
+</nav>
+<div class="sidebar-footer">
+<a aria-label="GitHub" class="sidebar-github" href="https://github.com/8BitAdam/FRCsource">
+<i class="fa fa-github"></i>
+</a>
+<button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggleBtn" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+<span id="darkLabel">Dark</span>
+</button>
+</div>
+</nav>
+<div aria-hidden="true" id="myOverlay" onclick="closeSidebar()"></div>
+<!-- ─── Main Content ──────────────────────────────────────── -->
+<div id="main-content">
+<div class="topbar" role="banner">
+<button aria-label="Open menu" class="hamburger-btn" onclick="openSidebar()">
+<i class="fa fa-bars"></i>
+</button>
+<a class="topbar-logo" href="../../index.html">FRC<span>source</span></a>
+<div class="topbar-actions">
+<button aria-label="Toggle dark mode" class="dark-toggle" onclick="toggleDark()">
+<span class="toggle-track"><span class="toggle-thumb"></span></span>
+</button>
+</div>
+</div>
+<!-- ─── Article Hero ──────────────────────────────── -->
+<header class="article-hero">
+<div aria-hidden="true" class="hero-geometry">
+<svg preserveaspectratio="xMaxYMid slice" viewbox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="heroGrad1" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.08"></stop>
+<stop offset="100%" stop-color="#0d9488" stop-opacity="0.12"></stop>
+</lineargradient>
+<lineargradient id="heroGrad2" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%" stop-color="#dc2626" stop-opacity="0.06"></stop>
+<stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.10"></stop>
+</lineargradient>
+</defs>
+<polygon fill="url(#heroGrad1)" points="150,0 500,0 500,300 50,300"></polygon>
+<polygon fill="url(#heroGrad2)" opacity="0.6" points="300,0 500,0 500,180"></polygon>
+<line opacity="0.15" stroke="#0d9488" stroke-width="1.5" x1="280" x2="100" y1="0" y2="300"></line>
+<line opacity="0.10" stroke="#1d4ed8" stroke-width="1" x1="350" x2="170" y1="0" y2="300"></line>
+<line opacity="0.08" stroke="#dc2626" stroke-width="0.8" x1="420" x2="240" y1="0" y2="300"></line>
+<rect fill="#0d9488" height="20" opacity="0.2" rx="2" width="20" x="450" y="20"></rect>
+<rect fill="#1d4ed8" height="12" opacity="0.15" rx="2" width="12" x="420" y="50"></rect>
+<rect fill="#dc2626" height="16" opacity="0.12" rx="2" width="16" x="460" y="240"></rect>
+<circle cx="310" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="340" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="370" cy="60" fill="#0d9488" opacity="0.25" r="2"></circle>
+<circle cx="310" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="340" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="370" cy="90" fill="#0d9488" opacity="0.2" r="2"></circle>
+<circle cx="310" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="340" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+<circle cx="370" cy="120" fill="#0d9488" opacity="0.15" r="2"></circle>
+</svg>
+</div>
+<div class="hero-content">
+<div class="fade-in">
+<span class="article-category-badge">
+<i class="fa fa-tag"></i>
+          Scouting Systems
+        </span>
+</div>
+<h1 class="article-title fade-in">
+        Real-Time vs <span class="title-accent">Post-Match</span> Scouting Workflows
+      </h1>
+<p class="article-subtitle fade-in">
+        When you collect data matters almost as much as what you collect. Understanding the tradeoffs between live and retrospective scouting — and when to use each — shapes every decision your strategist makes under pressure.
+      </p>
+<div class="article-meta fade-in">
+<span class="meta-item">
+<i class="fa fa-clock-o"></i> 11 min read
+        </span>
+<span class="meta-item">
+<i class="fa fa-calendar"></i> Updated Apr 2025
+        </span>
+<span class="difficulty-badge difficulty-beginner">
+<i class="fa fa-signal"></i> Intermediate
+        </span>
+</div>
+</div>
+<div aria-label="Article tags" class="hero-tags" role="list">
+<span class="tag teal" role="listitem">Scouting</span>
+<span class="tag blue" role="listitem">Workflow</span>
+<span class="tag" role="listitem">Strategy</span>
+<span class="tag" role="listitem">Data Collection</span>
+<span class="tag red" role="listitem">Intermediate</span>
+</div>
+</header>
+<!-- ─── Article Layout ────────────────────────────────── -->
+<div class="article-layout">
+<article class="article-body" id="article-top">
+<div class="callout info">
+<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Prerequisites</div>
+<div class="prereqs">
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Scout Training Protocols</span>
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Data Collection Methods</span>
+<span class="prereq-pill"><i class="fa fa-check-circle"></i> Data Integrity &amp; Error Handling</span>
+</div>
+</div>
+</div>
+<!-- ─── Section 1 ─── -->
+<h2 id="the-core-tradeoff">The Core Tradeoff</h2>
+<p>Every scouting program has to answer a foundational question early in its design: when does data get recorded? During the bout, as the action happens? working from memory, notes, or video, Or after the match ends? The answer shapes almost everything else — your form design, your staffing model, your data quality profile, and how much your strategist can trust the numbers at any given point in the day.</p>
+<p>Real-time scouting means scouts record data while the match is live, entering values field by field as events occur. Post-match scouting means scouts observe the match with minimal note-taking, then fill out their form in the two to three minutes between matches. Most programs use one or the other as their primary mode, with the second appearing as a fallback or supplement. A small number of well-resourced programs run both deliberately, using them to validate each other.</p>
+<p>Neither approach is strictly superior. Both produce good data when executed well and bad data when executed poorly. The question is which failure modes matter most for your team's context — your roster size, your technology, and what decisions you need the data to assist.</p>
+<!-- ─── Section 2 ─── -->
+<h2 id="real-time">Real-Time Scouting</h2>
+<p>In a real-the scout's attention is divided between watching the robot and interacting with the scouting form., time workflow A cycle completes — the scout taps a counter. The robot attempts a climb — the scout selects an outcome from a dropdown. The game ends — the scout hits submit while the field crew is still celebrating. By the time the next match begins, the data is already in the system.</p>
+<h3>Advantages</h3>
+<p>The primary advantage of real-time scouting is timeliness. Data enters the system immediately, which means your drive analyst can run updated rankings after every match rather than waiting for a batch to process between rounds. For a team that uses scouting data to make strategic adjustments mid-event — identifying an emerging defense bot, tracking a team whose auto routine keeps failing — the speed difference is significant.</p>
+<p>Real-time collection additionally reduces reliance on memory. A scout recording in the moment doesn't have to reconstruct the sequence of events after the fact. For high-frequency fields like cycle counts, where a observer might be tracking a robot through eight or ten cycles in a two-minute teleop period, recording in the moment is substantially more accurate than trying to recall the total afterward. Memory-based reconstruction introduces systematic undercounting — scouts consistently remember fewer cycles than occurred, particularly in fast-paced matches.</p>
+<h3>Disadvantages</h3>
+<p>Divided attention is the core weakness of real-time scouting. A field analyst who is tapping a counter cannot simultaneously watch what the robot is doing. In a sport where critical events — a tip, a misfire, a defense contact — arise in under a second, the scout who is looking at their screen when an event occurs misses it. Over multiple matches, these misses accumulate into a systematic undercount of low-frequency but substantial-importance events.</p>
+<p>Real-time collection as well creates pressure. The match doesn't pause for a field analyst who fumbles their form, selects the wrong field, or experiences a brief app freeze. When something goes wrong technically — a timeout, a crash, a dropped connection — the scout has no opportunity to recover during the match. The result is either a partially completed submission or a panicked attempt to reconstruct events from memory immediately after the buzzer, which combines the worst of both approaches.</p>
+<div class="callout warning">
+<span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Form Complexity and Real-Time Collection Don't Mix Well</div>
+<p class="callout-text">A form that takes a focused scout ninety seconds to complete between matches may be completely unworkable in real time. If your scouting develop has more than eight to ten interactive fields, real-time logging will coerce your scouts to choose between watching the robot and completing the form. They will choose the build, and your live read quality will suffer. Simpler forms are not a compromise — they are a prerequisite for real-time collection done well.</p>
+</div>
+</div>
+<!-- ─── Section 3 ─── -->
+<h2 id="post-match">Post-Match Scouting</h2>
+<p>In a post-no tapping, match workflow — taking, no form, sometimes minimal highlight-scouts watch the match with full attention — and then complete the submission during the break between matches. The window for this is typically two to three minutes at most events, shrinking to ninety seconds when matches are running on schedule and field resets are fast. Scouts must have both the mental recall and the physical speed to complete their create inside that window.</p>
+<h3>Advantages</h3>
+<p>Undivided attention during the match is the defining advantage of post-match scouting. A scout who is watching rather than recording notices narrative details that a real-time scout misses: the robot hesitated before approaching the scoring element, the driver appeared to be reacting to defense rather than running a set pattern, the auto routine failed on the first aim but succeeded on retry. These observations don't map cleanly to form fields, but they update the notes section and shape the scout's interpretation of the quantitative data.</p>
+<p>Post-match collection is also more resilient to technical issues. If the app crashes during the play, progress data because none was entered yet.-the scout hasn't lost any in The submission begins fresh when the match ends, from a stable app state. Teams with unreliable devices or poor venue connectivity often identify post-match collection significantly more reliable in practice, even if the theoretical accuracy advantage of real-time collection sounds appealing on paper.</p>
+<h3>Disadvantages</h3>
+<p>Memory decay is the primary weakness of post-bout scouting, and it's not trivial. The research on working memory and recall under conditions of high sensory load — a competition gymnasium is exactly this — suggests that specific quantitative values degrade within sixty to ninety seconds if they are not reinforced. A scout who watched a robot complete six cycles may submit four when asked to recall two minutes later. This low estimate is consistent and systematic, a slower — which means it affects some robots and not others depending on their play style, more deliberate robot is easier to recall accurately than a fast cycling machine.</p>
+<p>The time pressure of the between-match window also introduces errors of a distinct kind. A scout rushing to complete a create in ninety seconds before the succeeding game starts is not the same as a scout completing that establish calmly. Tap errors, early submissions are more common in post, skipped fields-and submitted-too-match workflows at events where match cadence is fast.</p>
+<div class="callout tip">
+<span class="callout-icon"><i class="fa fa-lightbulb-o"></i></span>
+<div class="callout-content">
+<div class="callout-title">Use a Tally Sheet as a Bridge</div>
+<p class="callout-text">Various experienced scouts using post-count field in their notes — play workflows carry a narrow tally sheet-a physical notecard or a single running — where they mark cycles as they happen without looking at the full form. The tally sheet preserves the count without requiring the scout to switch to the form UI mid-match. After the buzzer, they transfer the tally to the form before filling in the rest. This hybrid approach recovers most of the accuracy advantage of real-based fields while keeping full attention available for qualitative observation.-time capture for count</p>
+</div>
+</div>
+<!-- ─── Section 4 ─── -->
+<h2 id="hybrid-approaches">Hybrid Approaches</h2>
+<p>The real-time versus post-match framing is useful for understanding the tradeoffs, but most mature scouting programs end up somewhere in the middle. A hybrid approach assigns different fields to varied collection modes based on which mode produces better data for that type of information.</p>
+<h3>Count Fields In-Match, Context Fields After</h3>
+<p>The most common hybrid splits collection by field form. Numeric count fields — successful scores, cycles, game piece attempts — are collected in real time using easy counters that require a single tap without looking away from the field for long. Everything else — endgame outcomes, auto results, qualitative observations, defense notes — is collected post-match when the scout can think rather than react. This approach concentrates real-frequency-sensitive data while protecting observation quality for context, most memory-time interaction on the highest-dependent fields where nuance matters.</p>
+<h3>Live Observation With Video Back-Fill</h3>
+<p>A second hybrid approach assigns scouts to pure observation during the match — no form interaction whatsoever — and uses TBA match video for back-fill of count data. The scout's verbal or written notes from the match provide context, and the video provides precise counts. This approach produces very high quality data but requires significant time investment per match and scales poorly when you are trying to cover many robots quickly. It works best as a targeted strategy for robots you are seriously considering for alliance selection, rather than a program-wide collection method.</p>
+<h3>Dedicated Roles: Live Counter and Form Filler</h3>
+<p>A third approach, requiring more scouts per robot, assigns two people to each assignment: one who watches the match and calls out events verbally, and one who operates the form and enters data as it is called. The shape operator never looks up from the screen; the observer never looks down. The division of attention is clean. This produces excellent real-time data but doubles the scout headcount required, which is not feasible for most teams.</p>
+<!-- ─── Section 5 ─── -->
+<h2 id="timing-and-strategy">Timing Data to Strategic Needs</h2>
+<p>The choice between real-time and post-match collection should be driven in part by when your strategist needs the data. Not all decisions during a competition day call for the same data freshness — some need current information, others can use yesterday's analysis.</p>
+<h3>Between-Match Tactical Adjustments</h3>
+<p>If your drive team uses scouting data to adjust their strategy between matches — for example, learning that an upcoming opponent runs a consistent auto route that your team can numeric field — you need data that reflects the most recent matches, not the event average from the morning session. Real-time collection supports this leverage case; post-match collection with a two-match lag does not. If this type of in-event tactical adjustment is piece of your program's value, it constrains your data entry method.</p>
+<h3>Alliance Selection Rankings</h3>
+<p>Alliance partner selection rankings are built from data aggregated across the full event, typically with the most weight on recent matches. For this use case, the precise timing of when individual submissions entered the system matters much less than the completeness and accuracy of those submissions. A post-match workflow that produces highly accurate data is more valuable for alliance selection than a real-time workflow that produces complete-but-noisy data. The data that matters most in this context is the data from the last four to six matches, which is recent enough to be fresh regardless of whether it entered the system in real time or with a thirty-minute lag.</p>
+<h3>Playoff Scouting</h3>
+<p>Playoff scouting operates on a compressed schedule and a narrower scope — you are tracking fewer robots, but each one matters more. The match frequency is higher, and the time between matches for analysis is shorter. Most teams that run post-match workflows in qualifications switch to real-time collection in playoffs because the faster data availability outweighs the accuracy tradeoff when you only have minutes between matches to adjust your strategy.</p>
+<div class="callout info">
+<span class="callout-icon"><i class="fa fa-info-circle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Playoff vs Qualification Pacing</div>
+<p class="callout-text">Quals matches at most regional events run on an eight-to-ten minute cycle. with match cycles as short as five to six minutes when field resets are efficient, Playoff matches often run faster. A post-less than half the time they had before. — bout workflow that works comfortably in qualifications may leave your scouts with ninety seconds to complete a form in playoffs Design your playoff collection plan separately from your qualification plan, and practice the faster cadence before playoffs start.</p>
+</div>
+</div>
+<!-- ─── Section 6 ─── -->
+<h2 id="tooling-considerations">Tooling Considerations</h2>
+<p>The tools your scouts use shape which collection mode is feasible. A form that requires scrolling through five screens to complete is not workable in real time. An app that lacks offline support will lose data at a venue with poor WiFi no matter how carefully scouts work. Matching your tooling to your intended workflow is as important as matching your collection method to your strategic needs.</p>
+<h3>Forms Designed for Real-Time Use</h3>
+<p>Real-time forms should be operable without sustained visual attention on the screen. Considerable tap targets, counter-style inputs for numeric fields, minimal scrolling, and a layout that a recorder can navigate by muscle memory after a practice session. The submit action should be a single tap with no confirmation dialog — every extra interaction is a moment the scout is not watching the robot., in real time If your form requires a scout to read a label before tapping it, it is not optimized for real-time use.</p>
+<h3>Forms Designed for Post-Match Use</h3>
+<p>Post-select fields — descriptive dropdowns, match forms can enable richer input-and review, multi, longer notes sections-before-submit flows that catch missing fields before data record. These features slow completion time, which is acceptable when the scout has two full minutes but not when they have ninety seconds. Post-match forms benefit from an auto-populate feature that pre-fills the match number and robot number based on the schedule, so scouts don't spend precious seconds entering fields that could be pre-loaded.</p>
+<h3>Offline-First Architecture</h3>
+<p>Both real-play workflows require that the scouting app function reliably without internet connectivity.-time and post Competition venues are notoriously unreliable for WiFi, and cellular data is frequently congested when hundreds of students are all trying to use their phones simultaneously. An app that requires a live connection to submit data will produce gaps in your match data at the worst possible moments. Submissions should be stored locally on the device and synced to the central dataset opportunistically when connectivity is available, not as a prerequisite for the data record itself.</p>
+<!-- ─── Section 7 ─── -->
+<h2 id="choosing-your-approach">Choosing the Right Approach for Your Team</h2>
+<p>There is no universal correct answer. The right workflow is the one your particular team can execute reliably with the scouts, devices, and venue conditions you actually have — not the one that would be theoretically optimal under ideal conditions.</p>
+<p>simple forms, particularly if their strategist uses between-and robust devices should lean toward real, time collection-match data for tactical adjustments, Teams with experienced scouts. Teams with newer scouts, with a tally, or unreliable devices should lean toward post-more complex forms, bout collection-sheet bridge for count fields. Teams with large scouting rosters have the option of running both and using the comparison as a data quality confirm.</p>
+<p>test it before the event, Whatever approach you choose. Run a practice session against match video or a scrimmage, time how long your scouts take to complete a form completion, and recognize where the bottlenecks are. A workflow that looks good on paper but breaks down under competitive pressure is not a workflow — it is a liability. The goal is a system that your scouts can execute consistently across twelve qualification matches and another six to eight playoffs matches, starting from the opening bell and ending in alliance selection.</p>
+<div class="callout warning">
+<span class="callout-icon"><i class="fa fa-exclamation-triangle"></i></span>
+<div class="callout-content">
+<div class="callout-title">Don't Change Workflows Mid-Event</div>
+<p class="callout-text">Switching from post-match to real-time intake — or vice versa — in the middle of a competition creates a dataset where the first half and second half have unlike systematic biases. A robot scouted post-match in the morning and in real time in the afternoon will appear to have changed their behavior when in reality the measurement changed. If you are going to run different modes for qualifications and playoffs, treat them as separate datasets and analyze them separately. Do not average across them as if the collection method were consistent.</p>
+</div>
+</div>
+</article>
+<!-- TOC Panel -->
+<aside aria-label="Table of contents" class="toc-panel">
+<div class="toc-title">On This Page</div>
+<ul class="toc-list">
+<li id="toc-the-core-tradeoff"><a href="#the-core-tradeoff">The Core Tradeoff</a></li>
+<li id="toc-real-time"><a href="#real-time">Real-Time Scouting</a></li>
+<li id="toc-post-match"><a href="#post-match">Post-Match Scouting</a></li>
+<li id="toc-hybrid-approaches"><a href="#hybrid-approaches">Hybrid Approaches</a></li>
+<li id="toc-timing-and-strategy"><a href="#timing-and-strategy">Timing &amp; Strategy</a></li>
+<li id="toc-tooling-considerations"><a href="#tooling-considerations">Tooling Considerations</a></li>
+<li id="toc-choosing-your-approach"><a href="#choosing-your-approach">Choosing Your Approach</a></li>
+</ul>
+<div class="toc-divider"></div>
+<div class="toc-progress-label">Reading progress</div>
+<div class="toc-progress-bar">
+<div class="toc-progress-fill" id="readingProgress"></div>
+</div>
+</aside>
+</div><!-- /article-layout -->
+<div class="section-divider"></div>
+<!-- ─── Contributor Section ─── -->
+<section aria-label="Article contributors" class="contributor-section">
+<div class="contributor-section-title">Provided to you by</div>
+<div class="contributor-cards">
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">AI</div>
+<div class="contributor-info">
+<div class="contributor-name">Claude AI</div>
+<div class="contributor-team">
+<i class="fa fa-robot"></i> AI Author
+          </div>
+<div class="contributor-role">Article Author</div>
+</div>
+</div>
+<div class="contributor-card">
+<div aria-hidden="true" class="contributor-avatar-placeholder">AG</div>
+<div class="contributor-info">
+<div class="contributor-name">Adam G.</div>
+<div class="contributor-team">
+<i class="fa fa-wrench"></i> Team 2062 — CORE
+          </div>
+<div class="contributor-role">Technical Reviewer</div>
+</div>
+</div>
+</div>
+</section>
+<div class="section-divider"></div>
+<!-- ─── Next / Previous Navigation ─── -->
+<nav aria-label="Article navigation" class="article-nav">
+<a class="nav-card prev" href="./data-integrity-error-handling.html">
+<div class="nav-label"><i class="fa fa-arrow-left"></i> Previous</div>
+<div class="nav-title">Data Integrity &amp; Error Handling</div>
+</a>
+<a class="nav-card next" href="./alliance-selection-strategy.html">
+<div class="nav-label">Next <i class="fa fa-arrow-right"></i></div>
+<div class="nav-title">Alliance Selection Strategy</div>
+</a>
+</nav>
+<!-- ─── Footer ─── -->
+<footer>
+<div class="footer-stripe">
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+<div class="footer-stripe-seg" style="background:#1d4ed8;"></div>
+<div class="footer-stripe-seg" style="background:#dc2626;"></div>
+<div class="footer-stripe-seg" style="background:#0d9488;"></div>
+</div>
+<div class="footer-inner">
+<div class="footer-grid">
+<div>
+<div class="footer-brand">FRC<span>source</span></div>
+<p class="footer-desc">
+            A community-built resource for FRC teams covering scouting systems, programming, strategy, and everything in between. Built by students, for students.
+          </p>
+<p class="footer-powered">
+            Powered by <a href="https://www.w3schools.com/w3css/default.asp" rel="noopener" target="_blank">w3.css</a>
+</p>
+</div>
+<div>
+<div class="footer-heading">Explore</div>
+<ul class="footer-links">
+<li><a href="../../index.html">Home</a></li>
+<li><a href="../../Programming/Programming-Index.html">Programming</a></li>
+<li><a href="../../Scouting/Scouting-Index.html">Scouting</a></li>
+<li><a href="../../FRCsource/FRCsource-Index.html">FRCsource</a></li>
+<li><a href="../../index.html#about">About</a></li>
+</ul>
+</div>
+<div>
+<div class="footer-heading">Tags</div>
+<div class="footer-tags">
+<span class="footer-tag">Index</span>
+<span class="footer-tag">Programming</span>
+<span class="footer-tag">Scouting</span>
+<span class="footer-tag">FRCsource</span>
+<span class="footer-tag">Strategy</span>
+<span class="footer-tag">Data</span>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2025 FRCsource. Made by the FRC community.</span>
+<span>
+<a href="https://github.com/8BitAdam/FRCsource" style="color:#475569; text-decoration:none;">
+<i class="fa fa-github"></i> GitHub
+          </a>
+</span>
+</div>
+</div>
+</footer>
+</div><!-- /main-content -->
+<script>
+  function openSidebar() {
+    document.getElementById('mySidebar').classList.add('open');
+    document.getElementById('myOverlay').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    document.getElementById('mySidebar').classList.remove('open');
+    document.getElementById('myOverlay').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  const html = document.documentElement;
+  const darkLabel = document.getElementById('darkLabel');
+
+  function applyTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('frc-theme', theme);
+    if (darkLabel) darkLabel.textContent = theme === 'dark' ? 'Light' : 'Dark';
+  }
+
+  function toggleDark() {
+    applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  }
+
+  (function () {
+    const saved = localStorage.getItem('frc-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+  })();
+
+  const progressFill = document.getElementById('readingProgress');
+  const sections = document.querySelectorAll('.article-body h2[id]');
+  const tocItems = document.querySelectorAll('.toc-list li[id]');
+
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+    if (progressFill) progressFill.style.width = progress + '%';
+
+    let activeId = null;
+    sections.forEach(sec => {
+      if (scrollTop >= sec.offsetTop - 120) activeId = sec.id;
+    });
+
+    tocItems.forEach(item => {
+      item.classList.remove('active');
+      if (item.id === 'toc-' + activeId) item.classList.add('active');
+    });
+  }
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+</script>
+</body>
+</html>
