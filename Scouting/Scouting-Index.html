@@ -9,7 +9,304 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
-    body, h1, h2, h3, h4, h5, h6 { font-family: "Raleway", sans-serif; }
+    :root{
+  --bg:#0d0d0d;
+  --panel:#171717;
+  --panel2:#222222;
+  --accent:#ff7b00;
+  --accent-hover:#ff9500;
+  --text:#f5f5f5;
+  --muted:#aaaaaa;
+}
+
+body {
+  background: var(--bg) !important;
+  color: var(--text);
+}
+
+body,h1,h2,h3,h4,h5,h6 {
+  font-family: "Raleway", sans-serif;
+  color: var(--text);
+}
+
+/* Sidebar */
+.w3-sidebar {
+  background: #111 !important;
+  color: white !important;
+  border-right: 3px solid var(--accent);
+}
+
+.w3-sidebar a {
+  color: white !important;
+}
+
+.w3-sidebar a:hover {
+  background: var(--accent) !important;
+  color: black !important;
+}
+
+/* Main Content */
+.w3-main {
+  background: var(--bg);
+}
+
+/* Header */
+header {
+  background: #121212;
+}
+
+.w3-bottombar {
+  border-color: var(--accent) !important;
+}
+
+/* Cards */
+.w3-container.w3-white,
+.w3-card-4,
+#search-results {
+  background: var(--panel) !important;
+  color: white !important;
+  border: 1px solid #333;
+}
+
+.w3-container.w3-white:hover {
+  box-shadow: 0 0 20px rgba(255,123,0,.35);
+  transition: .3s;
+}
+
+/* Filter Buttons */
+.filter-btn {
+  transition: .25s;
+}
+
+.filter-btn.w3-black {
+  background: var(--accent) !important;
+  color: black !important;
+}
+
+.filter-btn.w3-white {
+  background: var(--panel2) !important;
+  color: white !important;
+}
+
+.filter-btn:hover {
+  background: var(--accent-hover) !important;
+  color: black !important;
+}
+
+/* Search */
+#searchBar {
+  background: #1a1a1a;
+  color: white;
+  border: 1px solid var(--accent);
+}
+
+#searchBar:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(255,123,0,.5);
+}
+
+#search-results a:hover {
+  background: #252525;
+}
+
+/* Pagination */
+#prevBtn,
+#nextBtn {
+  background: var(--panel2);
+  color: white;
+}
+
+#prevBtn:hover,
+#nextBtn:hover {
+  background: var(--accent);
+  color: black;
+}
+
+#pageNum {
+  background: var(--accent) !important;
+  color: black !important;
+}
+
+/* Footer */
+footer {
+  background: #111 !important;
+  border-top: 3px solid var(--accent);
+}
+
+.w3-tag.w3-black {
+  background: var(--accent) !important;
+  color: black !important;
+}
+
+.w3-tag.w3-grey {
+  background: #333 !important;
+  color: white !important;
+}
+
+/* Orange glow effects */
+h1, h4 {
+  text-shadow: 0 0 10px rgba(255,123,0,.25);
+}
+
+img.w3-hover-opacity:hover {
+  opacity: .95;
+  filter: drop-shadow(0 0 10px rgba(255,123,0,.5));
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+body {
+  background: #0d0d0d;
+}
+
+.w3-main {
+  background: #0d0d0d;
+  min-height: 100vh;
+}
+
+.w3-container,
+.w3-row-padding,
+.w3-third {
+  box-sizing: border-box;
+}
+html, body {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+  overflow-x: hidden !important;
+  background: #0d0d0d !important;
+  color: #f5f5f5 !important;
+}
+
+body.w3-content,
+.w3-content {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.w3-main {
+  margin-left: 300px !important;
+  width: calc(100% - 300px) !important;
+  max-width: none !important;
+  min-height: 100vh !important;
+  background: #0d0d0d !important;
+  box-sizing: border-box !important;
+}
+
+.w3-container,
+.w3-row-padding,
+.w3-third,
+.w3-section,
+.w3-panel,
+.w3-card-4 {
+  box-sizing: border-box !important;
+}
+
+.w3-sidebar {
+  width: 300px !important;
+  background: #111 !important;
+  color: #fff !important;
+  border-right: 3px solid #ff7b00 !important;
+}
+
+.w3-overlay {
+  z-index: 2 !important;
+}
+
+header,
+footer,
+#article-grid,
+#search-results {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.w3-container.w3-white,
+.w3-card-4,
+#search-results {
+  background: #171717 !important;
+  color: #f5f5f5 !important;
+  border: 1px solid #333 !important;
+}
+
+img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+@media (max-width: 992px) {
+  html, body {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  body.w3-content,
+  .w3-content {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .w3-main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 100vh !important;
+  }
+
+  .w3-sidebar {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .w3-third {
+    width: 100% !important;
+    display: block !important;
+    float: none !important;
+  }
+
+  .w3-row-padding,
+  #article-grid {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .w3-container,
+  .w3-section,
+  .w3-panel {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .filter-btn {
+    display: inline-block !important;
+    margin-bottom: 8px !important;
+  }
+
+  #searchBar {
+    width: 100% !important;
+    max-width: none !important;
+    display: block !important;
+    margin-top: 10px !important;
+  }
+
+  #search-results {
+    max-width: calc(100% - 24px) !important;
+    left: 12px !important;
+    right: 12px !important;
+  }
+}
   </style>
 </head>
 <body class="w3-light-grey w3-content" style="max-width:1600px">
@@ -32,7 +329,6 @@
   <a href="../index.html#about" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>About</a>
   <a href="../Programming/Programming-Index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding  w3-text-teal"><i class="fa fa-th-large fa-fw w3-margin-right"></i>Programming Index</a>
   <a href="Scouting-Index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>Scouting Index</a>
-  <a href="../FRCsource/FRCsource-Index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>FRCsource Index</a>
   </div>
 
   <div class="w3-panel w3-large">
@@ -53,7 +349,7 @@
     <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
 
     <div class="w3-container">
-      <h1><b>FRCsource: Scouting-Index</b></h1>
+      <h1><b>CORE Archive: Scouting-Index</b></h1>
     </div>
   </header>
 
@@ -1105,7 +1401,6 @@
 <span class="w3-tag w3-black w3-margin-bottom">Index</span>
 <span class="w3-tag w3-grey w3-small w3-margin-bottom">Programming</span>
 <span class="w3-tag w3-grey w3-small w3-margin-bottom">Scouting</span>
-<span class="w3-tag w3-grey w3-small w3-margin-bottom">FRCsource</span>
 </div>
 
 </div>
